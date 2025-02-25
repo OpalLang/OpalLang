@@ -26,18 +26,50 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+enable_testing()
+
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.14.0
+)
+
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
 file(GLOB_RECURSE SOURCES
     ${PROJECT_SOURCE_DIR}/src/*.cpp
     ${PROJECT_SOURCE_DIR}/src/*.hpp
     ${PROJECT_SOURCE_DIR}/src/*.h
 )
 
+list(FILTER SOURCES EXCLUDE REGEX ".*Main\\.cpp$")
+
 if(NOT SOURCES)
     message(FATAL_ERROR "No source files found in ${PROJECT_SOURCE_DIR}/src/")
 endif()
 
-add_executable(opal ${SOURCES})
-target_include_directories(opal PRIVATE ${PROJECT_SOURCE_DIR}/include)
+add_library(opal_lib STATIC ${SOURCES})
+target_include_directories(opal_lib PUBLIC ${PROJECT_SOURCE_DIR}/src)
+
+add_executable(opal ${PROJECT_SOURCE_DIR}/src/Main.cpp)
+target_link_libraries(opal PRIVATE opal_lib)
+
+file(GLOB_RECURSE TEST_SOURCES
+    ${PROJECT_SOURCE_DIR}/tests/*.cpp
+    ${PROJECT_SOURCE_DIR}/tests/*.hpp
+    ${PROJECT_SOURCE_DIR}/tests/*.h
+)
+
+file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/tests)
+
+add_executable(tests ${TEST_SOURCES})
+target_link_libraries(tests PRIVATE opal_lib GTest::gtest_main GTest::gmock)
+target_include_directories(tests PRIVATE ${PROJECT_SOURCE_DIR}/src)
+
+include(GoogleTest)
+gtest_discover_tests(tests)
 
 install(TARGETS opal DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/include)
@@ -46,5 +78,6 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "Sources found: ${SOURCES}")
+message(STATUS "Test sources found: ${TEST_SOURCES}")
 message(STATUS "Build directory: ${CMAKE_BINARY_DIR}")
 message(STATUS "Binary output directory: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
