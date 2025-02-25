@@ -1,0 +1,9 @@
+fn main() {
+    secret_number = 29
+    guess = 0
+
+    while guess != secret_number {
+        guess = input("Enter a guess: ")
+    }
+    print("You guessed the number!")
+}
