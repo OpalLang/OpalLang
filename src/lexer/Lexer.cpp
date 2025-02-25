@@ -1,5 +1,4 @@
 #include "Lexer.hpp"
-
 #include <stdexcept>
 #include <iostream>
 
@@ -148,8 +147,7 @@ namespace Opal {
         }
 
         advance();
-        std::string value = source.substr(start + 1, current - start - 2);
-        addToken(TokenType::STRING, value);
+        addToken(TokenType::STRING, std::string_view(source.data() + start + 1, current - start - 2));
     }
 
     void Lexer::number() {
@@ -160,17 +158,16 @@ namespace Opal {
             while (isDigit(peek())) advance();
         }
 
-        addToken(TokenType::NUMBER,
-                source.substr(start, current - start));
+        addToken(TokenType::NUMBER, std::string_view(source.data() + start, current - start));
     }
 
     void Lexer::identifier() {
         while (isAlphaNumeric(peek())) advance();
 
-        std::string text = source.substr(start, current - start);
-        auto it = keywords.find(text);
+        std::string_view text(source.data() + start, current - start);
+        auto it = keywords.find(std::string(text));
         TokenType type = it != keywords.end() ? it->second : TokenType::IDENTIFIER;
-        addToken(type);
+        addToken(type, text);
     }
 
     void Lexer::comment() {
@@ -208,11 +205,11 @@ namespace Opal {
     }
 
     void Lexer::addToken(TokenType type) {
-        addToken(type, source.substr(start, current - start));
+        addToken(type, std::string_view(source.data() + start, current - start));
     }
 
-    void Lexer::addToken(TokenType type, std::string value) {
-        tokens.emplace_back(type, std::move(value), line, column - (current - start));
+    void Lexer::addToken(TokenType type, std::string_view value) {
+        tokens.emplace_back(type, value, line, column - (current - start));
     }
 
     bool Lexer::isDigit(char c) {

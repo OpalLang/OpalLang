@@ -2,6 +2,7 @@
 
 #include "Token.hpp"
 #include <string>
+#include <string_view>
 #include <vector>
 #include <unordered_map>
 
@@ -32,7 +33,7 @@ namespace Opal {
         bool isAtEnd();
         char advance();
         void addToken(TokenType type);
-        void addToken(TokenType type, std::string value);
+        void addToken(TokenType type, std::string_view value);
         bool isDigit(char c);
         bool isAlpha(char c);
         bool isAlphaNumeric(char c);
