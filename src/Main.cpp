@@ -1,4 +1,5 @@
 #include "lexer/Lexer.hpp"
+#include "repl/Repl.hpp"
 
 #include <iostream>
 #include <string>
@@ -19,8 +20,14 @@ int main(int argc, char* argv[]) {
     std::cout << "Opal Language" << std::endl;
     
     if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <source_file>" << std::endl;
-        return 1;
+        Opal::Repl repl;
+
+        try {
+            repl.start();
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
     }
 
     try {

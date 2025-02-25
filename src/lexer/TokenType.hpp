@@ -52,6 +52,7 @@ enum class TokenType {
     COMMA,
     DOT,
     COLON,
+    SEMICOLON,
 
     COMMENT,
     EOF_TOKEN,

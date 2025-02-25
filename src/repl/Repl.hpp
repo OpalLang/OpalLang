@@ -10,7 +10,6 @@ public:
 private:
     void run(const std::string& source);
     void runPrompt();
-    void runFile(const std::string& path);
 };
 
 }

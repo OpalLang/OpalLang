@@ -38,6 +38,7 @@ namespace Opal {
         {",", TokenType::COMMA},
         {".", TokenType::DOT},
         {":", TokenType::COLON},
+        {";", TokenType::SEMICOLON},
         {"+", TokenType::PLUS},
         {"-", TokenType::MINUS},
         {"*", TokenType::MULTIPLY},
