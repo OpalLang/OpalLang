@@ -1,0 +1,92 @@
+/* EBNF Grammar for the language */
+
+program = { class_declaration | function_declaration | comment } ;
+
+/* Comments */
+comment = single_line_comment | multi_line_comment ;
+single_line_comment = "//", { any_character - newline }, newline ;
+multi_line_comment = "/*", { any_character - "*/" }, "*/" ;
+
+/* Class declarations */
+class_declaration = "class", identifier, "{", { method_declaration }, "}" ;
+method_declaration = "fn", identifier, "(", [ parameter_list ], ")", block ;
+
+/* Function declarations */
+function_declaration = "fn", identifier, "(", [ parameter_list ], ")", block ;
+parameter_list = parameter, { ",", parameter } ;
+parameter = identifier, [ "=", expression ] ;
+
+/* Blocks and statements */
+block = "{", { statement }, "}" ;
+statement = assignment
+          | if_statement
+          | while_statement
+          | for_statement
+          | foreach_statement
+          | function_call
+          | return_statement
+          | try_catch_statement
+          | expression ;
+
+/* Specific statements */
+assignment = identifier, "=", expression ;
+if_statement = "if", expression, block, { "elif", expression, block }, [ "else", block ] ;
+while_statement = "while", expression, block ;
+for_statement = "for", identifier, "in", range_expression, block ;
+foreach_statement = "foreach", identifier, "in", expression, block ;
+return_statement = "ret", expression ;
+try_catch_statement = "try", block, "catch", "(", identifier, ")", block, [ "finally", block ] ;
+
+/* Range expression */
+range_expression = expression, "..", expression, [ "step", expression ] ;
+
+/* Expressions */
+expression = logical_expression ;
+logical_expression = comparison_expression, { logical_operator, comparison_expression } ;
+logical_operator = "&&" | "||" | "and" | "or" | "not" ;
+comparison_expression = additive_expression, { comparison_operator, additive_expression } ;
+comparison_operator = "==" | "!=" | ">" | "<" | ">=" | "<=" | "is" | "is not" ;
+additive_expression = multiplicative_expression, { ("+" | "-"), multiplicative_expression } ;
+multiplicative_expression = unary_expression, { ("*" | "/" | "%"), unary_expression } ;
+unary_expression = ("!" | "-" | "not"), unary_expression | power_expression ;
+power_expression = primary_expression, { "^", primary_expression } ;
+primary_expression = literal
+                  | identifier
+                  | function_call
+                  | method_call
+                  | array_expression
+                  | "(", expression, ")"
+                  | "this"
+                  | string_interpolation ;
+
+/* Array operations */
+array_expression = "[", [ expression_list ], "]" ;
+expression_list = expression, { ",", expression } ;
+
+/* String interpolation */
+string_interpolation = '"', { string_content | interpolated_expression }, '"' ;
+string_content = any_character - ('"' | "${") ;
+interpolated_expression = "${", expression, "}" ;
+
+/* Calls */
+function_call = identifier, "(", [ argument_list ], ")" ;
+method_call = identifier, ".", identifier, "(", [ argument_list ], ")" ;
+argument_list = named_argument | positional_argument, { ",", (named_argument | positional_argument) } ;
+named_argument = identifier, ":", expression ;
+positional_argument = expression ;
+
+/* Basic elements */
+identifier = letter, { letter | digit | "_" } ;
+literal = number | string | boolean | "nil" | array_literal ;
+number = integer | float ;
+integer = [ "-" ], digit, { digit } ;
+float = [ "-" ], digit, { digit }, ".", { digit } ;
+string = '"', { any_character - '"' }, '"' ;
+boolean = "true" | "false" ;
+array_literal = "[", [ expression_list ], "]" ;
+
+/* Base characters */
+letter = "A" | "B" | "C" | ... | "Z" | "a" | "b" | "c" | ... | "z" ;
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+any_character = ? any Unicode character ? ;
+newline = ? newline character ? ;
