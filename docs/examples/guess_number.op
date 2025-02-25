@@ -3,7 +3,7 @@ fn main() {
     guess = 0
 
     while guess != secret_number {
-        guess = input("Enter a guess: ")
+        guess = input("Enter a guess: )
     }
     print("You guessed the number!")
 }

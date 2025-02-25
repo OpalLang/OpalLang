@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
         std::string sourceCode = readFile(argv[1]);
         Opal::Lexer lexer(sourceCode);
         auto tokens = lexer.scanTokens();
-        
+
         std::cout << "Tokenizing file: " << argv[1] << std::endl;
         std::cout << "----------------------------------------" << std::endl;
         lexer.printTokens();

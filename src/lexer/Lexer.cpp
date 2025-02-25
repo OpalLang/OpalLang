@@ -1,4 +1,6 @@
 #include "Lexer.hpp"
+#include "../error/Error.hpp"
+
 #include <stdexcept>
 #include <iostream>
 
@@ -25,7 +27,7 @@ namespace Opal {
         {"or", TokenType::OR},
         {"not", TokenType::NOT},
     };
-    
+
     const std::unordered_map<std::string, TokenType> Lexer::operators = {
         {"(", TokenType::LEFT_PAREN},
         {")", TokenType::RIGHT_PAREN},
@@ -111,7 +113,8 @@ namespace Opal {
                     break;
                 }
 
-                throw std::runtime_error("Unexpected character");
+                Error::lexerError(line, column - 1, "Unexpected character '" + std::string(1, c) + "'");
+                exit(1);
         }
     }
 
@@ -143,7 +146,8 @@ namespace Opal {
         }
 
         if (isAtEnd()) {
-            throw std::runtime_error("Unterminated string");
+            Error::lexerError(line, column, "Unterminated string");
+            exit(1);
         }
 
         advance();
@@ -191,7 +195,8 @@ namespace Opal {
         }
 
         if (nesting > 0) {
-            throw std::runtime_error("Unterminated comment");
+            Error::lexerError(line, column, "Unterminated comment");
+            exit(1);
         }
     }
 
