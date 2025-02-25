@@ -1,0 +1,71 @@
+# Compiled files
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+
+# Build files
+build/
+bin/
+Debug/
+Release/
+x64/
+Win32/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Cache and temporary files
+.cache/
+.vs/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Dependencies
+/vendor/
+/lib/
+/external/
+
+# Logs and dumps
+*.log
+*.tlog
+*.dump
+*.dmp
+
+# IDE specific files
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+
+# Generated documentation
+doc/
+docs/html/
+docs/latex/
+
+# Test and coverage files
+Testing/
+*.gcno
+*.gcda
+*.gcov
+
+# Project specific files
+compile_commands.json
+.clangd/
+
