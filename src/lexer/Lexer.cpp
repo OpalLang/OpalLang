@@ -21,7 +21,37 @@ namespace Opal {
         {"this", TokenType::THIS},
         {"true", TokenType::TRUE},
         {"false", TokenType::FALSE},
-        {"nil", TokenType::NIL}
+        {"nil", TokenType::NIL},
+        {"and", TokenType::AND},
+        {"or", TokenType::OR},
+        {"not", TokenType::NOT},
+    };
+    
+    const std::unordered_map<std::string, TokenType> Lexer::operators = {
+        {"(", TokenType::LEFT_PAREN},
+        {")", TokenType::RIGHT_PAREN},
+        {"{", TokenType::LEFT_BRACE},
+        {"}", TokenType::RIGHT_BRACE},
+        {"[", TokenType::LEFT_BRACKET},
+        {"]", TokenType::RIGHT_BRACKET},
+        {",", TokenType::COMMA},
+        {".", TokenType::DOT},
+        {":", TokenType::COLON},
+        {"+", TokenType::PLUS},
+        {"-", TokenType::MINUS},
+        {"*", TokenType::MULTIPLY},
+        {"/", TokenType::DIVIDE},
+        {"%", TokenType::MODULO},
+        {"=", TokenType::EQUAL},
+        {"!", TokenType::NOT},
+        {"<", TokenType::LESS},
+        {">", TokenType::GREATER},
+        {"&&", TokenType::AND},
+        {"||", TokenType::OR},
+        {"==", TokenType::EQUAL_EQUAL},
+        {"!=", TokenType::NOT_EQUAL},
+        {"<=", TokenType::LESS_EQUAL},
+        {">=", TokenType::GREATER_EQUAL},
     };
 
     Lexer::Lexer(std::string source) : source(std::move(source)) {}
@@ -38,47 +68,10 @@ namespace Opal {
 
     void Lexer::scanToken() {
         char c = advance();
+        
         switch (c) {
-            case '(': addToken(TokenType::LEFT_PAREN); break;
-            case ')': addToken(TokenType::RIGHT_PAREN); break;
-            case '{': addToken(TokenType::LEFT_BRACE); break;
-            case '}': addToken(TokenType::RIGHT_BRACE); break;
-            case '[': addToken(TokenType::LEFT_BRACKET); break;
-            case ']': addToken(TokenType::RIGHT_BRACKET); break;
-            case ',': addToken(TokenType::COMMA); break;
-            case '.': addToken(TokenType::DOT); break;
-            case ':': addToken(TokenType::COLON); break;
-            case '+': addToken(TokenType::PLUS); break;
-            case '-': addToken(TokenType::MINUS); break;
-            case '*': addToken(TokenType::STAR); break;
-            case '/': 
-                if (match('/')) {
-                    while (peek() != '\n' && !isAtEnd()) advance();
-                } else if (match('*')) {
-                    comment();
-                } else {
-                    addToken(TokenType::SLASH);
-                }
-                break;
-            case '%': addToken(TokenType::PERCENT); break;
-            case '^': addToken(TokenType::CARET); break;
-            case '=':
-                addToken(match('=') ? TokenType::EQUAL_EQUAL : TokenType::EQUAL);
-                break;
-            case '!':
-                addToken(match('=') ? TokenType::BANG_EQUAL : TokenType::BANG);
-                break;
-            case '<':
-                addToken(match('=') ? TokenType::LESS_EQUAL : TokenType::LESS);
-                break;
-            case '>':
-                addToken(match('=') ? TokenType::GREATER_EQUAL : TokenType::GREATER);
-                break;
-            case '&':
-                if (match('&')) addToken(TokenType::AND);
-                break;
-            case '|':
-                if (match('|')) addToken(TokenType::OR);
+            case '"':
+                string();
                 break;
             case ' ':
             case '\r':
@@ -88,16 +81,38 @@ namespace Opal {
                 line++;
                 column = 1;
                 break;
-            case '"': string(); break;
             default:
+                std::string potentialOp;
+                potentialOp += c;
+                
+                if (peekNext() != '\0') {
+                    potentialOp += peek();
+                    auto twoCharOp = operators.find(potentialOp);
+                    if (twoCharOp != operators.end()) {
+                        advance();
+                        addToken(twoCharOp->second);
+                        break;
+                    }
+                }
+                
+                potentialOp = potentialOp.substr(0, 1);
+                auto oneCharOp = operators.find(potentialOp);
+                if (oneCharOp != operators.end()) {
+                    addToken(oneCharOp->second);
+                    break;
+                }
+
                 if (isDigit(c)) {
                     number();
-                } else if (isAlpha(c)) {
-                    identifier();
-                } else {
-                    throw std::runtime_error("Unexpected character");
+                    break;
                 }
-                break;
+
+                if (isAlpha(c)) {
+                    identifier();
+                    break;
+                }
+
+                throw std::runtime_error("Unexpected character");
         }
     }
 
@@ -115,7 +130,7 @@ namespace Opal {
     }
 
     char Lexer::peekNext() {
-        if (current + 1 >= source.length()) return '\0';
+        if (current + 1 >= static_cast<int>(source.length())) return '\0';
         return source[current + 1];
     }
 
@@ -184,7 +199,7 @@ namespace Opal {
     }
 
     bool Lexer::isAtEnd() {
-        return current >= source.length();
+        return current >= static_cast<int>(source.length());
     }
 
     char Lexer::advance() {

@@ -27,7 +27,6 @@ namespace Opal {
         void string();
         void number();
         void identifier();
-        void skipWhitespace();
         void comment();
 
         bool isAtEnd();
@@ -39,5 +38,6 @@ namespace Opal {
         bool isAlphaNumeric(char c);
 
         static const std::unordered_map<std::string, TokenType> keywords;
+        static const std::unordered_map<std::string, TokenType> operators;
     };
 }
