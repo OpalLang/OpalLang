@@ -1,6 +1,8 @@
 #pragma once
-#include <string>
+
 #include "TokenType.hpp"
+
+#include <string>
 
 namespace Opal {
     class Token {

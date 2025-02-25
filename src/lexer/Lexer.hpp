@@ -1,8 +1,9 @@
 #pragma once
+
+#include "Token.hpp"
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "Token.hpp"
 
 namespace Opal {
     class Lexer {

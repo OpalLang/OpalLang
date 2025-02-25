@@ -1,8 +1,9 @@
+#include "lexer/Lexer.hpp"
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "lexer/Lexer.hpp"
 
 std::string readFile(const std::string& filepath) {
     std::ifstream file(filepath);
