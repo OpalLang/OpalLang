@@ -86,21 +86,20 @@ namespace Opal {
             default:
                 std::string potentialOp;
                 potentialOp += c;
-                
-                if (peekNext() != '\0') {
-                    potentialOp += peek();
-                    auto twoCharOp = operators.find(potentialOp);
-                    if (twoCharOp != operators.end()) {
+
+                if (!isAtEnd()) {
+                    std::string twoCharOp = potentialOp + peek();
+                    auto twoCharMatch = operators.find(twoCharOp);
+                    if (twoCharMatch != operators.end()) {
                         advance();
-                        addToken(twoCharOp->second);
+                        addToken(twoCharMatch->second);
                         break;
                     }
                 }
-                
-                potentialOp = potentialOp.substr(0, 1);
-                auto oneCharOp = operators.find(potentialOp);
-                if (oneCharOp != operators.end()) {
-                    addToken(oneCharOp->second);
+
+                auto oneCharMatch = operators.find(potentialOp);
+                if (oneCharMatch != operators.end()) {
+                    addToken(oneCharMatch->second);
                     break;
                 }
 
