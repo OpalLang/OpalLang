@@ -11,7 +11,8 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
     {"=", TokenType::EQUAL},          {"!", TokenType::NOT},          {"<", TokenType::LESS},
     {">", TokenType::GREATER},        {"&&", TokenType::AND},         {"||", TokenType::OR},
     {"==", TokenType::EQUAL_EQUAL},   {"!=", TokenType::NOT_EQUAL},   {"<=", TokenType::LESS_EQUAL},
-    {">=", TokenType::GREATER_EQUAL}, {"^", TokenType::POWER},
+    {">=", TokenType::GREATER_EQUAL}, {"^", TokenType::POWER},        {"++", TokenType::INCREMENT},
+    {"--", TokenType::DECREMENT},
 };
 
 bool OperatorTokenizer::canHandle(char c) const {
