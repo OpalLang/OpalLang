@@ -1,0 +1,70 @@
+fn display_menu() {
+    print("\n=== Task Manager ===")
+    print("1. Add a task")
+    print("2. Display tasks") 
+    print("3. Mark task as completed")
+    print("4. Delete a task")
+    print("5. Quit")
+    print("===================")
+}
+
+fn main() {
+    tasks = []
+    statuses = []
+    choice = 0
+
+    print("Welcome to your task manager!")
+
+    while choice != 5 {
+        display_menu()
+        choice = input("Choose an option (1-5): ")
+
+        if choice == 1 {
+            new_task = input("Enter the new task: ")
+            tasks.add(new_task)
+            statuses.add(false)
+            print("Task added successfully!")
+
+        } elif choice == 2 {
+            if tasks.size() == 0 {
+                print("No tasks to display.")
+            } else {
+                print("\nYour tasks:")
+                for i in range(tasks.size()) {
+                    status = if statuses[i] then "[X]" else "[ ]"
+                    print(i + 1 + ". " + status + " " + tasks[i])
+                }
+            }
+
+        } elif choice == 3 {
+            if tasks.size() == 0 {
+                print("No tasks to mark.")
+            } else {
+                index = input("Enter the number of the completed task: ") - 1
+                if index >= 0 and index < tasks.size() {
+                    statuses[index] = true
+                    print("Task marked as completed!")
+                } else {
+                    print("Invalid task number!")
+                }
+            }
+
+        } elif choice == 4 {
+            if tasks.size() == 0 {
+                print("No tasks to delete.")
+            } else {
+                index = input("Enter the number of the task to delete: ") - 1
+                if index >= 0 and index < tasks.size() {
+                    tasks.delete(index)
+                    statuses.delete(index)
+                    print("Task deleted successfully!")
+                } else {
+                    print("Invalid task number!")
+                }
+            }
+        }
+    }
+
+    print("\nThank you for using the task manager!")
+    print("Goodbye!")
+}
