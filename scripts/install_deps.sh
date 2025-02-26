@@ -24,7 +24,7 @@ case "$OS" in
         sudo apt-get update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc
+        sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc lcov
         ;;
 
     *Arch*|*Manjaro*|*EndeavourOS*|*Garuda*|*ArcoLinux*|*Artix*|*BlackArch*|*Chakra*)
@@ -32,7 +32,7 @@ case "$OS" in
         sudo pacman -Syu
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo pacman -S --needed base-devel cmake gcc clang gtest gmock doxygen inotify-tools bc
+        sudo pacman -S --needed base-devel cmake gcc clang gtest gmock doxygen inotify-tools bc lcov
         ;;
 
     *Fedora*|*Fedora\ Silverblue*|*Fedora\ CoreOS*|*Fedora\ IoT*|*Fedora\ Kinoite*)
@@ -40,7 +40,7 @@ case "$OS" in
         sudo dnf update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo dnf install -y cmake gcc-c++ clang gtest-devel gmock-devel doxygen inotify-tools bc
+        sudo dnf install -y cmake gcc-c++ clang gtest-devel gmock-devel doxygen inotify-tools bc lcov
         ;;
 
     *RHEL*|*CentOS*|*Rocky*|*AlmaLinux*|*Oracle\ Linux*|*Scientific\ Linux*)
@@ -48,7 +48,7 @@ case "$OS" in
         sudo yum update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo yum install -y cmake gcc-c++ clang doxygen inotify-tools bc
+        sudo yum install -y cmake gcc-c++ clang doxygen inotify-tools bc lcov
         sudo yum install -y epel-release
         sudo yum install -y gtest-devel gmock-devel
         ;;
@@ -58,7 +58,7 @@ case "$OS" in
         sudo zypper refresh
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo zypper install -y cmake gcc-c++ clang gtest gmock doxygen inotify-tools bc
+        sudo zypper install -y cmake gcc-c++ clang gtest gmock doxygen inotify-tools bc lcov
         ;;
 
     *macOS*|*Darwin*)
@@ -68,7 +68,7 @@ case "$OS" in
         fi
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        brew install cmake llvm googletest doxygen fswatch bc
+        brew install cmake llvm googletest doxygen fswatch bc lcov
         ;;
 
     *FreeBSD*|*OpenBSD*|*NetBSD*|*DragonFly*)
@@ -76,7 +76,7 @@ case "$OS" in
         sudo pkg update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo pkg install -y cmake llvm gtest gmock doxygen inotify-tools bc
+        sudo pkg install -y cmake llvm gtest gmock doxygen inotify-tools bc lcov
         ;;
 
     *Alpine*)
@@ -84,7 +84,7 @@ case "$OS" in
         sudo apk update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo apk add cmake g++ clang gtest gmock doxygen inotify-tools bc
+        sudo apk add cmake g++ clang gtest gmock doxygen inotify-tools bc lcov
         ;;
 
     *Microsoft*|*Windows*)
@@ -93,7 +93,7 @@ case "$OS" in
             sudo apt-get update
             
             echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-            sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc
+            sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc lcov
         else
             echo -e "${YELLOW}📥 Installing dependencies via Chocolatey...${NC}"
             if ! command -v choco &> /dev/null; then

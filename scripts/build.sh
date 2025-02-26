@@ -8,6 +8,11 @@ echo -e "${GREEN}🚀 Starting build...${NC}"
 
 if ! command -v cmake &> /dev/null; then
     echo -e "${RED}❌ CMake is not installed. Please install it before continuing.${NC}"
+    echo -e "${YELLOW}You can install it with:${NC}"
+    echo -e "${BLUE}  • Ubuntu/Debian: sudo apt install cmake${NC}"
+    echo -e "${BLUE}  • Arch Linux: sudo pacman -S cmake${NC}"
+    echo -e "${BLUE}  • Fedora: sudo dnf install cmake${NC}"
+    echo -e "${BLUE}  • macOS: brew install cmake${NC}"
     exit 1
 fi
 
