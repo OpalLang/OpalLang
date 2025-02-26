@@ -24,18 +24,16 @@ bool OperatorTokenizer::canHandle(char c) const {
 void OperatorTokenizer::tokenize() {
     std::string first(1, advance());
 
-    // Check for two-character operators
     if (!isAtEnd()) {
         std::string potential = first + peek();
         auto        it        = operators.find(potential);
         if (it != operators.end()) {
-            advance();  // consume second character
+            advance();
             addToken(it->second);
             return;
         }
     }
 
-    // Single character operator
     auto it = operators.find(first);
     if (it != operators.end()) {
         addToken(it->second);
