@@ -255,3 +255,81 @@ TEST_F(LexerTest, ScanRangeOperator) {
 
     EXPECT_EQ(tokens[3].type, TokenType::EOF_TOKEN);
 }
+
+TEST_F(LexerTest, ScanBinaryOperators) {
+    Lexer lexer("x & y | z # w ~ k << m >> n");
+    auto  tokens = lexer.scanTokens();
+    ASSERT_EQ(tokens.size(), 14);  // 13 tokens + EOF
+
+    // x & y
+    EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[0].value, "x");
+    EXPECT_EQ(tokens[1].type, TokenType::BITWISE_AND);
+    EXPECT_EQ(tokens[1].value, "&");
+    EXPECT_EQ(tokens[2].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[2].value, "y");
+
+    // | z
+    EXPECT_EQ(tokens[3].type, TokenType::BITWISE_OR);
+    EXPECT_EQ(tokens[3].value, "|");
+    EXPECT_EQ(tokens[4].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[4].value, "z");
+
+    // # w
+    EXPECT_EQ(tokens[5].type, TokenType::BITWISE_XOR);
+    EXPECT_EQ(tokens[5].value, "#");
+    EXPECT_EQ(tokens[6].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[6].value, "w");
+
+    // ~ k
+    EXPECT_EQ(tokens[7].type, TokenType::BITWISE_NOT);
+    EXPECT_EQ(tokens[7].value, "~");
+    EXPECT_EQ(tokens[8].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[8].value, "k");
+
+    // << m
+    EXPECT_EQ(tokens[9].type, TokenType::SHIFT_LEFT);
+    EXPECT_EQ(tokens[9].value, "<<");
+    EXPECT_EQ(tokens[10].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[10].value, "m");
+
+    // >> n
+    EXPECT_EQ(tokens[11].type, TokenType::SHIFT_RIGHT);
+    EXPECT_EQ(tokens[11].value, ">>");
+    EXPECT_EQ(tokens[12].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[12].value, "n");
+
+    EXPECT_EQ(tokens[13].type, TokenType::EOF_TOKEN);
+}
+
+TEST_F(LexerTest, ScanCompoundBinaryOperations) {
+    Lexer lexer("(a & b) | (c << 2) >> 1");
+    auto  tokens = lexer.scanTokens();
+    ASSERT_EQ(tokens.size(), 14);  // 13 tokens + EOF
+
+    // (a & b)
+    EXPECT_EQ(tokens[0].type, TokenType::LEFT_PAREN);
+    EXPECT_EQ(tokens[1].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[1].value, "a");
+    EXPECT_EQ(tokens[2].type, TokenType::BITWISE_AND);
+    EXPECT_EQ(tokens[3].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[3].value, "b");
+    EXPECT_EQ(tokens[4].type, TokenType::RIGHT_PAREN);
+
+    // | (c << 2)
+    EXPECT_EQ(tokens[5].type, TokenType::BITWISE_OR);
+    EXPECT_EQ(tokens[6].type, TokenType::LEFT_PAREN);
+    EXPECT_EQ(tokens[7].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[7].value, "c");
+    EXPECT_EQ(tokens[8].type, TokenType::SHIFT_LEFT);
+    EXPECT_EQ(tokens[9].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[9].value, "2");
+    EXPECT_EQ(tokens[10].type, TokenType::RIGHT_PAREN);
+
+    // >> 1
+    EXPECT_EQ(tokens[11].type, TokenType::SHIFT_RIGHT);
+    EXPECT_EQ(tokens[12].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[12].value, "1");
+
+    EXPECT_EQ(tokens[13].type, TokenType::EOF_TOKEN);
+}

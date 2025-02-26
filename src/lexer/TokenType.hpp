@@ -46,6 +46,14 @@ enum class TokenType {
     DECREMENT,
     RANGE,
 
+    // Binary operators
+    BITWISE_AND,
+    BITWISE_OR,
+    BITWISE_XOR,
+    BITWISE_NOT,
+    SHIFT_LEFT,
+    SHIFT_RIGHT,
+
     LEFT_PAREN,
     RIGHT_PAREN,
     LEFT_BRACE,

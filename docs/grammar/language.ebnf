@@ -50,11 +50,13 @@ range_expression = expression, "..", expression, [ "step", expression ] ;
 expression = logical_expression ;
 logical_expression = comparison_expression, { logical_operator, comparison_expression } ;
 logical_operator = "&&" | "||" | "and" | "or" | "not" ;
-comparison_expression = additive_expression, { comparison_operator, additive_expression } ;
+comparison_expression = bitwise_expression, { comparison_operator, bitwise_expression } ;
 comparison_operator = "==" | "!=" | ">" | "<" | ">=" | "<=" | "is" | "is not" ;
+bitwise_expression = shift_expression, { ("&" | "|" | "#"), shift_expression } ;
+shift_expression = additive_expression, { ("<<" | ">>"), additive_expression } ;
 additive_expression = multiplicative_expression, { ("+" | "-"), multiplicative_expression } ;
 multiplicative_expression = unary_expression, { ("*" | "/" | "%"), unary_expression } ;
-unary_expression = ("!" | "-" | "not"), unary_expression | power_expression ;
+unary_expression = ("!" | "-" | "not" | "~"), unary_expression | power_expression ;
 power_expression = primary_expression, { "^", primary_expression } ;
 primary_expression = literal
                   | identifier
