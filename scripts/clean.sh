@@ -32,8 +32,13 @@ if [ -d ".clangd" ]; then
 fi
 
 if [ -d "benchmark_tests" ]; then
-    echo -e "${YELLOW}📊 Removing benchmark results and test files...${NC}"
+    echo -e "${YELLOW}📊 Removing benchmark test files...${NC}"
     rm -rf benchmark_tests
+fi
+
+if [ -d "benchmark_results" ]; then
+    echo -e "${YELLOW}📊 Removing benchmark results...${NC}"
+    rm -rf benchmark_results
 fi
 
 echo -e "${YELLOW}🗑️  Removing temporary files...${NC}"

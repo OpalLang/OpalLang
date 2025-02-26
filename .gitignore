@@ -72,4 +72,5 @@ compile_commands.json
 Doxyfile
 
 # Benchmark results
+benchmark_tests
 benchmark_results
