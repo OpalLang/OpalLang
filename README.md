@@ -1,24 +1,24 @@
 # OpalLang
 
-> Unleash the power of elegant simplicity in programming
+> A modern programming language focusing on clarity and efficiency
 
-> ⚠️ **Development Status**: This language is currently under active development and is in its early stages. At present, only the lexer component has been implemented. Many features described below are planned but not yet available. Stay tuned for exciting updates! ✨
+> ⚠️ **Development Status**: This language is currently under active development and is in its early stages. At present, only the lexer component has been implemented. Many features described below are planned but not yet available. Stay tuned for updates.
 
 ## Overview 
 
-Opal is more than just a programming language – it's a fresh perspective on how code should feel. Designed with simplicity and performance in mind, Opal brings together the best aspects of modern programming while eliminating unnecessary complexity. Whether you're a beginner taking your first steps into programming or a seasoned developer looking for a more elegant solution, Opal offers something special.
+Opal is a programming language designed with a focus on readability and performance. It combines modern programming concepts with a clean syntax, making it accessible to newcomers while providing the power and flexibility needed for experienced developers.
 
-## Why Opal?
+## Key Features
 
-- **Crystal Clear Syntax**: Write code that reads like poetry – clean, intuitive, and beautiful
-- **Lightning-Fast Performance**: Built from the ground up with speed in mind
-- **Developer Joy**: Experience the satisfaction of writing code that just feels right
-- **Future-Ready**: Modern features wrapped in an elegant package
-- **Type Safety Without Tears**: Strong typing that works with you, not against you
-- **Learning Curve? More Like a Learning Glide**: Perfect for beginners, powerful for experts
-- **Flexible Memory Management**: Choose your own path - automatic or manual, you decide!
+- **Clear, Consistent Syntax**: Designed for readability and maintainability
+- **High Performance**: Optimized execution with minimal overhead
+- **Developer Experience**: Streamlined tooling and helpful error messages
+- **Modern Design**: Contemporary features with practical implementation
+- **Strong Type System**: Robust type checking with intuitive inference
+- **Gradual Learning Curve**: Structured for progressive skill development
+- **Memory Management Options**: Flexible memory handling with both automatic and manual modes
 
-## Taste the Magic 🚀
+## Code Example
 
 ```opal
 class Calculator {
@@ -32,71 +32,71 @@ class Calculator {
 }
 
 fn main() {
-    // Clean, expressive syntax that speaks for itself, with untyped variables
+    // Clear, expressive syntax with type inference
     x = 5
-    valid = x > 0 and x < 10  // Python-style elegance
-    also_valid = x >= 1 && x <= 9  // C-style familiarity
+    valid = x > 0 and x < 10  // Logical operations
+    also_valid = x >= 1 && x <= 9  // Alternative syntax
 
     // String interpolation
     calc = Calculator(x)
     calc.power(2)
     result = "x^2 = ${calc.value}, ${x # 3} is x XOR 3"  // # is XOR
 
-    spoil.print("Peek behind the curtain... more magic awaits! 🎩✨")
+    spoil.print("Peek behind the curtain... more magic awaits! ✨")
 }
 ```
 
-## Quick Start
+## Getting Started
 
 ### Prerequisites
 
-Before diving into the world of Opal, you'll need:
+Required tools:
 - CMake (version 3.22 or higher)
 - C++ compiler with C++20 support
 - Git
 
-One command to set up your magical workspace:
+Install dependencies:
 ```bash
-./scripts/install_deps.sh  # Let us handle the setup for you
+./scripts/install_deps.sh
 ```
 
-### Conjure Your Build
+### Build Process
 
 ```bash
-# Clone your gateway to Opal
+# Clone the repository
 git clone https://github.com/yourusername/OpalLang.git
 cd OpalLang
 
-# Summon the build
+# Build the project
 ./scripts/build.sh
 ```
 
-Your wand (compiled binary) will appear in the `bin` directory.
+The compiled binaries will be placed in the `bin` directory.
 
-### Start Casting Spells
+### Usage
 
-Jump into the interactive playground:
+Start the interactive REPL (Read-Eval-Print Loop):
 ```bash
 ./bin/opal
 ```
 
-Or run your masterpiece:
+Execute an Opal source file:
 ```bash
 ./bin/opal path/to/your/script.op
 ./bin/opal path/to/your/script.opal
 ```
 
-## Learn More
+## Documentation
 
-Dive deeper into the magic - explore our comprehensive documentation in the `docs` directory. Each feature is carefully documented, with examples and best practices to help you make the most of Opal.
+Comprehensive documentation is available in the `docs` directory, including language specifications, API references, and best practices for effective Opal development.
 
-## Join the Journey
+## Contributing
 
-Opal is more than a project - it's a vision of what programming can be. We're actively developing and expanding its capabilities, and every update brings new exciting features. Want to be part of something special? Keep watching this space!
+Opal is an evolving project, and we welcome contributions. The language is actively being developed with new features and improvements being added regularly.
 
 ## License
 
-This magical creation is licensed under the terms found in the LICENSE file. Feel free to explore, experiment, and create!
+This project is licensed under the terms specified in the LICENSE file. You are free to use, modify, and distribute it according to those terms.
 
 ---
 *"Simplicity is the ultimate sophistication" - Leonardo da Vinci*
