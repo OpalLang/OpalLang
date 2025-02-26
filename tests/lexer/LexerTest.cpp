@@ -138,3 +138,69 @@ TEST_F(LexerTest, ScanSimpleProgram) {
 
     EXPECT_EQ(tokens.back().type, TokenType::EOF_TOKEN);
 }
+
+TEST_F(LexerTest, ScanSingleLineComment) {
+    Lexer lexer("x = 10; // This is a comment\ny = 20;");
+    auto  tokens = lexer.scanTokens();
+
+    ASSERT_EQ(tokens.size(), 10);
+
+    EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[0].value, "x");
+    EXPECT_EQ(tokens[1].type, TokenType::EQUAL);
+    EXPECT_EQ(tokens[2].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[2].value, "10");
+    EXPECT_EQ(tokens[3].type, TokenType::SEMICOLON);
+
+    EXPECT_EQ(tokens[4].type, TokenType::COMMENT);
+    EXPECT_EQ(tokens[4].value, "// This is a comment");
+    EXPECT_EQ(tokens[4].line, 1);
+
+    EXPECT_EQ(tokens[5].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[5].value, "y");
+    EXPECT_EQ(tokens[5].line, 2);
+    EXPECT_EQ(tokens[6].type, TokenType::EQUAL);
+    EXPECT_EQ(tokens[7].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[7].value, "20");
+    EXPECT_EQ(tokens[8].type, TokenType::SEMICOLON);
+
+    EXPECT_EQ(tokens[9].type, TokenType::EOF_TOKEN);
+}
+
+TEST_F(LexerTest, ScanMultiLineComment) {
+    Lexer lexer("start /* This is a\nmulti-line\ncomment */ end");
+    auto  tokens = lexer.scanTokens();
+
+    ASSERT_EQ(tokens.size(), 4);
+
+    EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[0].value, "start");
+    EXPECT_EQ(tokens[0].line, 1);
+
+    EXPECT_EQ(tokens[1].type, TokenType::COMMENT);
+    EXPECT_EQ(tokens[1].value, "/* This is a\nmulti-line\ncomment */");
+
+    EXPECT_EQ(tokens[2].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[2].value, "end");
+    EXPECT_EQ(tokens[2].line, 3);
+
+    EXPECT_EQ(tokens[3].type, TokenType::EOF_TOKEN);
+}
+
+TEST_F(LexerTest, ScanNestedMultiLineComment) {
+    Lexer lexer("before /* outer comment /* nested comment */ still in comment */ after");
+    auto  tokens = lexer.scanTokens();
+
+    ASSERT_EQ(tokens.size(), 4);
+
+    EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[0].value, "before");
+
+    EXPECT_EQ(tokens[1].type, TokenType::COMMENT);
+    EXPECT_EQ(tokens[1].value, "/* outer comment /* nested comment */ still in comment */");
+
+    EXPECT_EQ(tokens[2].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[2].value, "after");
+
+    EXPECT_EQ(tokens[3].type, TokenType::EOF_TOKEN);
+}
