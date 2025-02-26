@@ -44,6 +44,7 @@ enum class TokenType {
     OR,
     INCREMENT,
     DECREMENT,
+    RANGE,
 
     LEFT_PAREN,
     RIGHT_PAREN,

@@ -237,3 +237,21 @@ TEST_F(LexerTest, ScanIncrementDecrementOperators) {
 
     EXPECT_EQ(tokens[8].type, TokenType::EOF_TOKEN);
 }
+
+TEST_F(LexerTest, ScanRangeOperator) {
+    Lexer lexer("1..10");
+    auto  tokens = lexer.scanTokens();
+
+    ASSERT_EQ(tokens.size(), 4);
+
+    EXPECT_EQ(tokens[0].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[0].value, "1");
+
+    EXPECT_EQ(tokens[1].type, TokenType::RANGE);
+    EXPECT_EQ(tokens[1].value, "..");
+
+    EXPECT_EQ(tokens[2].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[2].value, "10");
+
+    EXPECT_EQ(tokens[3].type, TokenType::EOF_TOKEN);
+}
