@@ -42,6 +42,8 @@ enum class TokenType {
     LESS_EQUAL,
     AND,
     OR,
+    INCREMENT,
+    DECREMENT,
 
     LEFT_PAREN,
     RIGHT_PAREN,

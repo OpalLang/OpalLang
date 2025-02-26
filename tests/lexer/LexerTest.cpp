@@ -204,3 +204,36 @@ TEST_F(LexerTest, ScanNestedMultiLineComment) {
 
     EXPECT_EQ(tokens[3].type, TokenType::EOF_TOKEN);
 }
+
+TEST_F(LexerTest, ScanIncrementDecrementOperators) {
+    Lexer lexer("x++ y-- ++a --b");
+    auto  tokens = lexer.scanTokens();
+
+    ASSERT_EQ(tokens.size(), 9);
+
+    // x++
+    EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[0].value, "x");
+    EXPECT_EQ(tokens[1].type, TokenType::INCREMENT);
+    EXPECT_EQ(tokens[1].value, "++");
+
+    // y--
+    EXPECT_EQ(tokens[2].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[2].value, "y");
+    EXPECT_EQ(tokens[3].type, TokenType::DECREMENT);
+    EXPECT_EQ(tokens[3].value, "--");
+
+    // ++a
+    EXPECT_EQ(tokens[4].type, TokenType::INCREMENT);
+    EXPECT_EQ(tokens[4].value, "++");
+    EXPECT_EQ(tokens[5].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[5].value, "a");
+
+    // --b
+    EXPECT_EQ(tokens[6].type, TokenType::DECREMENT);
+    EXPECT_EQ(tokens[6].value, "--");
+    EXPECT_EQ(tokens[7].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[7].value, "b");
+
+    EXPECT_EQ(tokens[8].type, TokenType::EOF_TOKEN);
+}
