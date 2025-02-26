@@ -1,0 +1,95 @@
+// Complete example of Opal syntax
+
+/* This is a multi-line
+   comment demonstrating
+   this feature */
+
+// Class definition
+class Animal {
+    fn init(name = "Anonymous") {
+        this.name = name
+    }
+
+    fn makeSound() {
+        print("${this.name} makes a sound!")
+    }
+}
+
+// Function with default parameters and return
+fn calculateArea(length = 1, width = 1) {
+    ret length * width
+}
+
+// Main function demonstrating various features
+fn main() {
+    // Variables and expressions
+    number = 42
+    pi = 3.14159
+    isTrue = true
+    isFalse = false
+    nothing = nil
+
+    // Arithmetic and logical operations
+    calculation = (number + 10) * 2 - 5 ^ 2
+    logical = (isTrue and not isFalse) || (number > 40)
+    
+    // Comparisons
+    comparisons = number == 42 && pi != 3 && number >= 40
+    
+    // Arrays
+    array = [1, 2, 3, 4, 5]
+    matrix = [[1, 2], [3, 4]]
+
+    // String interpolation
+    message = "The number is ${number} and pi is ${pi}"
+    
+    // Control structures
+    if number > 40 {
+        print("Large number!")
+    } elif number > 20 {
+        print("Medium number")
+    } else {
+        print("Small number")
+    }
+
+    // While loop
+    counter = 0
+    while counter < 5 {
+        print("Counter: ${counter}")
+        counter++
+    }
+
+    // For loop with range
+    for i in 0..5 step 1 {
+        print("Iteration ${i}")
+    }
+
+    // Foreach loop
+    foreach element in array {
+        print("Element: ${element}")
+    }
+
+    // Error handling
+    try {
+        result = 10 / 0
+    } catch (error) {
+        print("An error occurred: ${error}")
+    } finally {
+        print("Final cleanup")
+    }
+
+    // Class usage
+    cat = Animal("Whiskers")
+    cat.makeSound()
+
+    // Function calls with named arguments
+    area = calculateArea(length: 5, width: 3)
+    print("The area is: ${area}")
+
+    // Traditional for loop
+    sum = 0
+    for i = 0; i < 10; i++ {
+        sum = sum + i
+        print("Sum at iteration ${i}: ${sum}")
+    }
+} 

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "TokenizerBase.hpp"
+#include "../TokenizerBase.hpp"
 
 namespace Opal {
 
-class StringTokenizer : public TokenizerBase {
+class NumberTokenizer : public TokenizerBase {
 public:
     using TokenizerBase::TokenizerBase;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TokenizerBase.hpp"
+#include "../TokenizerBase.hpp"
 
 #include <string_view>
 #include <unordered_map>

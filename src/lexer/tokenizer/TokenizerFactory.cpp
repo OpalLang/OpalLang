@@ -1,10 +1,10 @@
 #include "TokenizerFactory.hpp"
 
-#include "CommentTokenizer.hpp"
-#include "IdentifierTokenizer.hpp"
-#include "NumberTokenizer.hpp"
-#include "OperatorTokenizer.hpp"
-#include "StringTokenizer.hpp"
+#include "tokenizers/CommentTokenizer.hpp"
+#include "tokenizers/IdentifierTokenizer.hpp"
+#include "tokenizers/NumberTokenizer.hpp"
+#include "tokenizers/OperatorTokenizer.hpp"
+#include "tokenizers/StringTokenizer.hpp"
 
 namespace Opal {
 
