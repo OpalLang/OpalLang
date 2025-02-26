@@ -1,4 +1,5 @@
 #include "Repl.hpp"
+
 #include "../lexer/Lexer.hpp"
 
 #include <iostream>
@@ -12,7 +13,7 @@ void Repl::start() {
 
 void Repl::run(const std::string& source) {
     Lexer lexer(source);
-    auto tokens = lexer.scanTokens();
+    auto  tokens = lexer.scanTokens();
 
     std::cout << "Tokenizing source code" << std::endl;
     std::cout << "----------------------------------------" << std::endl;
@@ -29,4 +30,4 @@ void Repl::runPrompt() {
     }
 }
 
-}
+}  // namespace Opal

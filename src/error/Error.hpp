@@ -1,8 +1,8 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 namespace Opal {
 
@@ -10,8 +10,8 @@ class Error {
 public:
     struct ErrorInfo {
         std::string message;
-        int line;
-        int column;
+        int         line;
+        int         column;
         std::string source;
     };
 
@@ -23,8 +23,8 @@ public:
     static const std::vector<ErrorInfo>& getErrors() { return errors; }
 
 private:
-    static bool errorOccurred;
+    static bool                   errorOccurred;
     static std::vector<ErrorInfo> errors;
 };
 
-}
+}  // namespace Opal

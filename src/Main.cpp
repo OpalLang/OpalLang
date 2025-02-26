@@ -1,10 +1,10 @@
 #include "lexer/Lexer.hpp"
 #include "repl/Repl.hpp"
 
-#include <iostream>
-#include <string>
 #include <fstream>
+#include <iostream>
 #include <sstream>
+#include <string>
 
 std::string readFile(const std::string& filepath) {
     std::ifstream file(filepath);
@@ -18,7 +18,7 @@ std::string readFile(const std::string& filepath) {
 
 int main(int argc, char* argv[]) {
     std::cout << "Opal Language" << std::endl;
-    
+
     if (argc < 2) {
         Opal::Repl repl;
 
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     try {
         std::string sourceCode = readFile(argv[1]);
         Opal::Lexer lexer(sourceCode);
-        auto tokens = lexer.scanTokens();
+        auto        tokens = lexer.scanTokens();
 
         std::cout << "Tokenizing file: " << argv[1] << std::endl;
         std::cout << "----------------------------------------" << std::endl;
