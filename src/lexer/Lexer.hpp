@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Token.hpp"
-#include "tokenizers/TokenizerFactory.hpp"
+#include "tokenizer/TokenizerFactory.hpp"
 
 #include <memory>
 #include <string>
