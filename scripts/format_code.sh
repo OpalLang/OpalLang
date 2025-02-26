@@ -121,7 +121,7 @@ format_files() {
     
     if [ ! -d "$dir" ]; then
         return
-    }
+    fi
     
     echo -e "${YELLOW}🔍 Searching for files to format in ${dir}...${NC}"
 
