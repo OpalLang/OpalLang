@@ -1,0 +1,45 @@
+#include "OperatorTokenizer.hpp"
+
+namespace Opal {
+
+const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operators = {
+    {"(", TokenType::LEFT_PAREN},     {")", TokenType::RIGHT_PAREN},  {"{", TokenType::LEFT_BRACE},
+    {"}", TokenType::RIGHT_BRACE},    {"[", TokenType::LEFT_BRACKET}, {"]", TokenType::RIGHT_BRACKET},
+    {",", TokenType::COMMA},          {".", TokenType::DOT},          {":", TokenType::COLON},
+    {";", TokenType::SEMICOLON},      {"+", TokenType::PLUS},         {"-", TokenType::MINUS},
+    {"*", TokenType::MULTIPLY},       {"/", TokenType::DIVIDE},       {"%", TokenType::MODULO},
+    {"=", TokenType::EQUAL},          {"!", TokenType::NOT},          {"<", TokenType::LESS},
+    {">", TokenType::GREATER},        {"&&", TokenType::AND},         {"||", TokenType::OR},
+    {"==", TokenType::EQUAL_EQUAL},   {"!=", TokenType::NOT_EQUAL},   {"<=", TokenType::LESS_EQUAL},
+    {">=", TokenType::GREATER_EQUAL},
+};
+
+bool OperatorTokenizer::canHandle(char c) const {
+    std::string str(1, c);
+    return operators.find(str) != operators.end() || (c == '=' && peek() == '=') || (c == '!' && peek() == '=')
+           || (c == '<' && peek() == '=') || (c == '>' && peek() == '=') || (c == '&' && peek() == '&')
+           || (c == '|' && peek() == '|');
+}
+
+void OperatorTokenizer::tokenize() {
+    std::string first(1, advance());
+
+    // Check for two-character operators
+    if (!isAtEnd()) {
+        std::string potential = first + peek();
+        auto        it        = operators.find(potential);
+        if (it != operators.end()) {
+            advance();  // consume second character
+            addToken(it->second);
+            return;
+        }
+    }
+
+    // Single character operator
+    auto it = operators.find(first);
+    if (it != operators.end()) {
+        addToken(it->second);
+    }
+}
+
+}  // namespace Opal
