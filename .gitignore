@@ -71,5 +71,5 @@ compile_commands.json
 .clang-format
 Doxyfile
 
-# Benchmark tests
-benchmark_tests
+# Benchmark results
+benchmark_results
