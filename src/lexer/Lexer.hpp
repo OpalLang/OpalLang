@@ -39,8 +39,8 @@ private:
     bool isAlpha(char c);
     bool isAlphaNumeric(char c);
 
-    static const std::unordered_map<std::string, TokenType> keywords;
-    static const std::unordered_map<std::string, TokenType> operators;
+    static const std::unordered_map<std::string_view, TokenType> keywords;
+    static const std::unordered_map<std::string_view, TokenType> operators;
 };
 
 }

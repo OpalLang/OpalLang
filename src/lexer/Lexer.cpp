@@ -3,9 +3,10 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <string_view>
 
 namespace Opal {
-    const std::unordered_map<std::string, TokenType> Lexer::keywords = {
+    const std::unordered_map<std::string_view, TokenType> Lexer::keywords = {
         {"class", TokenType::CLASS},
         {"fn", TokenType::FN},
         {"if", TokenType::IF},
@@ -28,7 +29,7 @@ namespace Opal {
         {"not", TokenType::NOT},
     };
 
-    const std::unordered_map<std::string, TokenType> Lexer::operators = {
+    const std::unordered_map<std::string_view, TokenType> Lexer::operators = {
         {"(", TokenType::LEFT_PAREN},
         {")", TokenType::RIGHT_PAREN},
         {"{", TokenType::LEFT_BRACE},
@@ -111,7 +112,7 @@ namespace Opal {
                 if (isAlpha(c)) {
                     identifier();
                     break;
-                }
+                }   
 
                 Error::lexerError(line, column - 1, "Unexpected character '" + std::string(1, c) + "'");
                 exit(1);
