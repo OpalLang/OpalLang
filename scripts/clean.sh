@@ -31,6 +31,11 @@ if [ -d ".clangd" ]; then
     rm -rf .clangd
 fi
 
+if [ -d "benchmark_tests" ]; then
+    echo -e "${YELLOW}📊 Removing benchmark results and test files...${NC}"
+    rm -rf benchmark_tests
+fi
+
 echo -e "${YELLOW}🗑️  Removing temporary files...${NC}"
 find . -name "*.o" -type f -delete
 find . -name "*.a" -type f -delete
