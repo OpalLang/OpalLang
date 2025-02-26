@@ -30,27 +30,30 @@ BasedOnStyle: Google
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
-ColumnLimit: 100
+ColumnLimit: 120
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: false
-AlignConsecutiveDeclarations: false
-AlignEscapedNewlines: Left
-AlignOperands: true
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveMacros: Consecutive
+AlignEscapedNewlines: Right
+AlignOperands: Align
 AlignTrailingComments: true
+AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
-AllowShortIfStatementsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Attach
+BreakBeforeInheritanceComma: false
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: BeforeColon
 BreakInheritanceList: BeforeColon
@@ -61,26 +64,37 @@ ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DerivePointerAlignment: false
+DisableFormat: false
+ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 IncludeBlocks: Regroup
 IncludeCategories:
-  - Regex: '^<.*\.h>'
+  - Regex: '^".*"'
     Priority: 1
-  - Regex: '^<.*'
+  - Regex: '^<.*\.h>'
     Priority: 2
-  - Regex: '.*'
+  - Regex: '^<.*'
     Priority: 3
 IndentCaseLabels: true
-IndentPPDirectives: None
+IndentGotoLabels: true
+IndentPPDirectives: BeforeHash
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Left
 ReflowComments: true
 SortIncludes: true
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeCpp11BracedList: false
@@ -95,7 +109,7 @@ SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp11
+Standard: c++17
 EOF
 
     echo -e "${GREEN}✅ .clang-format file created successfully.${NC}"
@@ -107,7 +121,7 @@ format_files() {
     
     if [ ! -d "$dir" ]; then
         return
-    fi
+    }
     
     echo -e "${YELLOW}🔍 Searching for files to format in ${dir}...${NC}"
 
