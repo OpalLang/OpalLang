@@ -19,30 +19,48 @@ fi
 echo -e "${YELLOW}💻 Detected system: $OS${NC}"
 
 case "$OS" in
-    *Ubuntu*|*Debian*)
+    *Ubuntu*|*Debian*|*Linux\ Mint*|*Pop!_OS*|*elementary\ OS*|*Zorin\ OS*|*KDE\ neon*|*Kubuntu*|*Xubuntu*|*Lubuntu*|*Ubuntu\ MATE*|*Ubuntu\ Budgie*|*Ubuntu\ Studio*)
         echo -e "${YELLOW}🔄 Updating packages...${NC}"
         sudo apt-get update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
         sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev
         ;;
-        
-    *Arch*|*Manjaro*)
+
+    *Arch*|*Manjaro*|*EndeavourOS*|*Garuda*|*ArcoLinux*|*Artix*|*BlackArch*|*Chakra*)
         echo -e "${YELLOW}🔄 Updating packages...${NC}"
         sudo pacman -Syu
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
         sudo pacman -S --needed base-devel cmake gcc clang gtest gmock
         ;;
-        
-    *Fedora*)
+
+    *Fedora*|*Fedora\ Silverblue*|*Fedora\ CoreOS*|*Fedora\ IoT*|*Fedora\ Kinoite*)
         echo -e "${YELLOW}🔄 Updating packages...${NC}"
         sudo dnf update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
         sudo dnf install -y cmake gcc-c++ clang gtest-devel gmock-devel
         ;;
+
+    *RHEL*|*CentOS*|*Rocky*|*AlmaLinux*|*Oracle\ Linux*|*Scientific\ Linux*)
+        echo -e "${YELLOW}🔄 Updating packages...${NC}"
+        sudo yum update
         
+        echo -e "${YELLOW}📥 Installing dependencies...${NC}"
+        sudo yum install -y cmake gcc-c++ clang
+        sudo yum install -y epel-release
+        sudo yum install -y gtest-devel gmock-devel
+        ;;
+
+    *openSUSE*|*SUSE*|*SLES*)
+        echo -e "${YELLOW}🔄 Updating packages...${NC}"
+        sudo zypper refresh
+        
+        echo -e "${YELLOW}📥 Installing dependencies...${NC}"
+        sudo zypper install -y cmake gcc-c++ clang gtest gmock
+        ;;
+
     *macOS*|*Darwin*)
         if ! command -v brew &> /dev/null; then
             echo -e "${YELLOW}🍺 Installing Homebrew...${NC}"
@@ -51,6 +69,40 @@ case "$OS" in
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
         brew install cmake llvm googletest
+        ;;
+
+    *FreeBSD*|*OpenBSD*|*NetBSD*|*DragonFly*)
+        echo -e "${YELLOW}🔄 Updating packages...${NC}"
+        sudo pkg update
+        
+        echo -e "${YELLOW}📥 Installing dependencies...${NC}"
+        sudo pkg install -y cmake llvm gtest gmock
+        ;;
+
+    *Alpine*)
+        echo -e "${YELLOW}🔄 Updating packages...${NC}"
+        sudo apk update
+        
+        echo -e "${YELLOW}📥 Installing dependencies...${NC}"
+        sudo apk add cmake g++ clang gtest gmock
+        ;;
+
+    *Microsoft*|*Windows*)
+        if grep -q Microsoft /proc/version; then
+            echo -e "${YELLOW}🔄 Updating packages (WSL)...${NC}"
+            sudo apt-get update
+            
+            echo -e "${YELLOW}📥 Installing dependencies...${NC}"
+            sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev
+        else
+            echo -e "${YELLOW}📥 Installing dependencies via Chocolatey...${NC}"
+            if ! command -v choco &> /dev/null; then
+                echo -e "${YELLOW}🍫 Installing Chocolatey...${NC}"
+                powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+            fi
+            choco install -y cmake llvm googletest
+            choco install -y visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.NativeDesktop"
+        fi
         ;;
         
     *)
