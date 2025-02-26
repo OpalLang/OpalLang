@@ -16,6 +16,21 @@ if [ -d "bin" ]; then
     rm -rf bin
 fi
 
+if [ -d "docs/html" ]; then
+    echo -e "${YELLOW}📁 Removing documentation...${NC}"
+    rm -rf docs/html
+fi
+
+if [ -f "Doxyfile" ]; then
+    echo -e "${YELLOW}📄 Removing Doxyfile...${NC}"
+    rm -f Doxyfile
+fi
+
+if [ -d ".clangd" ]; then
+    echo -e "${YELLOW}📁 Removing .clangd directory...${NC}"
+    rm -rf .clangd
+fi
+
 echo -e "${YELLOW}🗑️  Removing temporary files...${NC}"
 find . -name "*.o" -type f -delete
 find . -name "*.a" -type f -delete
