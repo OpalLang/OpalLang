@@ -68,4 +68,5 @@ Testing/
 # Project specific files
 compile_commands.json
 .clangd/
+.clang-format
 Doxyfile
