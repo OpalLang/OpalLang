@@ -24,7 +24,7 @@ case "$OS" in
         sudo apt-get update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev
+        sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen
         ;;
 
     *Arch*|*Manjaro*|*EndeavourOS*|*Garuda*|*ArcoLinux*|*Artix*|*BlackArch*|*Chakra*)
@@ -32,7 +32,7 @@ case "$OS" in
         sudo pacman -Syu
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo pacman -S --needed base-devel cmake gcc clang gtest gmock
+        sudo pacman -S --needed base-devel cmake gcc clang gtest gmock doxygen
         ;;
 
     *Fedora*|*Fedora\ Silverblue*|*Fedora\ CoreOS*|*Fedora\ IoT*|*Fedora\ Kinoite*)
@@ -40,7 +40,7 @@ case "$OS" in
         sudo dnf update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo dnf install -y cmake gcc-c++ clang gtest-devel gmock-devel
+        sudo dnf install -y cmake gcc-c++ clang gtest-devel gmock-devel doxygen
         ;;
 
     *RHEL*|*CentOS*|*Rocky*|*AlmaLinux*|*Oracle\ Linux*|*Scientific\ Linux*)
@@ -48,7 +48,7 @@ case "$OS" in
         sudo yum update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo yum install -y cmake gcc-c++ clang
+        sudo yum install -y cmake gcc-c++ clang doxygen
         sudo yum install -y epel-release
         sudo yum install -y gtest-devel gmock-devel
         ;;
@@ -58,7 +58,7 @@ case "$OS" in
         sudo zypper refresh
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo zypper install -y cmake gcc-c++ clang gtest gmock
+        sudo zypper install -y cmake gcc-c++ clang gtest gmock doxygen
         ;;
 
     *macOS*|*Darwin*)
@@ -68,7 +68,7 @@ case "$OS" in
         fi
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        brew install cmake llvm googletest
+        brew install cmake llvm googletest doxygen
         ;;
 
     *FreeBSD*|*OpenBSD*|*NetBSD*|*DragonFly*)
@@ -76,7 +76,7 @@ case "$OS" in
         sudo pkg update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo pkg install -y cmake llvm gtest gmock
+        sudo pkg install -y cmake llvm gtest gmock doxygen
         ;;
 
     *Alpine*)
@@ -84,7 +84,7 @@ case "$OS" in
         sudo apk update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo apk add cmake g++ clang gtest gmock
+        sudo apk add cmake g++ clang gtest gmock doxygen
         ;;
 
     *Microsoft*|*Windows*)
@@ -93,21 +93,21 @@ case "$OS" in
             sudo apt-get update
             
             echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-            sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev
+            sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen
         else
             echo -e "${YELLOW}📥 Installing dependencies via Chocolatey...${NC}"
             if ! command -v choco &> /dev/null; then
                 echo -e "${YELLOW}🍫 Installing Chocolatey...${NC}"
                 powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
             fi
-            choco install -y cmake llvm googletest
+            choco install -y cmake llvm googletest doxygen
             choco install -y visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.NativeDesktop"
         fi
         ;;
         
     *)
         echo -e "${RED}❌ Unsupported operating system: $OS${NC}"
-        echo -e "${YELLOW}Please install manually: cmake, C++ compiler (g++ or clang), googletest${NC}"
+        echo -e "${YELLOW}Please install manually: cmake, C++ compiler (g++ or clang), googletest, doxygen${NC}"
         exit 1
         ;;
 esac

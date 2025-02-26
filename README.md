@@ -84,6 +84,10 @@ Or execute an Opal script:
 
 For more detailed information about the language, please refer to the documentation in the `docs` directory.
 
+## About
+
+This project is a programming language under active development. Features may change and new capabilities are being added regularly.
+
 ## License
 
 This project is licensed under the terms found in the LICENSE file.
