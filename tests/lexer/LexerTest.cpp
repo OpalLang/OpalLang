@@ -333,3 +333,99 @@ TEST_F(LexerTest, ScanCompoundBinaryOperations) {
 
     EXPECT_EQ(tokens[13].type, TokenType::EOF_TOKEN);
 }
+
+TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
+    Lexer lexer("x += 1; y -= 2; z *= 3; w /= 4; a %= 5; b ^= 6; c &= 7; d |= 8; e #= 9; f <<= 10; g >>= 11");
+    auto  tokens = lexer.scanTokens();
+
+    ASSERT_EQ(tokens.size(), 44);
+
+    // x += 1;
+    EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[0].value, "x");
+    EXPECT_EQ(tokens[1].type, TokenType::PLUS_EQUAL);
+    EXPECT_EQ(tokens[2].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[2].value, "1");
+    EXPECT_EQ(tokens[3].type, TokenType::SEMICOLON);
+
+    // y -= 2;
+    EXPECT_EQ(tokens[4].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[4].value, "y");
+    EXPECT_EQ(tokens[5].type, TokenType::MINUS_EQUAL);
+    EXPECT_EQ(tokens[6].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[6].value, "2");
+    EXPECT_EQ(tokens[7].type, TokenType::SEMICOLON);
+
+    // z *= 3;
+    EXPECT_EQ(tokens[8].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[8].value, "z");
+    EXPECT_EQ(tokens[9].type, TokenType::MULTIPLY_EQUAL);
+    EXPECT_EQ(tokens[10].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[10].value, "3");
+    EXPECT_EQ(tokens[11].type, TokenType::SEMICOLON);
+
+    // w /= 4;
+    EXPECT_EQ(tokens[12].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[12].value, "w");
+    EXPECT_EQ(tokens[13].type, TokenType::DIVIDE_EQUAL);
+    EXPECT_EQ(tokens[14].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[14].value, "4");
+    EXPECT_EQ(tokens[15].type, TokenType::SEMICOLON);
+
+    // a %= 5;
+    EXPECT_EQ(tokens[16].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[16].value, "a");
+    EXPECT_EQ(tokens[17].type, TokenType::MODULO_EQUAL);
+    EXPECT_EQ(tokens[18].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[18].value, "5");
+    EXPECT_EQ(tokens[19].type, TokenType::SEMICOLON);
+
+    // b ^= 6;
+    EXPECT_EQ(tokens[20].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[20].value, "b");
+    EXPECT_EQ(tokens[21].type, TokenType::POWER_EQUAL);
+    EXPECT_EQ(tokens[22].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[22].value, "6");
+    EXPECT_EQ(tokens[23].type, TokenType::SEMICOLON);
+
+    // c &= 7;
+    EXPECT_EQ(tokens[24].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[24].value, "c");
+    EXPECT_EQ(tokens[25].type, TokenType::AND_EQUAL);
+    EXPECT_EQ(tokens[26].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[26].value, "7");
+    EXPECT_EQ(tokens[27].type, TokenType::SEMICOLON);
+
+    // d |= 8;
+    EXPECT_EQ(tokens[28].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[28].value, "d");
+    EXPECT_EQ(tokens[29].type, TokenType::OR_EQUAL);
+    EXPECT_EQ(tokens[30].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[30].value, "8");
+    EXPECT_EQ(tokens[31].type, TokenType::SEMICOLON);
+
+    // e #= 9;
+    EXPECT_EQ(tokens[32].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[32].value, "e");
+    EXPECT_EQ(tokens[33].type, TokenType::XOR_EQUAL);
+    EXPECT_EQ(tokens[34].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[34].value, "9");
+    EXPECT_EQ(tokens[35].type, TokenType::SEMICOLON);
+
+    // f <<= 10;
+    EXPECT_EQ(tokens[36].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[36].value, "f");
+    EXPECT_EQ(tokens[37].type, TokenType::SHIFT_LEFT_EQUAL);
+    EXPECT_EQ(tokens[38].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[38].value, "10");
+    EXPECT_EQ(tokens[39].type, TokenType::SEMICOLON);
+
+    // g >>= 11
+    EXPECT_EQ(tokens[40].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[40].value, "g");
+    EXPECT_EQ(tokens[41].type, TokenType::SHIFT_RIGHT_EQUAL);
+    EXPECT_EQ(tokens[42].type, TokenType::NUMBER);
+    EXPECT_EQ(tokens[42].value, "11");
+
+    EXPECT_EQ(tokens[43].type, TokenType::EOF_TOKEN);
+}

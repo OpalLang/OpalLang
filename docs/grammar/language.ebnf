@@ -31,7 +31,7 @@ statement = assignment
           | expression ;
 
 /* Assignment and increment */
-assignment = identifier, "=", expression ;
+assignment = identifier, (("=" | "+=" | "-=" | "*=" | "/=" | "%=" | "^=" | "&=" | "|=" | "#=" | "<<=" | ">>="), expression) ;
 increment_statement = identifier, ("++" | "--") ;
 
 /* Specific statements */
@@ -49,7 +49,7 @@ range_expression = expression, "..", expression, [ "step", expression ] ;
 /* Expressions */
 expression = logical_expression ;
 logical_expression = comparison_expression, { logical_operator, comparison_expression } ;
-logical_operator = "&&" | "||" | "and" | "or" | "not" ;
+logical_operator = "&&" | "||" | "and" | "or";
 comparison_expression = bitwise_expression, { comparison_operator, bitwise_expression } ;
 comparison_operator = "==" | "!=" | ">" | "<" | ">=" | "<=" | "is" | "is not" ;
 bitwise_expression = shift_expression, { ("&" | "|" | "#"), shift_expression } ;
