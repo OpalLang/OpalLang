@@ -36,7 +36,49 @@ fn main() {
 
 ## Getting Started
 
-[Installation and usage instructions will be added here]
+### Prerequisites
+
+Before building Opal, make sure you have the following dependencies installed:
+- CMake (version 3.22 or higher)
+- C++ compiler with C++20 support
+- Git
+
+You can install all required dependencies using the provided script:
+
+```bash
+# Install dependencies
+./scripts/install_deps.sh
+```
+
+### Building the Project
+
+To build the Opal language interpreter, follow these steps:
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/OpalLang.git
+cd OpalLang
+
+# Build the project
+./scripts/build.sh
+```
+
+The compiled binary will be available in the `bin` directory.
+
+### Running Opal
+
+After building, you can run Opal in REPL (interactive) mode:
+
+```bash
+./bin/opal
+```
+
+Or execute an Opal script:
+
+```bash
+./bin/opal path/to/your/script.op
+./bin/opal path/to/your/script.opal
+```
 
 ## Documentation
 
