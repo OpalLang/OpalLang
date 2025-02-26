@@ -22,17 +22,23 @@ statement = assignment
           | if_statement
           | while_statement
           | for_statement
+          | traditional_for_statement
           | foreach_statement
           | function_call
           | return_statement
           | try_catch_statement
+          | increment_statement
           | expression ;
 
-/* Specific statements */
+/* Assignment and increment */
 assignment = identifier, "=", expression ;
+increment_statement = identifier, ("++" | "--") ;
+
+/* Specific statements */
 if_statement = "if", expression, block, { "elif", expression, block }, [ "else", block ] ;
 while_statement = "while", expression, block ;
 for_statement = "for", identifier, "in", range_expression, block ;
+traditional_for_statement = "for", assignment, ";", expression, ";", (assignment | increment_statement), block ;
 foreach_statement = "foreach", identifier, "in", expression, block ;
 return_statement = "ret", expression ;
 try_catch_statement = "try", block, "catch", "(", identifier, ")", block, [ "finally", block ] ;
@@ -57,7 +63,11 @@ primary_expression = literal
                   | array_expression
                   | "(", expression, ")"
                   | "this"
-                  | string_interpolation ;
+                  | string_interpolation
+                  | increment_expression ;
+
+/* Increment expression */
+increment_expression = identifier, ("++" | "--") ;
 
 /* Array operations */
 array_expression = "[", [ expression_list ], "]" ;
