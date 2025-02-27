@@ -1,20 +1,9 @@
 #include "lexer/Lexer.hpp"
 #include "repl/Repl.hpp"
+#include "util/FileUtil.hpp"
 
-#include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string>
-
-std::string readFile(const std::string& filepath) {
-    std::ifstream file(filepath);
-    if (!file.is_open()) {
-        throw std::runtime_error("Could not open file: " + filepath);
-    }
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
 
 int main(int argc, char* argv[]) {
     std::cout << "Opal Language" << std::endl;
@@ -30,8 +19,13 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    if (!Opal::FileUtil::fileExists(argv[1])) {
+        std::cerr << "File does not exist: " << argv[1] << std::endl;
+        return 1;
+    }
+
     try {
-        std::string sourceCode = readFile(argv[1]);
+        std::string sourceCode = Opal::FileUtil::readFile(argv[1]);
         Opal::Lexer lexer(sourceCode);
         auto        tokens = lexer.scanTokens();
 
