@@ -1,6 +1,6 @@
-/* EBNF Grammar for the language */
+/* EBNF Grammar for the Opal Language */
 
-program = { class_declaration | function_declaration | comment } ;
+program = { class_declaration | function_declaration | comment | statement } ;
 
 /* Comments */
 comment = single_line_comment | multi_line_comment ;
@@ -8,8 +8,10 @@ single_line_comment = "//", { any_character - newline }, newline ;
 multi_line_comment = "/*", { any_character - "*/" }, "*/" ;
 
 /* Class declarations */
-class_declaration = "class", identifier, "{", { method_declaration }, "}" ;
+class_declaration = "class", identifier, "{", { class_member }, "}" ;
+class_member = method_declaration | property_declaration ;
 method_declaration = "fn", identifier, "(", [ parameter_list ], ")", block ;
+property_declaration = identifier, [ "=", expression ] ;
 
 /* Function declarations */
 function_declaration = "fn", identifier, "(", [ parameter_list ], ")", block ;
@@ -28,13 +30,18 @@ statement = assignment
           | return_statement
           | try_catch_statement
           | increment_statement
+          | switch_statement
+          | enum_declaration
+          | break_statement
+          | continue_statement
           | expression ;
 
-/* Assignment and increment */
-assignment = identifier, (("=" | "+=" | "-=" | "*=" | "/=" | "%=" | "^=" | "&=" | "|=" | "#=" | "<<=" | ">>="), expression) ;
+/* Declarations and assignments */
+assignment = identifier, assignment_operator, expression ;
+assignment_operator = "=" | "+=" | "-=" | "*=" | "/=" | "%=" | "^=" | "&=" | "|=" | "#=" | "<<=" | ">>=" ;
 increment_statement = identifier, ("++" | "--") ;
 
-/* Specific statements */
+/* Control flow statements */
 if_statement = "if", expression, block, { "elif", expression, block }, [ "else", block ] ;
 while_statement = "while", expression, block ;
 for_statement = "for", identifier, "in", range_expression, block ;
@@ -42,6 +49,15 @@ traditional_for_statement = "for", assignment, ";", expression, ";", (assignment
 foreach_statement = "foreach", identifier, "in", expression, block ;
 return_statement = "ret", expression ;
 try_catch_statement = "try", block, "catch", "(", identifier, ")", block, [ "finally", block ] ;
+switch_statement = "switch", expression, "{", { case_clause }, [ default_clause ], "}" ;
+case_clause = "case", expression, ":", { statement } ;
+default_clause = "default", ":", { statement } ;
+break_statement = "break" ;
+continue_statement = "continue" ;
+
+/* Enum declaration */
+enum_declaration = "enum", identifier, "{", enum_member_list, "}" ;
+enum_member_list = identifier, { ",", identifier }, [ "," ] ;
 
 /* Range expression */
 range_expression = expression, "..", expression, [ "step", expression ] ;
@@ -49,14 +65,19 @@ range_expression = expression, "..", expression, [ "step", expression ] ;
 /* Expressions */
 expression = logical_expression ;
 logical_expression = comparison_expression, { logical_operator, comparison_expression } ;
-logical_operator = "&&" | "||" | "and" | "or";
+logical_operator = "&&" | "||" | "and" | "or" ;
 comparison_expression = bitwise_expression, { comparison_operator, bitwise_expression } ;
 comparison_operator = "==" | "!=" | ">" | "<" | ">=" | "<=" | "is" | "is not" ;
-bitwise_expression = shift_expression, { ("&" | "|" | "#"), shift_expression } ;
-shift_expression = additive_expression, { ("<<" | ">>"), additive_expression } ;
-additive_expression = multiplicative_expression, { ("+" | "-"), multiplicative_expression } ;
-multiplicative_expression = unary_expression, { ("*" | "/" | "%"), unary_expression } ;
-unary_expression = ("!" | "-" | "not" | "~"), unary_expression | power_expression ;
+bitwise_expression = shift_expression, { bitwise_operator, shift_expression } ;
+bitwise_operator = "&" | "|" | "#" | "~" ;
+shift_expression = additive_expression, { shift_operator, additive_expression } ;
+shift_operator = "<<" | ">>" ;
+additive_expression = multiplicative_expression, { additive_operator, multiplicative_expression } ;
+additive_operator = "+" | "-" ;
+multiplicative_expression = unary_expression, { multiplicative_operator, unary_expression } ;
+multiplicative_operator = "*" | "/" | "%" ;
+unary_expression = unary_operator, unary_expression | power_expression ;
+unary_operator = "!" | "-" | "not" | "~" ;
 power_expression = primary_expression, { "^", primary_expression } ;
 primary_expression = literal
                   | identifier
@@ -82,7 +103,7 @@ interpolated_expression = "${", expression, "}" ;
 
 /* Calls */
 function_call = identifier, "(", [ argument_list ], ")" ;
-method_call = identifier, ".", identifier, "(", [ argument_list ], ")" ;
+method_call = primary_expression, ".", identifier, "(", [ argument_list ], ")" ;
 argument_list = named_argument | positional_argument, { ",", (named_argument | positional_argument) } ;
 named_argument = identifier, ":", expression ;
 positional_argument = expression ;
