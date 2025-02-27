@@ -41,6 +41,11 @@ if [ -d "benchmark_results" ]; then
     rm -rf benchmark_results
 fi
 
+if [ -d "fuzzing_results" ]; then
+    echo -e "${YELLOW}🐞 Removing fuzzing results...${NC}"
+    rm -rf fuzzing_results
+fi
+
 echo -e "${YELLOW}🗑️  Removing temporary files...${NC}"
 find . -name "*.o" -type f -delete
 find . -name "*.a" -type f -delete

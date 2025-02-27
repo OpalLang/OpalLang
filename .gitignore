@@ -74,3 +74,6 @@ Doxyfile
 # Benchmark results
 benchmark_tests
 benchmark_results
+
+#Fuzzing results
+fuzzing_results
