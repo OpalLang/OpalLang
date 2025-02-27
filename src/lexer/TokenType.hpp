@@ -18,6 +18,13 @@ enum class TokenType {
     FINALLY,
     RET,
     THIS,
+    CONST,
+    ENUM,
+    SWITCH,
+    CASE,
+    DEFAULT,
+    BREAK,
+    CONTINUE,
 
     // Literals
     NUMBER,

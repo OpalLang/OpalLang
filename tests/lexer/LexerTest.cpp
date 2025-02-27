@@ -211,25 +211,21 @@ TEST_F(LexerTest, ScanIncrementDecrementOperators) {
 
     ASSERT_EQ(tokens.size(), 9);
 
-    // x++
     EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[0].value, "x");
     EXPECT_EQ(tokens[1].type, TokenType::INCREMENT);
     EXPECT_EQ(tokens[1].value, "++");
 
-    // y--
     EXPECT_EQ(tokens[2].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[2].value, "y");
     EXPECT_EQ(tokens[3].type, TokenType::DECREMENT);
     EXPECT_EQ(tokens[3].value, "--");
 
-    // ++a
     EXPECT_EQ(tokens[4].type, TokenType::INCREMENT);
     EXPECT_EQ(tokens[4].value, "++");
     EXPECT_EQ(tokens[5].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[5].value, "a");
 
-    // --b
     EXPECT_EQ(tokens[6].type, TokenType::DECREMENT);
     EXPECT_EQ(tokens[6].value, "--");
     EXPECT_EQ(tokens[7].type, TokenType::IDENTIFIER);
@@ -259,9 +255,8 @@ TEST_F(LexerTest, ScanRangeOperator) {
 TEST_F(LexerTest, ScanBinaryOperators) {
     Lexer lexer("x & y | z # w ~ k << m >> n");
     auto  tokens = lexer.scanTokens();
-    ASSERT_EQ(tokens.size(), 14);  // 13 tokens + EOF
+    ASSERT_EQ(tokens.size(), 14);
 
-    // x & y
     EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[0].value, "x");
     EXPECT_EQ(tokens[1].type, TokenType::BITWISE_AND);
@@ -269,31 +264,26 @@ TEST_F(LexerTest, ScanBinaryOperators) {
     EXPECT_EQ(tokens[2].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[2].value, "y");
 
-    // | z
     EXPECT_EQ(tokens[3].type, TokenType::BITWISE_OR);
     EXPECT_EQ(tokens[3].value, "|");
     EXPECT_EQ(tokens[4].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[4].value, "z");
 
-    // # w
     EXPECT_EQ(tokens[5].type, TokenType::BITWISE_XOR);
     EXPECT_EQ(tokens[5].value, "#");
     EXPECT_EQ(tokens[6].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[6].value, "w");
 
-    // ~ k
     EXPECT_EQ(tokens[7].type, TokenType::BITWISE_NOT);
     EXPECT_EQ(tokens[7].value, "~");
     EXPECT_EQ(tokens[8].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[8].value, "k");
 
-    // << m
     EXPECT_EQ(tokens[9].type, TokenType::SHIFT_LEFT);
     EXPECT_EQ(tokens[9].value, "<<");
     EXPECT_EQ(tokens[10].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[10].value, "m");
 
-    // >> n
     EXPECT_EQ(tokens[11].type, TokenType::SHIFT_RIGHT);
     EXPECT_EQ(tokens[11].value, ">>");
     EXPECT_EQ(tokens[12].type, TokenType::IDENTIFIER);
@@ -305,9 +295,8 @@ TEST_F(LexerTest, ScanBinaryOperators) {
 TEST_F(LexerTest, ScanCompoundBinaryOperations) {
     Lexer lexer("(a & b) | (c << 2) >> 1");
     auto  tokens = lexer.scanTokens();
-    ASSERT_EQ(tokens.size(), 14);  // 13 tokens + EOF
+    ASSERT_EQ(tokens.size(), 14);
 
-    // (a & b)
     EXPECT_EQ(tokens[0].type, TokenType::LEFT_PAREN);
     EXPECT_EQ(tokens[1].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[1].value, "a");
@@ -316,7 +305,6 @@ TEST_F(LexerTest, ScanCompoundBinaryOperations) {
     EXPECT_EQ(tokens[3].value, "b");
     EXPECT_EQ(tokens[4].type, TokenType::RIGHT_PAREN);
 
-    // | (c << 2)
     EXPECT_EQ(tokens[5].type, TokenType::BITWISE_OR);
     EXPECT_EQ(tokens[6].type, TokenType::LEFT_PAREN);
     EXPECT_EQ(tokens[7].type, TokenType::IDENTIFIER);
@@ -326,7 +314,6 @@ TEST_F(LexerTest, ScanCompoundBinaryOperations) {
     EXPECT_EQ(tokens[9].value, "2");
     EXPECT_EQ(tokens[10].type, TokenType::RIGHT_PAREN);
 
-    // >> 1
     EXPECT_EQ(tokens[11].type, TokenType::SHIFT_RIGHT);
     EXPECT_EQ(tokens[12].type, TokenType::NUMBER);
     EXPECT_EQ(tokens[12].value, "1");
@@ -340,7 +327,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
 
     ASSERT_EQ(tokens.size(), 44);
 
-    // x += 1;
     EXPECT_EQ(tokens[0].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[0].value, "x");
     EXPECT_EQ(tokens[1].type, TokenType::PLUS_EQUAL);
@@ -348,7 +334,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[2].value, "1");
     EXPECT_EQ(tokens[3].type, TokenType::SEMICOLON);
 
-    // y -= 2;
     EXPECT_EQ(tokens[4].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[4].value, "y");
     EXPECT_EQ(tokens[5].type, TokenType::MINUS_EQUAL);
@@ -356,7 +341,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[6].value, "2");
     EXPECT_EQ(tokens[7].type, TokenType::SEMICOLON);
 
-    // z *= 3;
     EXPECT_EQ(tokens[8].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[8].value, "z");
     EXPECT_EQ(tokens[9].type, TokenType::MULTIPLY_EQUAL);
@@ -364,7 +348,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[10].value, "3");
     EXPECT_EQ(tokens[11].type, TokenType::SEMICOLON);
 
-    // w /= 4;
     EXPECT_EQ(tokens[12].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[12].value, "w");
     EXPECT_EQ(tokens[13].type, TokenType::DIVIDE_EQUAL);
@@ -372,7 +355,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[14].value, "4");
     EXPECT_EQ(tokens[15].type, TokenType::SEMICOLON);
 
-    // a %= 5;
     EXPECT_EQ(tokens[16].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[16].value, "a");
     EXPECT_EQ(tokens[17].type, TokenType::MODULO_EQUAL);
@@ -380,7 +362,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[18].value, "5");
     EXPECT_EQ(tokens[19].type, TokenType::SEMICOLON);
 
-    // b ^= 6;
     EXPECT_EQ(tokens[20].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[20].value, "b");
     EXPECT_EQ(tokens[21].type, TokenType::POWER_EQUAL);
@@ -388,7 +369,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[22].value, "6");
     EXPECT_EQ(tokens[23].type, TokenType::SEMICOLON);
 
-    // c &= 7;
     EXPECT_EQ(tokens[24].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[24].value, "c");
     EXPECT_EQ(tokens[25].type, TokenType::AND_EQUAL);
@@ -396,7 +376,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[26].value, "7");
     EXPECT_EQ(tokens[27].type, TokenType::SEMICOLON);
 
-    // d |= 8;
     EXPECT_EQ(tokens[28].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[28].value, "d");
     EXPECT_EQ(tokens[29].type, TokenType::OR_EQUAL);
@@ -404,7 +383,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[30].value, "8");
     EXPECT_EQ(tokens[31].type, TokenType::SEMICOLON);
 
-    // e #= 9;
     EXPECT_EQ(tokens[32].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[32].value, "e");
     EXPECT_EQ(tokens[33].type, TokenType::XOR_EQUAL);
@@ -412,7 +390,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[34].value, "9");
     EXPECT_EQ(tokens[35].type, TokenType::SEMICOLON);
 
-    // f <<= 10;
     EXPECT_EQ(tokens[36].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[36].value, "f");
     EXPECT_EQ(tokens[37].type, TokenType::SHIFT_LEFT_EQUAL);
@@ -420,7 +397,6 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
     EXPECT_EQ(tokens[38].value, "10");
     EXPECT_EQ(tokens[39].type, TokenType::SEMICOLON);
 
-    // g >>= 11
     EXPECT_EQ(tokens[40].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[40].value, "g");
     EXPECT_EQ(tokens[41].type, TokenType::SHIFT_RIGHT_EQUAL);
@@ -429,3 +405,95 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
 
     EXPECT_EQ(tokens[43].type, TokenType::EOF_TOKEN);
 }
+
+TEST_F(LexerTest, ScanNewKeywords) {
+    Lexer lexer("const enum switch case default break continue");
+    auto  tokens = lexer.scanTokens();
+
+    ASSERT_EQ(tokens.size(), 8);
+
+    EXPECT_EQ(tokens[0].type, TokenType::CONST);
+    EXPECT_EQ(tokens[0].value, "const");
+
+    EXPECT_EQ(tokens[1].type, TokenType::ENUM);
+    EXPECT_EQ(tokens[1].value, "enum");
+
+    EXPECT_EQ(tokens[2].type, TokenType::SWITCH);
+    EXPECT_EQ(tokens[2].value, "switch");
+
+    EXPECT_EQ(tokens[3].type, TokenType::CASE);
+    EXPECT_EQ(tokens[3].value, "case");
+
+    EXPECT_EQ(tokens[4].type, TokenType::DEFAULT);
+    EXPECT_EQ(tokens[4].value, "default");
+
+    EXPECT_EQ(tokens[5].type, TokenType::BREAK);
+    EXPECT_EQ(tokens[5].value, "break");
+
+    EXPECT_EQ(tokens[6].type, TokenType::CONTINUE);
+    EXPECT_EQ(tokens[6].value, "continue");
+
+    EXPECT_EQ(tokens[7].type, TokenType::EOF_TOKEN);
+}
+
+TEST_F(LexerTest, ScanSwitchStatement) {
+    Lexer lexer(R"(
+        switch (value) {
+            case 1:
+                ret "one";
+            case 2:
+                ret "two";
+            default:
+                ret "other";
+        }
+    )");
+    auto tokens = lexer.scanTokens();
+
+    auto switchToken = std::find_if(tokens.begin(), tokens.end(), 
+        [](const Token& t) { return t.type == TokenType::SWITCH; });
+    EXPECT_NE(switchToken, tokens.end());
+
+    auto caseTokens = std::count_if(tokens.begin(), tokens.end(),
+        [](const Token& t) { return t.type == TokenType::CASE; });
+    EXPECT_EQ(caseTokens, 2);
+
+    auto defaultToken = std::find_if(tokens.begin(), tokens.end(),
+        [](const Token& t) { return t.type == TokenType::DEFAULT; });
+    EXPECT_NE(defaultToken, tokens.end());
+
+    EXPECT_EQ(tokens.back().type, TokenType::EOF_TOKEN);
+}
+
+TEST_F(LexerTest, ScanEnumDeclaration) {
+    Lexer lexer(R"(
+        enum Color {
+            RED,
+            GREEN,
+            BLUE
+        }
+    )");
+    auto tokens = lexer.scanTokens();
+
+    EXPECT_EQ(tokens[0].type, TokenType::ENUM);
+    EXPECT_EQ(tokens[0].value, "enum");
+    
+    EXPECT_EQ(tokens[1].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[1].value, "Color");
+
+    EXPECT_EQ(tokens[2].type, TokenType::LEFT_BRACE);
+
+    EXPECT_EQ(tokens[3].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[3].value, "RED");
+    EXPECT_EQ(tokens[4].type, TokenType::COMMA);
+
+    EXPECT_EQ(tokens[5].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[5].value, "GREEN");
+    EXPECT_EQ(tokens[6].type, TokenType::COMMA);
+
+    EXPECT_EQ(tokens[7].type, TokenType::IDENTIFIER);
+    EXPECT_EQ(tokens[7].value, "BLUE");
+
+    EXPECT_EQ(tokens[8].type, TokenType::RIGHT_BRACE);
+    EXPECT_EQ(tokens[9].type, TokenType::EOF_TOKEN);
+}
+
