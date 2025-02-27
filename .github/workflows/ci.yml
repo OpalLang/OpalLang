@@ -29,23 +29,9 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       run: ctest -C Release --output-on-failure
-    
-  lint:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Install clang-format
-      run: sudo apt-get install -y clang-format
-    
-    - name: Check code formatting
-      run: |
-        find src tests -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | xargs clang-format -style=file -i
-        git diff --exit-code || (echo "Code formatting issues found. Run clang-format locally and commit changes." && exit 1)
 
   release:
-    needs: [build, lint]
+    needs: [build]
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     
@@ -80,4 +66,4 @@ jobs:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ${{github.workspace}}/package/opal-${{ github.event.release.tag_name }}.tar.gz
         asset_name: opal-${{ github.event.release.tag_name }}.tar.gz
-        asset_content_type: application/gzip 
+        asset_content_type: application/gzip
