@@ -5,8 +5,6 @@ on:
     branches: [ main, lexerImpl ]
   pull_request:
     branches: [ main ]
-  release:
-    types: [ created ]
 
 jobs:
   build:
@@ -32,7 +30,6 @@ jobs:
 
   release:
     needs: [build]
-    if: github.event_name == 'release'
     runs-on: ubuntu-latest
     
     steps:
@@ -49,6 +46,17 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config Release
     
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+    
     - name: Package
       run: |
         mkdir -p ${{github.workspace}}/package/opal
@@ -56,14 +64,14 @@ jobs:
         cp ${{github.workspace}}/README.md ${{github.workspace}}/package/opal/
         cp ${{github.workspace}}/LICENSE ${{github.workspace}}/package/opal/
         cd ${{github.workspace}}/package
-        tar -czvf opal-${{ github.event.release.tag_name }}.tar.gz opal
+        tar -czvf opal-v${{ github.run_number }}.tar.gz opal
     
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ${{github.workspace}}/package/opal-${{ github.event.release.tag_name }}.tar.gz
-        asset_name: opal-${{ github.event.release.tag_name }}.tar.gz
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{github.workspace}}/package/opal-v${{ github.run_number }}.tar.gz
+        asset_name: opal-v${{ github.run_number }}.tar.gz
         asset_content_type: application/gzip
