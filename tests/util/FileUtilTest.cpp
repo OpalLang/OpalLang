@@ -5,6 +5,7 @@
 
 #include <fstream>
 #include <string>
+#include <stdexcept>
 
 using namespace Opal;
 using namespace testing;
@@ -13,11 +14,16 @@ class FileUtilTest : public ::testing::Test {
 protected:
     void SetUp() override {
         testDir = "test_files";
-        system(("mkdir -p " + testDir).c_str());
+        if (system(("mkdir -p " + testDir).c_str()) != 0) {
+            throw std::runtime_error("Failed to create test directory: " + testDir);
+        }
     }
 
     void TearDown() override {
-        system(("rm -rf " + testDir).c_str());
+        if (system(("rm -rf " + testDir).c_str()) != 0) {
+            // Just log the error since this is in teardown
+            std::cerr << "Warning: Failed to remove test directory: " << testDir << std::endl;
+        }
     }
 
     std::string testDir;
@@ -90,15 +96,23 @@ TEST_F(FileUtilTest, FileExists) {
 
 TEST_F(FileUtilTest, WriteToDirectoryWithoutPermission) {
     std::string restrictedDir = testDir + "/restricted";
-    system(("mkdir -p " + restrictedDir).c_str());
-    system(("chmod 000 " + restrictedDir).c_str());
+    
+    if (system(("mkdir -p " + restrictedDir).c_str()) != 0) {
+        FAIL() << "Failed to create restricted directory for test";
+    }
+    
+    if (system(("chmod 000 " + restrictedDir).c_str()) != 0) {
+        FAIL() << "Failed to change permissions on restricted directory";
+    }
     
     std::string testFilePath = restrictedDir + "/test.txt";
     std::string testContent = "Test";
     
     EXPECT_THROW(FileUtil::writeFile(testFilePath, testContent), std::runtime_error);
     
-    system(("chmod 755 " + restrictedDir).c_str());
+    if (system(("chmod 755 " + restrictedDir).c_str()) != 0) {
+        std::cerr << "Warning: Failed to restore permissions on " << restrictedDir << std::endl;
+    }
 }
 
 TEST_F(FileUtilTest, ReadEmptyFile) {
