@@ -19,7 +19,10 @@ public:
     static void lexerError(int line, int column, const std::string& message);
     static void report(int line, int column, const std::string& where, const std::string& message);
     static bool hadError() { return errorOccurred; }
-    static void reset() { errorOccurred = false; }
+    static void reset() { 
+        errorOccurred = false; 
+        errors.clear();
+    }
     static const std::vector<ErrorInfo>& getErrors() { return errors; }
 
 private:
