@@ -496,3 +496,18 @@ TEST_F(LexerTest, ScanEnumDeclaration) {
     EXPECT_EQ(tokens[8].type, TokenType::RIGHT_BRACE);
     EXPECT_EQ(tokens[9].type, TokenType::EOF_TOKEN);
 }
+
+TEST_F(LexerTest, ScanLoadStatements) {
+    Lexer lexer("load \"my.h\" load \"math\"");
+    auto  tokens = lexer.scanTokens();
+    ASSERT_EQ(tokens.size(), 5);
+    EXPECT_EQ(tokens[0].type, TokenType::LOAD);
+    EXPECT_EQ(tokens[0].value, "load");
+    EXPECT_EQ(tokens[1].type, TokenType::STRING);
+    EXPECT_EQ(tokens[1].value, "my.h");
+    EXPECT_EQ(tokens[2].type, TokenType::LOAD);
+    EXPECT_EQ(tokens[2].value, "load");
+    EXPECT_EQ(tokens[3].type, TokenType::STRING);
+    EXPECT_EQ(tokens[3].value, "math");
+    EXPECT_EQ(tokens[4].type, TokenType::EOF_TOKEN);
+}

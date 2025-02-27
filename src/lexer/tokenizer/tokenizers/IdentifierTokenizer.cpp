@@ -11,7 +11,8 @@ const std::unordered_map<std::string_view, TokenType> IdentifierTokenizer::keywo
     {"false", TokenType::FALSE},     {"nil", TokenType::NIL},         {"and", TokenType::AND},
     {"or", TokenType::OR},           {"not", TokenType::NOT},         {"const", TokenType::CONST},
     {"enum", TokenType::ENUM},       {"switch", TokenType::SWITCH},   {"case", TokenType::CASE},
-    {"default", TokenType::DEFAULT}, {"break", TokenType::BREAK},     {"continue", TokenType::CONTINUE}};
+    {"default", TokenType::DEFAULT}, {"break", TokenType::BREAK},     {"continue", TokenType::CONTINUE},
+    {"load", TokenType::LOAD}};
 
 bool IdentifierTokenizer::canHandle(char c) const {
     return isAlpha(c);

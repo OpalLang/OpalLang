@@ -28,6 +28,7 @@ graph TD
     Statements --> ControlFlow["Control Flow"]:::statement
     Statements --> DeclarationStmt["Declarations"]:::statement
     Statements --> SimpleStmt["Simple Statements"]:::statement
+    Statements --> LoadStmt["Load Statements"]:::statement
 
     %% Control flow statements
     ControlFlow --> IfStmt["If Statement"]:::statement
@@ -40,6 +41,9 @@ graph TD
     LoopStmt --> For["for id in range { ... }"]:::statement
     LoopStmt --> ForEach["foreach id in expr { ... }"]:::statement
     LoopStmt --> TraditionalFor["for init;cond;iter { ... }"]:::statement
+    
+    %% Load statements
+    LoadStmt --> Load["load \"module\""]:::statement
     
     %% Expression types
     ExprTypes["Expressions"]:::expression --> LogicalExpr["Logical Expressions"]:::expression

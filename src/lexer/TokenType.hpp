@@ -25,6 +25,7 @@ enum class TokenType {
     DEFAULT,
     BREAK,
     CONTINUE,
+    LOAD,
 
     // Literals
     NUMBER,

@@ -34,7 +34,11 @@ statement = assignment
           | enum_declaration
           | break_statement
           | continue_statement
+          | load_statement
           | expression ;
+
+/* Load statements */
+load_statement = "load", string ;
 
 /* Declarations and assignments */
 assignment = identifier, assignment_operator, expression ;
