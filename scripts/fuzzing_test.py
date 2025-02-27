@@ -5,6 +5,7 @@ import string
 import subprocess
 import os
 import argparse
+import tempfile
 from pathlib import Path
 
 DEFAULT_OUTPUT_DIR = Path("fuzzing_results")
@@ -141,36 +142,66 @@ class OpalFuzzer:
         return ''.join(components)[:max_length]
     
     def run_test(self, test_index, content):
-        test_file = self.output_dir / f"test_{test_index}.op"
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.op', delete=False, encoding='ascii', errors='replace') as temp_file:
+            try:
+                temp_file.write(content)
+                temp_path = temp_file.name
+            except UnicodeEncodeError as e:
+                self.log(f"Unicode encoding error in test {test_index}: {str(e)}")
+                simple_content = ''.join(c if c in string.printable else '?' for c in content)
+                temp_file.write(simple_content)
+                content = simple_content
+        
         try:
-            with open(test_file, 'w', encoding='ascii', errors='replace') as f:
-                f.write(content)
-            
             result = subprocess.run(
-                [str(self.opal_executable), str(test_file)], 
+                [str(self.opal_executable), temp_path], 
                 capture_output=True, 
                 text=True, 
                 timeout=5  
             )
             
-            status = "OK" if result.returncode == 0 else f"FAILED (code {result.returncode})"
-            if result.returncode != 0:
+            success = result.returncode == 0
+            status = "OK" if success else f"FAILED (code {result.returncode})"
+
+            if not success:
+                test_file = self.output_dir / f"test_{test_index}.op"
+                with open(test_file, 'w', encoding='ascii', errors='replace') as f:
+                    f.write(content)
+                
                 error_file = self.output_dir / f"error_{test_index}.txt"
                 with open(error_file, 'w', encoding='ascii', errors='replace') as f:
                     f.write(f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}")
-            
+
+            try:
+                os.unlink(temp_path)
+            except Exception as e:
+                self.log(f"Warning: Could not delete temporary file {temp_path}: {str(e)}")
+                
             return status, result.returncode, len(content)
-        except UnicodeEncodeError as e:
-            self.log(f"Unicode encoding error in test {test_index}: {str(e)}")
-            simple_content = ''.join(c if c in string.printable else '?' for c in content)
-            with open(test_file, 'w', encoding='ascii', errors='replace') as f:
-                f.write(simple_content)
-            return self.run_test(test_index, simple_content)
         except subprocess.TimeoutExpired:
+            test_file = self.output_dir / f"test_{test_index}.op"
+            with open(test_file, 'w', encoding='ascii', errors='replace') as f:
+                f.write(content)
+                
             self.log(f"Test {test_index}: TIMEOUT")
+            try:
+                os.unlink(temp_path)
+            except Exception:
+                pass
+                
             return "TIMEOUT", -1, len(content)
         except Exception as e:
+            test_file = self.output_dir / f"test_{test_index}.op"
+            with open(test_file, 'w', encoding='ascii', errors='replace') as f:
+                f.write(content)
+                
             self.log(f"Test {test_index}: EXCEPTION - {str(e)}")
+            
+            try:
+                os.unlink(temp_path)
+            except Exception:
+                pass
+                
             return f"EXCEPTION: {str(e)}", -2, len(content)
     
     def run_fuzzing_campaign(self, num_tests=DEFAULT_NUM_TESTS, max_length=DEFAULT_MAX_LENGTH):
@@ -226,6 +257,10 @@ class OpalFuzzer:
             f.write(f"- **Timeouts**: {results['timeout']} ({results['timeout']/results['total']*100:.1f}%)\n")
             f.write(f"- **Exceptions**: {results['exception']} ({results['exception']/results['total']*100:.1f}%)\n\n")
             
+            f.write("## Storage Optimization\n\n")
+            f.write(f"Only failing test files have been saved to disk ({results['failed'] + results['timeout'] + results['exception']} files).\n")
+            f.write(f"Successful test files ({results['success']} files) were not saved, saving {results['success']/results['total']*100:.1f}% disk space.\n\n")
+            
             f.write("## Observations\n\n")
             
             if results['failed'] > 0:
@@ -267,6 +302,7 @@ def main():
         
         print("\nFuzzing campaign completed!")
         print(f"Summary: {results['success']} successful, {results['failed']} failed, {results['timeout']} timeouts, {results['exception']} exceptions")
+        print(f"Only files for failed/timeout/exception tests were saved to disk")
         print(f"Report generated in: {Path(args.output_dir) / 'fuzzing_report.md'}")
         
     except Exception as e:
