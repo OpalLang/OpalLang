@@ -4,6 +4,13 @@
    comment demonstrating
    this feature */
 
+// Enum definition
+enum Color {
+    RED,
+    GREEN, 
+    BLUE
+}
+
 // Class definition
 class Animal {
     fn init(name = "Anonymous") {
@@ -50,6 +57,20 @@ fn main() {
         print("Medium number")
     } else {
         print("Small number")
+    }
+
+    // Switch case example
+    color = Color.RED
+    switch color {
+        case Color.RED {
+            print("The color is red")
+        }
+        case Color.GREEN {
+            print("The color is green") 
+        }
+        default {
+            print("Unknown color")
+        }
     }
 
     // While loop
