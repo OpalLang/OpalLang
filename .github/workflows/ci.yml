@@ -1,5 +1,8 @@
 name: Opal CI/CD
 
+env:
+  OPAL_VERSION: "0.1.0"
+
 on:
   push:
     branches: [ main, lexerImpl ]
@@ -32,7 +35,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Nécessaire pour créer des releases
+      contents: write
     
     steps:
     - uses: actions/checkout@v3
@@ -52,23 +55,22 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v${{ github.run_number }}
-        name: Release v${{ github.run_number }}
+        tag_name: v${{ env.OPAL_VERSION }}
+        name: Release v${{ env.OPAL_VERSION }}
         draft: false
         prerelease: false
         generate_release_notes: true
+        fail_on_unmatched_files: false
     
     - name: Package
       run: |
-        mkdir -p ${{github.workspace}}/package/opal
-        cp -r ${{github.workspace}}/bin/* ${{github.workspace}}/package/opal/
-        cp ${{github.workspace}}/README.md ${{github.workspace}}/package/opal/
-        cp ${{github.workspace}}/LICENSE ${{github.workspace}}/package/opal/
+        mkdir -p ${{github.workspace}}/package
+        cp ${{github.workspace}}/bin/opal ${{github.workspace}}/package/
         cd ${{github.workspace}}/package
-        tar -czvf opal-v${{ github.run_number }}.tar.gz opal
+        tar -czvf opal-v${{ env.OPAL_VERSION }}.tar.gz opal
     
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v${{ github.run_number }}
-        files: ${{github.workspace}}/package/opal-v${{ github.run_number }}.tar.gz
+        tag_name: v${{ env.OPAL_VERSION }}
+        files: ${{github.workspace}}/package/opal-v${{ env.OPAL_VERSION }}.tar.gz
