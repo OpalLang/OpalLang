@@ -60,10 +60,10 @@ graph TD
     Literals --> NilVal["nil"]:::primitive
 
     %% Operators grouped by precedence
-    Operators["Operators"]:::expression --> Assignment["= += -= *= /= ..."]:::primitive
-    Operators --> LogicalOp["&& || and or"]:::primitive
-    Operators --> ComparisonOp["== != < > <= >="]:::primitive
-    Operators --> BitwiseOp["& | # ~ << >>"]:::primitive
-    Operators --> ArithmeticOp["+ - * / % ^"]:::primitive
-    Operators --> UnaryOp["! - not ~"]:::primitive
+    Operators["Operators"]:::expression --> Assignment["Assignment (=, +=, -=, etc)"]:::primitive
+    Operators --> LogicalOp["Logical (&&, ||, and, or)"]:::primitive
+    Operators --> ComparisonOp["Comparison (==, !=, <, >, etc)"]:::primitive
+    Operators --> BitwiseOp["Bitwise (&, |, XOR, ~, <<, >>)"]:::primitive
+    Operators --> ArithmeticOp["Arithmetic (+, -, *, /, %, ^)"]:::primitive
+    Operators --> UnaryOp["Unary (!, -, not, ~)"]:::primitive
 ```
