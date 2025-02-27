@@ -447,18 +447,18 @@ TEST_F(LexerTest, ScanSwitchStatement) {
                 ret "other";
         }
     )");
-    auto tokens = lexer.scanTokens();
+    auto  tokens = lexer.scanTokens();
 
-    auto switchToken = std::find_if(tokens.begin(), tokens.end(), 
-        [](const Token& t) { return t.type == TokenType::SWITCH; });
+    auto switchToken =
+        std::find_if(tokens.begin(), tokens.end(), [](const Token& t) { return t.type == TokenType::SWITCH; });
     EXPECT_NE(switchToken, tokens.end());
 
-    auto caseTokens = std::count_if(tokens.begin(), tokens.end(),
-        [](const Token& t) { return t.type == TokenType::CASE; });
+    auto caseTokens =
+        std::count_if(tokens.begin(), tokens.end(), [](const Token& t) { return t.type == TokenType::CASE; });
     EXPECT_EQ(caseTokens, 2);
 
-    auto defaultToken = std::find_if(tokens.begin(), tokens.end(),
-        [](const Token& t) { return t.type == TokenType::DEFAULT; });
+    auto defaultToken =
+        std::find_if(tokens.begin(), tokens.end(), [](const Token& t) { return t.type == TokenType::DEFAULT; });
     EXPECT_NE(defaultToken, tokens.end());
 
     EXPECT_EQ(tokens.back().type, TokenType::EOF_TOKEN);
@@ -472,11 +472,11 @@ TEST_F(LexerTest, ScanEnumDeclaration) {
             BLUE
         }
     )");
-    auto tokens = lexer.scanTokens();
+    auto  tokens = lexer.scanTokens();
 
     EXPECT_EQ(tokens[0].type, TokenType::ENUM);
     EXPECT_EQ(tokens[0].value, "enum");
-    
+
     EXPECT_EQ(tokens[1].type, TokenType::IDENTIFIER);
     EXPECT_EQ(tokens[1].value, "Color");
 
@@ -496,4 +496,3 @@ TEST_F(LexerTest, ScanEnumDeclaration) {
     EXPECT_EQ(tokens[8].type, TokenType::RIGHT_BRACE);
     EXPECT_EQ(tokens[9].type, TokenType::EOF_TOKEN);
 }
-

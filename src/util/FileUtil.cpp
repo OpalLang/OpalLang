@@ -29,4 +29,4 @@ bool FileUtil::fileExists(const std::string& filepath) {
     return file.good();
 }
 
-} // namespace Opal 
+}  // namespace Opal
