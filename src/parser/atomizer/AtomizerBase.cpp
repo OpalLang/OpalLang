@@ -1,6 +1,6 @@
 #include "AtomizerBase.hpp"
 
-#include "../lexer/Token.hpp"
+#include "../../lexer/Token.hpp"
 
 #include <vector>
 
@@ -17,7 +17,7 @@ Token AtomizerBase::peekNext() const {
 }
 
 Token AtomizerBase::advance() {
-    return tokens[current++];
+    return tokens[++current];
 }
 
 }  // namespace Opal

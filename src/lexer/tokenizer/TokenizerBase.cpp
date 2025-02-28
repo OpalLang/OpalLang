@@ -28,7 +28,7 @@ char TokenizerBase::peekNext() const {
 
 char TokenizerBase::advance() {
     column++;
-    return source[current++];
+    return source[++current];
 }
 
 void TokenizerBase::addToken(TokenType type) {
