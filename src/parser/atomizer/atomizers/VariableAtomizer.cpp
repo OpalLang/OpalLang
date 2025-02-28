@@ -18,13 +18,10 @@ void VariableAtomizer::atomize() {
             || peekNext().type == TokenType::TRUE || peekNext().type == TokenType::FALSE
             || peekNext().type == TokenType::NIL) {
             auto assignment = advance();
-
-            // Debug print
             std::cout << "Variable: " << tokens[current - 2].value << " = " << assignment.value << std::endl;
         } else {
             throw std::runtime_error("Expected a value after the assignment operator");
         }
-
     } else {
         advance();
     }

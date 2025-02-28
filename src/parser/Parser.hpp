@@ -1,8 +1,10 @@
 #pragma once
 
 #include "../lexer/Token.hpp"
+#include "atomizer/AtomizerBase.hpp"
 
 #include <vector>
+#include <memory>
 
 namespace Opal {
 
@@ -17,6 +19,7 @@ private:
     int current = 0;
 
     bool isAtEnd() const;
+    Token peek() const;
 };
 
 }  // namespace Opal
