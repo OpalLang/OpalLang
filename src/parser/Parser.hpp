@@ -12,6 +12,7 @@ public:
 
 private:
     std::vector<Token> tokens;
+    std::vector<std::unique_ptr<AtomizerBase>> atomizers; 
 
     int current = 0;
 
