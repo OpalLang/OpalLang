@@ -1,8 +1,8 @@
 #include "AtomizerFactory.hpp"
 
-#include "atomizers/VariableAtomizer.hpp"
-#include "atomizers/OperationAtomizer.hpp"
 #include "atomizers/LoadAtomizer.hpp"
+#include "atomizers/OperationAtomizer.hpp"
+#include "atomizers/VariableAtomizer.hpp"
 
 #include <memory>
 #include <vector>

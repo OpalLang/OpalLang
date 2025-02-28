@@ -1,8 +1,8 @@
 #include "Parser.hpp"
 
 #include "../lexer/Token.hpp"
-#include "atomizer/AtomizerFactory.hpp"
 #include "atomizer/AtomizerBase.hpp"
+#include "atomizer/AtomizerFactory.hpp"
 
 #include <vector>
 
@@ -18,7 +18,7 @@ bool Parser::isAtEnd() const {
 
 Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
     atomizers = AtomizerFactory::createAtomizers(current, this->tokens);
-    
+
     while (!isAtEnd()) {
         bool handled = false;
         for (const auto& atomizer : atomizers) {
@@ -28,7 +28,7 @@ Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
                 break;
             }
         }
-        
+
         if (!handled) {
             current++;
         }
