@@ -1,6 +1,7 @@
 #include "Repl.hpp"
 
 #include "../lexer/Lexer.hpp"
+#include "../parser/Parser.hpp"
 #include "command/CommandFactory.hpp"
 
 #include <iostream>
@@ -44,6 +45,7 @@ void Repl::run(const std::string& source) {
     std::cout << "----------------------------------------" << std::endl;
     lexer.printTokens();
     std::cout << "----------------------------------------" << std::endl;
+    Opal::Parser parser(tokens);
 }
 
 void Repl::runPrompt() {

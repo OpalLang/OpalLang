@@ -1,3 +1,5 @@
+load "test.opal"
+
 // Complete example of Opal syntax
 
 /* This is a multi-line

@@ -6,11 +6,12 @@
 
 namespace Opal {
 
-class OperationAtomizer : public AtomizerBase {
+class LoadAtomizer : public AtomizerBase {
+
 public:
-    OperationAtomizer(int& current, std::vector<Token>& tokens);
+    LoadAtomizer(int &current, std::vector<Token> &tokens);
     bool canHandle(TokenType type) const override;
     void atomize() override;
 };
 
-}  // namespace Opal
+}

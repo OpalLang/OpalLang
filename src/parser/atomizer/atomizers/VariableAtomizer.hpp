@@ -2,6 +2,8 @@
 
 #include "../AtomizerBase.hpp"
 
+#include <vector>
+
 namespace Opal {
 
 class VariableAtomizer : public AtomizerBase {
