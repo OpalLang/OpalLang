@@ -45,7 +45,7 @@ public:
     OperationNode*     getOperation() const { return operation.get(); }
     const std::string& getName() const { return name; }
     const std::string& getValue() const { return value; }
-    bool               getIsConst() const { return isConst; }
+    bool               getIsConstant() const { return isConstant; }
 };
 
 }  // namespace Opal
