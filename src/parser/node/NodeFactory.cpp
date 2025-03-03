@@ -32,7 +32,7 @@ std::unique_ptr<NodeBase> NodeFactory::createNode(TokenType type) {
 
 std::unique_ptr<VariableNode>
 NodeFactory::createVariableNode(const std::string& name, const std::string& value, bool isConst) {
-    return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConst);
+    return std::make_unique<VariableNode>(TokenType::IDENTIFIER, isConst, name, value);
 }
 
 }  // namespace Opal
