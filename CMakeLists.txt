@@ -50,6 +50,8 @@ if(NOT SOURCES)
     message(FATAL_ERROR "No source files found in ${PROJECT_SOURCE_DIR}/src/")
 endif()
 
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
 add_library(opal_lib STATIC ${SOURCES})
 target_include_directories(opal_lib PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
