@@ -44,7 +44,7 @@ void VariableNode::print(size_t indent) const {
     } else if (!value.empty()) {
         std::cout << ", value=" << value;
     }
-    
+
     std::cout << ", type=" << typeStr 
               << ", const=" << (isConstant ? "true" : "false") << ")" << std::endl;
 }
