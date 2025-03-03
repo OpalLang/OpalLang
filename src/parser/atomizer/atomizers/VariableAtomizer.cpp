@@ -75,7 +75,6 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
                         std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
                     if (opNode) {
                         variableNode->setOperation(std::move(opNode));
-                        std::cout << "Variable '" << variableNode->getName() << "' assigned to operation" << std::endl;
                         return variableNode;
                     }
                 }
@@ -96,7 +95,6 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
         }
     } else {
         auto variableNode = NodeFactory::createVariableNode(variableName, "", false);
-        std::cout << "Variable reference: " << variableNode->getName() << std::endl;
         return variableNode;
     }
 }

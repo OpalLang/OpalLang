@@ -20,10 +20,20 @@
  */
 
 #include "VariableNode.hpp"
+#include <iostream>
 
 namespace Opal {
 
 VariableNode::VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant)
     : NodeBase(tokenType, NodeType::VARIABLE), name(name), value(value), isConstant(isConstant) {}
+
+void VariableNode::print(size_t indent) const {
+    printIndent(indent);
+    std::cout << "Variable(name=\"" << name << "\", value=\"" << value << "\", const=" 
+              << (isConstant ? "true" : "false") << ")" << std::endl;
+    if (operation) {
+        operation->print(indent + 1);
+    }
+}
 
 }  // namespace Opal

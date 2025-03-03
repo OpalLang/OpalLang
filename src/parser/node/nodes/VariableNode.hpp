@@ -46,6 +46,8 @@ public:
     const std::string& getName() const { return name; }
     const std::string& getValue() const { return value; }
     bool               getIsConstant() const { return isConstant; }
+    
+    void print(size_t indent = 0) const override;
 };
 
 }  // namespace Opal

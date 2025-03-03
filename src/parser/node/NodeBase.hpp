@@ -38,6 +38,9 @@ public:
 
     NodeType  getNodeType() const { return nodeType; }
     TokenType getTokenType() const { return tokenType; }
+    
+    virtual void print(size_t indent = 0) const;
+    static void printIndent(size_t indent);
 };
 
 }  // namespace Opal

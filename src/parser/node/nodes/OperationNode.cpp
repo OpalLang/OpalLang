@@ -20,10 +20,21 @@
  */
 
 #include "OperationNode.hpp"
+#include <iostream>
 
 namespace Opal {
 
 OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& tokens)
     : NodeBase(tokenType, NodeType::OPERATION), tokens(tokens) {}
+
+void OperationNode::print(size_t indent) const {
+    printIndent(indent);
+    std::cout << "Operation(";
+    for (size_t i = 0; i < tokens.size(); ++i) {
+        if (i > 0) std::cout << " ";
+        std::cout << tokens[i].value;
+    }
+    std::cout << ")" << std::endl;
+}
 
 }  // namespace Opal

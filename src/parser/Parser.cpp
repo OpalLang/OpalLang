@@ -44,7 +44,10 @@ Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
         bool handled = false;
         for (const auto& atomizer : atomizers) {
             if (atomizer->canHandle(peek().type)) {
-                atomizer->atomize();
+                auto node = atomizer->atomize();
+                if (node) {
+                    nodes.push_back(std::move(node));
+                }
                 handled = true;
                 break;
             }
@@ -53,6 +56,12 @@ Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
         if (!handled) {
             current++;
         }
+    }
+}
+
+void Parser::printAST() const {
+    for (const auto& node : nodes) {
+        node->print();
     }
 }
 

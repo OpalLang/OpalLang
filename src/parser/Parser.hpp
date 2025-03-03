@@ -32,10 +32,12 @@ namespace Opal {
 class Parser {
 public:
     explicit Parser(std::vector<Token> tokens);
+    void printAST() const;
 
 private:
     std::vector<Token>                         tokens;
     std::vector<std::unique_ptr<AtomizerBase>> atomizers;
+    std::vector<std::unique_ptr<NodeBase>>     nodes;
     size_t                                     current = 0;
 
     bool  isAtEnd() const;

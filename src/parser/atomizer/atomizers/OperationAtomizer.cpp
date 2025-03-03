@@ -63,11 +63,6 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
             throw std::runtime_error("Expected a number or identifier after operator");
         }
     }
-    std::cout << "Operation: ";
-    for (const auto& token : operationTokens) {
-        std::cout << token.value << " ";
-    }
-    std::cout << std::endl;
     return NodeFactory::createOperationNode(operationTokens);
 }
 

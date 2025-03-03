@@ -60,7 +60,11 @@ int main(int argc, char* argv[]) {
             lexer.printTokens();
             std::cout << "----------------------------------------" << std::endl;
 
+            std::cout << "Generating AST:" << std::endl;
+            std::cout << "----------------------------------------" << std::endl;
             Opal::Parser parser(tokens);
+            parser.printAST();
+            std::cout << "----------------------------------------" << std::endl;
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
             return 1;
