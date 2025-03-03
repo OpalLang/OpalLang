@@ -57,7 +57,7 @@ void Lexer::scanToken() {
         return;
     }
 
-    for (const auto& tokenizer : tokenizers) {
+    for (const std::unique_ptr<TokenizerBase>& tokenizer : tokenizers) {
         if (tokenizer->canHandle(c)) {
             tokenizer->tokenize();
             return;
