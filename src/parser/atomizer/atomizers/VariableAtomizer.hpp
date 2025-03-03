@@ -35,6 +35,10 @@ public:
     VariableAtomizer(size_t& current, std::vector<Token>& tokens);
     bool                      canHandle(TokenType type) const override;
     std::unique_ptr<NodeBase> atomize() override;
+
+private:
+    std::unique_ptr<NodeBase> handleAssignment(std::unique_ptr<VariableNode>& variableNode);
+    std::unique_ptr<NodeBase> handleOperation(std::unique_ptr<VariableNode>& variableNode);
 };
 
 }  // namespace Opal
