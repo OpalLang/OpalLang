@@ -20,47 +20,33 @@
  */
 
 #include "VariableNode.hpp"
-
 #include <iostream>
 
 namespace Opal {
 
-VariableNode::VariableNode(TokenType          tokenType,
-                           const std::string& name,
-                           const std::string& value,
-                           bool               isConst,
-                           VariableType       type)
-    : NodeBase(tokenType), name(name), value(value), type(type), isConst(isConst) {}
+VariableNode::VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant, VariableType type)
+    : NodeBase(tokenType), name(name), value(value), type(type), isConstant(isConstant) {}
 
 void VariableNode::print(size_t indent) const {
     std::string typeStr;
     switch (type) {
-        case VariableType::INT:
-            typeStr = "INT";
-            break;
-        case VariableType::STRING:
-            typeStr = "STRING";
-            break;
-        case VariableType::BOOL:
-            typeStr = "BOOL";
-            break;
-        case VariableType::NIL:
-            typeStr = "NIL";
-            break;
-        default:
-            typeStr = "UNKNOWN";
-            break;
+        case VariableType::INT: typeStr = "INT"; break;
+        case VariableType::STRING: typeStr = "STRING"; break;
+        case VariableType::BOOL: typeStr = "BOOL"; break;
+        case VariableType::NIL: typeStr = "NIL"; break;
+        default: typeStr = "UNKNOWN"; break;
     }
     std::cout << std::string(indent, ' ') << "Variable(name=" << name;
-
+    
     if (operation) {
         std::cout << ", operation=";
         operation->print(0);
     } else if (!value.empty()) {
         std::cout << ", value=" << value;
     }
-
-    std::cout << ", type=" << typeStr << ", const=" << (isConst ? "true" : "false") << ")" << std::endl;
+    
+    std::cout << ", type=" << typeStr 
+              << ", const=" << (isConstant ? "true" : "false") << ")" << std::endl;
 }
 
-}  // namespace Opal
+} // namespace Opal

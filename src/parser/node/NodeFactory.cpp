@@ -20,12 +20,11 @@
  */
 
 #include "NodeFactory.hpp"
-
 #include "../atomizer/VariableType.hpp"
 #include "NodeBase.hpp"
-#include "nodes/LoadNode.hpp"
 #include "nodes/OperationNode.hpp"
 #include "nodes/VariableNode.hpp"
+#include "nodes/LoadNode.hpp"
 
 namespace Opal {
 

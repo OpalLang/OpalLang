@@ -56,7 +56,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
             throw std::runtime_error("Expected value after assignment operator");
         }
 
-        bool isConst      = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
+        bool isConst = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
         auto variableNode = NodeFactory::createVariableNode(variableName, "", isConst, VariableType::UNKNOWN);
 
         return std::unique_ptr<NodeBase>(handleAssignment(variableNode).release());
@@ -69,7 +69,18 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
 std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<VariableNode>& variableNode) {
     std::string variableValue;
 
-    if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER) {
+    OperationAtomizer opAtomizer(current, tokens);
+    bool hasOperator = opAtomizer.canHandle(tokens[current + 1].type);
+
+    if (tokens[current].type == TokenType::NUMBER) {
+        if (hasOperator) {
+            return std::unique_ptr<NodeBase>(handleOperation(variableNode).release());
+        } else {
+            variableValue = std::string(tokens[current].value);
+            variableNode->setValue(variableValue);
+            variableNode->setType(VariableType::INT);
+        }
+    } else if (tokens[current].type == TokenType::IDENTIFIER && hasOperator) {
         return std::unique_ptr<NodeBase>(handleOperation(variableNode).release());
     } else if (tokens[current].type == TokenType::STRING) {
         variableValue = std::string(tokens[current].value);
@@ -83,6 +94,10 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
         variableValue = "nil";
         variableNode->setValue(variableValue);
         variableNode->setType(VariableType::NIL);
+    } else if (tokens[current].type == TokenType::IDENTIFIER) {
+        variableValue = std::string(tokens[current].value);
+        variableNode->setValue(variableValue);
+        variableNode->setType(VariableType::UNKNOWN);
     } else {
         throw std::runtime_error("Expected a value or identifier after assignment operator");
     }
@@ -95,8 +110,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleOperation(std::unique_ptr<Vari
     size_t nextIndex = current + 1;
     if (nextIndex < tokens.size()) {
         OperationAtomizer opAtomizer(current, tokens);
-        if (tokens[current].type == TokenType::NUMBER
-            || (nextIndex < tokens.size() && opAtomizer.canHandle(tokens[nextIndex].type))) {
+        if (tokens[current].type == TokenType::NUMBER || (nextIndex < tokens.size() && opAtomizer.canHandle(tokens[nextIndex].type))) {
             auto opNode = std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
             if (opNode) {
                 variableNode->setOperation(std::move(opNode));
