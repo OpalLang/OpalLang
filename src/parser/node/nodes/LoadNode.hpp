@@ -19,22 +19,24 @@
  * needed for experienced developers.
  */
 
-#include "OperationNode.hpp"
-#include <iostream>
+#pragma once
+
+#include "../../../lexer/Token.hpp"
+#include "../NodeBase.hpp"
+#include <string>
 
 namespace Opal {
 
-OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& tokens)
-    : NodeBase(tokenType, NodeType::OPERATION), tokens(tokens) {}
+class LoadNode : public NodeBase {
+private:
+    std::string_view path;
 
-void OperationNode::print(size_t indent) const {
-    printIndent(indent);
-    std::cout << "Operation(";
-    for (size_t i = 0; i < tokens.size(); ++i) {
-        if (i > 0) std::cout << " ";
-        std::cout << "Type: " << static_cast<int>(tokens[i].type) << ", Value: '" << tokens[i].value << "'";
-    }
-    std::cout << ")" << std::endl;
-}
+public:
+    LoadNode(TokenType type, const std::string_view& path);
+    
+    const std::string_view& getPath() const { return path; }
 
-}  // namespace Opal
+    void print(size_t indent = 0) const override;
+};
+
+} // namespace Opal
