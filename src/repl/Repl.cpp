@@ -32,6 +32,7 @@
 namespace Opal {
 
 void Repl::start() {
+    signalManager.setupSignalHandlers();
     runPrompt();
 }
 
@@ -73,9 +74,28 @@ void Repl::run(const std::string& source) {
 
 void Repl::runPrompt() {
     std::string line;
-    while (true) {
+
+    while (!signalManager.shouldExit()) {
         std::cout << "Opal > ";
+
+        if (signalManager.isInterruptRequested()) {
+            signalManager.resetInterruptFlag();
+            continue;
+        }
+
         std::getline(std::cin, line);
+
+        if (std::cin.eof()) {
+            std::cout << "\nExiting REPL" << std::endl;
+            break;
+        }
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cout << "Input error. Please try again." << std::endl;
+            continue;
+        }
+
         run(line);
     }
 }

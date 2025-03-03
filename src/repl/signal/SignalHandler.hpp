@@ -21,26 +21,25 @@
 
 #pragma once
 
-#include "../../lexer/Token.hpp"
+#include <csignal>
+#include <functional>
+#include <unordered_map>
 
 namespace Opal {
 
-enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
-
-class NodeBase {
-protected:
-    NodeType  nodeType;
-    TokenType tokenType;
-
+class SignalHandler {
 public:
-    NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
-    virtual ~NodeBase() = default;
+    using SignalCallback = std::function<void(int)>;
 
-    NodeType  getNodeType() const { return nodeType; }
-    TokenType getTokenType() const { return tokenType; }
+    static void initialize();
+    static void registerHandler(int signalType, SignalCallback callback);
+    static void restoreDefaultHandler(int signalType);
+    static void restoreAllDefaults();
+    static void handleSignal(int signalType);
 
-    virtual void print(size_t indent = 0) const;
-    static void  printIndent(size_t indent);
+private:
+    static std::unordered_map<int, SignalCallback> callbacks;
+    SignalHandler() = delete;
 };
 
 }  // namespace Opal

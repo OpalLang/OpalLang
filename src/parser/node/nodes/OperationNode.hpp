@@ -36,7 +36,7 @@ public:
     OperationNode(TokenType tokenType, const std::vector<Token>& tokens);
 
     const std::vector<Token>& getTokens() const { return tokens; }
-    void print(size_t indent = 0) const override;
+    void                      print(size_t indent = 0) const override;
 };
 
 }  // namespace Opal

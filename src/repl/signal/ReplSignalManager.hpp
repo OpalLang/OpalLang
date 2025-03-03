@@ -21,26 +21,30 @@
 
 #pragma once
 
-#include "../../lexer/Token.hpp"
+#include "SignalHandler.hpp"
+
+#include <atomic>
+#include <csignal>
 
 namespace Opal {
 
-enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
-
-class NodeBase {
-protected:
-    NodeType  nodeType;
-    TokenType tokenType;
-
+class ReplSignalManager {
 public:
-    NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
-    virtual ~NodeBase() = default;
+    ReplSignalManager();
+    ~ReplSignalManager();
 
-    NodeType  getNodeType() const { return nodeType; }
-    TokenType getTokenType() const { return tokenType; }
+    void setupSignalHandlers();
+    bool isInterruptRequested() const;
+    void resetInterruptFlag();
+    bool shouldExit() const;
+    void setExitFlag(bool value);
 
-    virtual void print(size_t indent = 0) const;
-    static void  printIndent(size_t indent);
+    void handleInterrupt(int signal);
+    void handleTerminate(int signal);
+
+private:
+    std::atomic<bool> interruptRequested;
+    std::atomic<bool> exitRequested;
 };
 
 }  // namespace Opal

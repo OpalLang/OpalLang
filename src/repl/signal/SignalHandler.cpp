@@ -19,28 +19,42 @@
  * needed for experienced developers.
  */
 
-#pragma once
+#include "SignalHandler.hpp"
 
-#include "../../lexer/Token.hpp"
+#include <iostream>
 
 namespace Opal {
 
-enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
+std::unordered_map<int, SignalHandler::SignalCallback> SignalHandler::callbacks;
 
-class NodeBase {
-protected:
-    NodeType  nodeType;
-    TokenType tokenType;
+void SignalHandler::initialize() {}
 
-public:
-    NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
-    virtual ~NodeBase() = default;
+void SignalHandler::registerHandler(int signalType, SignalCallback callback) {
+    callbacks[signalType] = callback;
+    std::signal(signalType, handleSignal);
+}
 
-    NodeType  getNodeType() const { return nodeType; }
-    TokenType getTokenType() const { return tokenType; }
+void SignalHandler::restoreDefaultHandler(int signalType) {
+    std::signal(signalType, SIG_DFL);
+    callbacks.erase(signalType);
+}
 
-    virtual void print(size_t indent = 0) const;
-    static void  printIndent(size_t indent);
-};
+void SignalHandler::restoreAllDefaults() {
+    std::vector<int> signalTypes;
+    for (const auto& pair : callbacks) {
+        signalTypes.push_back(pair.first);
+    }
+
+    for (int signalType : signalTypes) {
+        restoreDefaultHandler(signalType);
+    }
+}
+
+void SignalHandler::handleSignal(int signalType) {
+    auto it = callbacks.find(signalType);
+    if (it != callbacks.end()) {
+        it->second(signalType);
+    }
+}
 
 }  // namespace Opal

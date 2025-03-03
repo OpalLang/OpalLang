@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "signal/ReplSignalManager.hpp"
+
 #include <string>
 
 namespace Opal {
@@ -32,6 +34,9 @@ public:
 private:
     void run(const std::string& source);
     void runPrompt();
+
+    // Gestionnaire de signaux pour le REPL
+    ReplSignalManager signalManager;
 };
 
 }  // namespace Opal

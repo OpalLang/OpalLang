@@ -20,6 +20,7 @@
  */
 
 #include "OperationNode.hpp"
+
 #include <iostream>
 
 namespace Opal {
@@ -31,7 +32,8 @@ void OperationNode::print(size_t indent) const {
     printIndent(indent);
     std::cout << "Operation(";
     for (size_t i = 0; i < tokens.size(); ++i) {
-        if (i > 0) std::cout << " ";
+        if (i > 0)
+            std::cout << " ";
         std::cout << "type: " << static_cast<int>(tokens[i].type) << ", value: '" << tokens[i].value << "'";
     }
     std::cout << ")" << std::endl;
