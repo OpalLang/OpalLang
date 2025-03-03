@@ -19,21 +19,22 @@
  * needed for experienced developers.
  */
 
-#include "VariableNode.hpp"
+#include "OperationNode.hpp"
 #include <iostream>
 
 namespace Opal {
 
-VariableNode::VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant, const std::string& type)
-    : NodeBase(tokenType, NodeType::VARIABLE), name(name), value(value), type(type), isConstant(isConstant) {}
+OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& tokens)
+    : NodeBase(tokenType, NodeType::OPERATION), tokens(tokens) {}
 
-void VariableNode::print(size_t indent) const {
+void OperationNode::print(size_t indent) const {
     printIndent(indent);
-    std::cout << "Variable(name=\"" << name << "\", value=\"" << value << "\", type=\"" << type << "\", const="
-              << (isConstant ? "true" : "false") << ")" << std::endl;
-    if (operation) {
-        operation->print(indent + 1);
+    std::cout << "Operation(";
+    for (size_t i = 0; i < tokens.size(); ++i) {
+        if (i > 0) std::cout << " ";
+        std::cout << tokens[i].value;
     }
+    std::cout << ")" << std::endl;
 }
 
 }  // namespace Opal

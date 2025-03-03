@@ -17,27 +17,29 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
 #include "../../lexer/Token.hpp"
+#include "../node/NodeBase.hpp"
 
+#include <memory>
 #include <vector>
 
 namespace Opal {
 
 class AtomizerBase {
 protected:
-    int&                current;
+    size_t&             current;
     std::vector<Token>& tokens;
 
 public:
-    AtomizerBase(int& current, std::vector<Token>& tokens);
+    AtomizerBase(size_t& current, std::vector<Token>& tokens);
     virtual ~AtomizerBase() = default;
 
-    virtual bool canHandle(TokenType) const = 0;
-    virtual void atomize()                  = 0;
+    virtual bool                      canHandle(TokenType) const = 0;
+    virtual std::unique_ptr<NodeBase> atomize()                  = 0;
 
 protected:
     Token peek() const;

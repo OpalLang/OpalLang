@@ -19,21 +19,24 @@
  * needed for experienced developers.
  */
 
-#include "VariableNode.hpp"
-#include <iostream>
+#pragma once
+
+#include "../../../lexer/Token.hpp"
+#include "../NodeBase.hpp"
+
+#include <vector>
 
 namespace Opal {
 
-VariableNode::VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant, const std::string& type)
-    : NodeBase(tokenType, NodeType::VARIABLE), name(name), value(value), type(type), isConstant(isConstant) {}
+class OperationNode : public NodeBase {
+private:
+    std::vector<Token> tokens;
 
-void VariableNode::print(size_t indent) const {
-    printIndent(indent);
-    std::cout << "Variable(name=\"" << name << "\", value=\"" << value << "\", type=\"" << type << "\", const="
-              << (isConstant ? "true" : "false") << ")" << std::endl;
-    if (operation) {
-        operation->print(indent + 1);
-    }
-}
+public:
+    OperationNode(TokenType tokenType, const std::vector<Token>& tokens);
+
+    const std::vector<Token>& getTokens() const { return tokens; }
+    void print(size_t indent = 0) const override;
+};
 
 }  // namespace Opal

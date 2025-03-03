@@ -17,7 +17,7 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
@@ -30,7 +30,7 @@ namespace Opal {
 
 class AtomizerFactory {
 public:
-    static std::vector<std::unique_ptr<AtomizerBase>> createAtomizers(int& current, std::vector<Token>& tokens);
+    static std::vector<std::unique_ptr<AtomizerBase>> createAtomizers(size_t& current, std::vector<Token>& tokens);
 };
 
 }  // namespace Opal

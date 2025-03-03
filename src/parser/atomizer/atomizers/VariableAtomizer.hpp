@@ -17,13 +17,14 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
-#include "../AtomizerBase.hpp"
 #include "../../../parser/node/NodeFactory.hpp"
 #include "../../../parser/node/nodes/VariableNode.hpp"
+#include "../AtomizerBase.hpp"
+
 #include <memory>
 #include <vector>
 
@@ -31,9 +32,13 @@ namespace Opal {
 
 class VariableAtomizer : public AtomizerBase {
 public:
-    VariableAtomizer(int& current, std::vector<Token>& tokens);
-    bool canHandle(TokenType type) const override;
-    void atomize() override;
+    VariableAtomizer(size_t& current, std::vector<Token>& tokens);
+    bool                      canHandle(TokenType type) const override;
+    std::unique_ptr<NodeBase> atomize() override;
+
+private:
+    std::unique_ptr<NodeBase> handleAssignment(std::unique_ptr<VariableNode>& variableNode);
+    std::unique_ptr<NodeBase> handleOperation(std::unique_ptr<VariableNode>& variableNode);
 };
 
 }  // namespace Opal

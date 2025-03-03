@@ -17,7 +17,7 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #include "AtomizerBase.hpp"
 
@@ -27,7 +27,7 @@
 
 namespace Opal {
 
-AtomizerBase::AtomizerBase(int& current, std::vector<Token>& tokens) : current(current), tokens(tokens) {}
+AtomizerBase::AtomizerBase(size_t& current, std::vector<Token>& tokens) : current(current), tokens(tokens) {}
 
 Token AtomizerBase::peek() const {
     return tokens[current];

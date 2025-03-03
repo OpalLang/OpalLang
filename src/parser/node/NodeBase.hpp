@@ -17,7 +17,7 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
@@ -25,13 +25,22 @@
 
 namespace Opal {
 
+enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
+
 class NodeBase {
 protected:
-    TokenType type;
+    NodeType  nodeType;
+    TokenType tokenType;
 
 public:
-    NodeBase(TokenType type);
+    NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
     virtual ~NodeBase() = default;
+
+    NodeType  getNodeType() const { return nodeType; }
+    TokenType getTokenType() const { return tokenType; }
+    
+    virtual void print(size_t indent = 0) const;
+    static void printIndent(size_t indent);
 };
 
 }  // namespace Opal

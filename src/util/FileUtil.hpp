@@ -17,7 +17,7 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
@@ -30,6 +30,7 @@ public:
     static std::string readFile(const std::string& filepath);
     static void        writeFile(const std::string& filepath, const std::string& content);
     static bool        fileExists(const std::string& filepath);
+    static bool        hasGoodExtension(const std::string& filepath);
 
 private:
     FileUtil()                           = delete;

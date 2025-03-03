@@ -17,42 +17,53 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #include "OperationAtomizer.hpp"
 
+#include "../../node/NodeFactory.hpp"
+
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 
 namespace Opal {
 
-OperationAtomizer::OperationAtomizer(int& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
+OperationAtomizer::OperationAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
 bool OperationAtomizer::canHandle(TokenType type) const {
     return type == TokenType::PLUS || type == TokenType::MINUS || type == TokenType::MULTIPLY
            || type == TokenType::DIVIDE || type == TokenType::MODULO;
 }
 
-void OperationAtomizer::atomize() {
-    std::string expr = std::string(tokens[current].value);
+bool isnumber(TokenType type) {
+    return type == TokenType::NUMBER;
+}
+
+std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
+    std::vector<Token> operationTokens;
+
+    operationTokens.push_back(tokens[current]);
     advance();
 
-    while (current >= 0 && static_cast<size_t>(current) < tokens.size()) {
-        if (!canHandle(tokens[current].type) || tokens[current].type == TokenType::EOF_TOKEN) {
+    while (current < tokens.size()) {
+        if (!canHandle(tokens[current].type)) {
             break;
         }
-        auto op = tokens[current];
+
+        operationTokens.push_back(tokens[current]);
         advance();
-        if (current >= 0 && static_cast<size_t>(current) < tokens.size()
+
+        if (current < tokens.size()
             && (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER)) {
-            expr += " " + std::string(op.value) + " " + std::string(tokens[current].value);
+            operationTokens.push_back(tokens[current]);
             advance();
         } else {
             throw std::runtime_error("Expected a number or identifier after operator");
         }
     }
-    std::cout << expr << std::endl;
+    return NodeFactory::createOperationNode(operationTokens);
 }
 
 }  // namespace Opal

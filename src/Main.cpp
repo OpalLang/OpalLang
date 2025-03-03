@@ -17,7 +17,7 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #include "lexer/Lexer.hpp"
 #include "parser/Parser.hpp"
@@ -45,6 +45,11 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        if (!Opal::FileUtil::hasGoodExtension(argv[1])) {
+            std::cerr << "File has an invalid extension: " << argv[1] << std::endl;
+            return 1;
+        }
+
         try {
             std::string sourceCode = Opal::FileUtil::readFile(argv[1]);
             Opal::Lexer lexer(sourceCode);
@@ -55,7 +60,11 @@ int main(int argc, char* argv[]) {
             lexer.printTokens();
             std::cout << "----------------------------------------" << std::endl;
 
+            std::cout << "Generating AST:" << std::endl;
+            std::cout << "----------------------------------------" << std::endl;
             Opal::Parser parser(tokens);
+            parser.printAST();
+            std::cout << "----------------------------------------" << std::endl;
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
             return 1;

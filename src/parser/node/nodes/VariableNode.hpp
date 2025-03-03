@@ -17,28 +17,40 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
 #include "../../../lexer/Token.hpp"
 #include "../NodeBase.hpp"
+#include "OperationNode.hpp"
+
+#include <memory>
 #include <string>
 
 namespace Opal {
 
 class VariableNode : public NodeBase {
 private:
-    std::string name;
-    std::string value;
-    bool isConstant;
+    std::string                    name;
+    std::string                    value;
+    std::string                    type;  // Added type field
+    bool                           isConstant;
+    std::unique_ptr<OperationNode> operation;
 
 public:
-    VariableNode(TokenType type, const std::string& name, const std::string& value, bool isConstant = false);
-    
+    VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant = false, const std::string& type = "");
+
+    void               setOperation(std::unique_ptr<OperationNode> op) { operation = std::move(op); }
+    void               setValue(const std::string& newValue) { value = newValue; }
+    void               setType(const std::string& newType) { type = newType; }
+    OperationNode*     getOperation() const { return operation.get(); }
     const std::string& getName() const { return name; }
     const std::string& getValue() const { return value; }
-    bool getIsConst() const { return isConstant; }
+    const std::string& getType() const { return type; }
+    bool               getIsConstant() const { return isConstant; }
+    
+    void print(size_t indent = 0) const override;
 };
 
 }  // namespace Opal

@@ -17,21 +17,23 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
+#include "../../node/NodeFactory.hpp"
 #include "../AtomizerBase.hpp"
 
+#include <memory>
 #include <vector>
 
 namespace Opal {
 
 class LoadAtomizer : public AtomizerBase {
 public:
-    LoadAtomizer(int& current, std::vector<Token>& tokens);
-    bool canHandle(TokenType type) const override;
-    void atomize() override;
+    LoadAtomizer(size_t& current, std::vector<Token>& tokens);
+    bool                      canHandle(TokenType type) const override;
+    std::unique_ptr<NodeBase> atomize() override;
 };
 
 }  // namespace Opal

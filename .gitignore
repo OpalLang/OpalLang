@@ -77,3 +77,5 @@ benchmark_results
 
 #Fuzzing results
 fuzzing_results
+
+test.op

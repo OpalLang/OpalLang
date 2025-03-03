@@ -17,21 +17,21 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #include "VariableAtomizer.hpp"
 
-#include "OperationAtomizer.hpp"
 #include "../../../parser/node/NodeFactory.hpp"
+#include "OperationAtomizer.hpp"
 
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <vector>
-#include <memory>
 
 namespace Opal {
 
-VariableAtomizer::VariableAtomizer(int& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
+VariableAtomizer::VariableAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
 bool VariableAtomizer::canHandle(TokenType type) const {
     if (type != TokenType::IDENTIFIER)
@@ -44,43 +44,72 @@ bool VariableAtomizer::canHandle(TokenType type) const {
     return true;
 }
 
-void VariableAtomizer::atomize() {
+std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
     std::string variableName = std::string(tokens[current].value);
     advance();
 
-    if (current >= 0 && static_cast<size_t>(current) < tokens.size() && tokens[current].type == TokenType::EQUAL) {
+    if (current < tokens.size() && tokens[current].type == TokenType::EQUAL) {
         advance();
 
-        if (current < 0 || static_cast<size_t>(current) >= tokens.size()) {
+        if (current >= tokens.size()) {
             throw std::runtime_error("Expected value after assignment operator");
         }
 
-        std::string variableValue;
-        bool isConst = false;
+        bool isConst = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
+        auto variableNode = NodeFactory::createVariableNode(variableName, "", isConst);
 
-        if (current >= 3 && tokens[current-3].type == TokenType::CONST) {
-            isConst = true;
-        }
-
-        if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::STRING
-            || tokens[current].type == TokenType::TRUE || tokens[current].type == TokenType::FALSE
-            || tokens[current].type == TokenType::NIL || tokens[current].type == TokenType::IDENTIFIER) {
-
-            variableValue = std::string(tokens[current].value);
-
-            auto variableNode = NodeFactory::createVariableNode(variableName, variableValue, isConst);
-            std::cout << "Created " << (isConst ? "const " : "") << "variable: " 
-                      << variableNode->getName() << " = " << variableNode->getValue() << std::endl;
-
-            int currentPos = current;
-            advance();
-        } else {
-            throw std::runtime_error("Expected a value or identifier after assignment operator");
-        }
+        return std::unique_ptr<NodeBase>(handleAssignment(variableNode).release());
     } else {
         auto variableNode = NodeFactory::createVariableNode(variableName, "", false);
-        std::cout << "Variable reference: " << variableNode->getName() << std::endl;
+        variableNode->setType("unknown");
+        return std::unique_ptr<NodeBase>(variableNode.release());
     }
+}
+
+std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<VariableNode>& variableNode) {
+    std::string variableValue;
+
+    if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER) {
+        return std::unique_ptr<NodeBase>(handleOperation(variableNode).release());
+    } else if (tokens[current].type == TokenType::STRING) {
+        variableValue = std::string(tokens[current].value);
+        variableNode->setValue(variableValue);
+        variableNode->setType("string");
+    } else if (tokens[current].type == TokenType::TRUE || tokens[current].type == TokenType::FALSE) {
+        variableValue = std::string(tokens[current].value);
+        variableNode->setValue(variableValue);
+        variableNode->setType("bool");
+    } else if (tokens[current].type == TokenType::NIL) {
+        variableValue = "nil";
+        variableNode->setValue(variableValue);
+        variableNode->setType("nil");
+    } else {
+        throw std::runtime_error("Expected a value or identifier after assignment operator");
+    }
+
+    advance();
+    return std::unique_ptr<NodeBase>(variableNode.release());
+}
+
+std::unique_ptr<NodeBase> VariableAtomizer::handleOperation(std::unique_ptr<VariableNode>& variableNode) {
+    size_t nextIndex = current + 1;
+    if (nextIndex < tokens.size()) {
+        OperationAtomizer opAtomizer(current, tokens);
+        if (tokens[current].type == TokenType::NUMBER || (nextIndex < tokens.size() && opAtomizer.canHandle(tokens[nextIndex].type))) {
+            auto opNode = std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
+            if (opNode) {
+                variableNode->setOperation(std::move(opNode));
+                variableNode->setType("int");
+                return std::unique_ptr<NodeBase>(variableNode.release());
+            }
+        }
+    }
+
+    std::string variableValue = std::string(tokens[current].value);
+    variableNode->setValue(variableValue);
+    variableNode->setType(tokens[current].type == TokenType::NUMBER ? "int" : "unknown");
+    advance();
+    return std::unique_ptr<NodeBase>(variableNode.release());
 }
 
 }  // namespace Opal
