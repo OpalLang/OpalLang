@@ -33,24 +33,28 @@ namespace opal {
 
 class VariableNode : public NodeBase {
 private:
-    std::string name;
-    std::string value;
-    VariableType type;
-    bool isConstant;
+    std::string                    name;
+    std::string                    value;
+    VariableType                   type;
+    bool                           isConst;
     std::unique_ptr<OperationNode> operation;
 
 public:
-    VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant = false, VariableType type = VariableType::UNKNOWN);
+    VariableNode(TokenType          tokenType,
+                 const std::string& name,
+                 const std::string& value,
+                 bool               isConst = false,
+                 VariableType       type    = VariableType::UNKNOWN);
 
-    void setOperation(std::unique_ptr<OperationNode> op) { operation = std::move(op); }
-    void setValue(const std::string& newValue) { value = newValue; }
-    void setType(VariableType newType) { type = newType; }
-    OperationNode* getOperation() const { return operation.get(); }
+    void               setOperation(std::unique_ptr<OperationNode> op) { operation = std::move(op); }
+    void               setValue(const std::string& newValue) { value = newValue; }
+    void               setType(VariableType newType) { type = newType; }
+    OperationNode*     getOperation() const { return operation.get(); }
     const std::string& getName() const { return name; }
     const std::string& getValue() const { return value; }
-    VariableType getType() const { return type; }
-    bool getIsConstant() const { return isConstant; }
-    
+    VariableType       getType() const { return type; }
+    bool               getIsConst() const { return isConst; }
+
     void print(size_t indent = 0) const override;
 };
 
