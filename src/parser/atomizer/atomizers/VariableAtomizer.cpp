@@ -31,7 +31,7 @@
 
 namespace Opal {
 
-VariableAtomizer::VariableAtomizer(int& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
+VariableAtomizer::VariableAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
 bool VariableAtomizer::canHandle(TokenType type) const {
     if (type != TokenType::IDENTIFIER)
@@ -48,10 +48,10 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
     std::string variableName = std::string(tokens[current].value);
     advance();
 
-    if (current >= 0 && static_cast<size_t>(current) < tokens.size() && tokens[current].type == TokenType::EQUAL) {
+    if (current < tokens.size() && tokens[current].type == TokenType::EQUAL) {
         advance();
 
-        if (current < 0 || static_cast<size_t>(current) >= tokens.size()) {
+        if (current >= tokens.size()) {
             throw std::runtime_error("Expected value after assignment operator");
         }
 

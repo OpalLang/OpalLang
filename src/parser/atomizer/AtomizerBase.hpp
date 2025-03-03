@@ -31,11 +31,11 @@ namespace Opal {
 
 class AtomizerBase {
 protected:
-    int&                current;
+    size_t&             current;
     std::vector<Token>& tokens;
 
 public:
-    AtomizerBase(int& current, std::vector<Token>& tokens);
+    AtomizerBase(size_t& current, std::vector<Token>& tokens);
     virtual ~AtomizerBase() = default;
 
     virtual bool                      canHandle(TokenType) const = 0;

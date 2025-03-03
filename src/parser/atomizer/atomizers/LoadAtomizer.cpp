@@ -30,7 +30,7 @@
 
 namespace Opal {
 
-LoadAtomizer::LoadAtomizer(int& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
+LoadAtomizer::LoadAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
 bool LoadAtomizer::canHandle(TokenType type) const {
     return type == TokenType::LOAD;

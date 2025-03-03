@@ -30,7 +30,7 @@
 
 namespace Opal {
 
-OperationAtomizer::OperationAtomizer(int& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
+OperationAtomizer::OperationAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
 bool OperationAtomizer::canHandle(TokenType type) const {
     return type == TokenType::PLUS || type == TokenType::MINUS || type == TokenType::MULTIPLY
@@ -47,7 +47,7 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
     operationTokens.push_back(tokens[current]);
     advance();
 
-    while (current >= 0 && static_cast<size_t>(current) < tokens.size()) {
+    while (current < tokens.size()) {
         if (!canHandle(tokens[current].type)) {
             break;
         }
@@ -55,7 +55,7 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
         operationTokens.push_back(tokens[current]);
         advance();
 
-        if (current >= 0 && static_cast<size_t>(current) < tokens.size()
+        if (current < tokens.size()
             && (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER)) {
             operationTokens.push_back(tokens[current]);
             advance();

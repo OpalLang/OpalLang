@@ -31,7 +31,7 @@ namespace Opal {
 
 class OperationAtomizer : public AtomizerBase {
 public:
-    OperationAtomizer(int& current, std::vector<Token>& tokens);
+    OperationAtomizer(size_t& current, std::vector<Token>& tokens);
     bool                      canHandle(TokenType type) const override;
     std::unique_ptr<NodeBase> atomize() override;
 };

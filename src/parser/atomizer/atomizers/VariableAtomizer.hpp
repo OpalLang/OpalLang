@@ -32,9 +32,9 @@ namespace Opal {
 
 class VariableAtomizer : public AtomizerBase {
 public:
-    VariableAtomizer(int& current, std::vector<Token>& tokens);
-    bool                              canHandle(TokenType type) const override;
-    virtual std::unique_ptr<NodeBase> atomize() override;
+    VariableAtomizer(size_t& current, std::vector<Token>& tokens);
+    bool                      canHandle(TokenType type) const override;
+    std::unique_ptr<NodeBase> atomize() override;
 };
 
 }  // namespace Opal

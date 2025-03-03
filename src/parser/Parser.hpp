@@ -36,8 +36,7 @@ public:
 private:
     std::vector<Token>                         tokens;
     std::vector<std::unique_ptr<AtomizerBase>> atomizers;
-
-    int current = 0;
+    size_t                                     current = 0;
 
     bool  isAtEnd() const;
     Token peek() const;
