@@ -21,7 +21,7 @@
 
 #include "LoadAtomizer.hpp"
 
-#include "../../node/NodeFactory.hpp"
+#include "../../../parser/node/NodeFactory.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -40,11 +40,11 @@ std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
     if (peekNext().type != TokenType::STRING) {
         throw std::runtime_error("Expected a value after load definition");
     }
-    std::string path{peekNext().value};
-    std::cout << "Load path: " << path << std::endl;
+    std::string_view path = peekNext().value;
     advance();
-    // TODO: Create and return an appropriate node type for LOAD operations
-    return nullptr;
+    advance();
+
+    return std::unique_ptr<NodeBase>(NodeFactory::createLoadNode(path).release());
 }
 
 }  // namespace Opal
