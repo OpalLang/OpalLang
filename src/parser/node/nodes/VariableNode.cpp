@@ -28,7 +28,7 @@ namespace Opal {
 VariableNode::VariableNode(TokenType          tokenType,
                            const std::string& name,
                            const std::string& value,
-                           bool               isConstant,
+                           bool               isConst,
                            VariableType       type)
     : NodeBase(tokenType), name(name), value(value), type(type), isConst(isConst) {}
 
