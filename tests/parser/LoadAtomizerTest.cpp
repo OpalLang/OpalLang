@@ -3,7 +3,7 @@
 #include "../../src/parser/atomizer/atomizers/LoadAtomizer.hpp"
 #include "../../src/parser/node/nodes/LoadNode.hpp"
 
-namespace Opal::Test {
+namespace opal::Test {
 
 class LoadAtomizerTest : public ::testing::Test {
 protected:

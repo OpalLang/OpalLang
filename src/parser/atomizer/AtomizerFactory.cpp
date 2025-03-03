@@ -28,7 +28,7 @@
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 std::vector<std::unique_ptr<AtomizerBase>> AtomizerFactory::createAtomizers(size_t&             current,
                                                                             std::vector<Token>& tokens) {
@@ -40,4 +40,4 @@ std::vector<std::unique_ptr<AtomizerBase>> AtomizerFactory::createAtomizers(size
     return atomizers;
 }
 
-}  // namespace Opal
+}  // namespace opal

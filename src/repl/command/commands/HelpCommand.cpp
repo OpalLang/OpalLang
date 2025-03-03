@@ -24,7 +24,7 @@
 #include <iomanip>
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 const std::unordered_map<std::string, std::string> HelpCommand::commandDescriptions = {
     {"help", "Display available commands"},
@@ -45,4 +45,4 @@ void HelpCommand::execute() {
     std::cout << std::endl;
 }
 
-}  // namespace Opal
+}  // namespace opal

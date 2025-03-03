@@ -26,11 +26,11 @@
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class AtomizerFactory {
 public:
     static std::vector<std::unique_ptr<AtomizerBase>> createAtomizers(size_t& current, std::vector<Token>& tokens);
 };
 
-}  // namespace Opal
+}  // namespace opal

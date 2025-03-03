@@ -27,7 +27,7 @@
 #include <string_view>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class TokenizerBase {
 protected:
@@ -62,4 +62,4 @@ protected:
     bool isAlphaNumeric(char c) const;
 };
 
-}  // namespace Opal
+}  // namespace opal

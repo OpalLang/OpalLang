@@ -21,7 +21,7 @@
 
 #include "Error.hpp"
 
-namespace Opal {
+namespace opal {
 
 bool                          Error::errorOccurred = false;
 std::vector<Error::ErrorInfo> Error::errors;
@@ -51,4 +51,4 @@ void Error::report(int line, int column, const std::string& where, const std::st
     std::cerr << message << std::endl;
 }
 
-}  // namespace Opal
+}  // namespace opal

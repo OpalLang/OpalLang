@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& tokens)
     : NodeBase(tokenType, NodeType::OPERATION), tokens(tokens) {}
@@ -39,4 +39,4 @@ void OperationNode::print(size_t indent) const {
     std::cout << ")" << std::endl;
 }
 
-}  // namespace Opal
+}  // namespace opal

@@ -27,7 +27,7 @@
 
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 Token Parser::peek() const {
     return tokens[current];
@@ -65,4 +65,4 @@ void Parser::printAST() const {
     }
 }
 
-}  // namespace Opal
+}  // namespace opal

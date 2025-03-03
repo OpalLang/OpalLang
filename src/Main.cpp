@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Opal Language" << std::endl;
 
     if (argc < 2) {
-        Opal::Repl repl;
+        opal::Repl repl;
 
         try {
             repl.start();
@@ -40,19 +40,19 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     } else {
-        if (!Opal::FileUtil::fileExists(argv[1])) {
+        if (!opal::FileUtil::fileExists(argv[1])) {
             std::cerr << "File does not exist: " << argv[1] << std::endl;
             return 1;
         }
 
-        if (!Opal::FileUtil::hasGoodExtension(argv[1])) {
+        if (!opal::FileUtil::hasGoodExtension(argv[1])) {
             std::cerr << "File has an invalid extension: " << argv[1] << std::endl;
             return 1;
         }
 
         try {
-            std::string sourceCode = Opal::FileUtil::readFile(argv[1]);
-            Opal::Lexer lexer(sourceCode);
+            std::string sourceCode = opal::FileUtil::readFile(argv[1]);
+            opal::Lexer lexer(sourceCode);
             auto        tokens = lexer.scanTokens();
 
             std::cout << "Tokenizing file: " << argv[1] << std::endl;
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
 
             std::cout << "Generating AST:" << std::endl;
             std::cout << "----------------------------------------" << std::endl;
-            Opal::Parser parser(tokens);
+            opal::Parser parser(tokens);
             parser.printAST();
             std::cout << "----------------------------------------" << std::endl;
         } catch (const std::exception& e) {
@@ -73,3 +73,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+

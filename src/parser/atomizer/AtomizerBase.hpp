@@ -27,7 +27,7 @@
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class AtomizerBase {
 protected:
@@ -47,4 +47,4 @@ protected:
     Token advance();
 };
 
-}  // namespace Opal
+}  // namespace opal

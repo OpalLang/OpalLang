@@ -29,7 +29,7 @@
 #include <string_view>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class Lexer {
 public:
@@ -50,4 +50,4 @@ private:
     bool isAtEnd() const;
 };
 
-}  // namespace Opal
+}  // namespace opal

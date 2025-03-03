@@ -27,7 +27,7 @@
 #include "tokenizers/OperatorTokenizer.hpp"
 #include "tokenizers/StringTokenizer.hpp"
 
-namespace Opal {
+namespace opal {
 
 std::vector<std::unique_ptr<TokenizerBase>> TokenizerFactory::createTokenizers(const std::string&  source,
                                                                                int&                current,
@@ -46,4 +46,4 @@ std::vector<std::unique_ptr<TokenizerBase>> TokenizerFactory::createTokenizers(c
     return tokenizers;
 }
 
-}  // namespace Opal
+}  // namespace opal

@@ -25,7 +25,7 @@
 
 #include <string_view>
 
-namespace Opal {
+namespace opal {
 
 class Token {
 public:
@@ -38,4 +38,4 @@ public:
         : type(type), value(value), line(line), column(column) {}
 };
 
-}  // namespace Opal
+}  // namespace opal

@@ -29,7 +29,7 @@
 #include <sstream>
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 void Repl::start() {
     signalManager.setupSignalHandlers();
@@ -67,7 +67,7 @@ void Repl::run(const std::string& source) {
     std::cout << "----------------------------------------" << std::endl;
     lexer.printTokens();
     std::cout << "----------------------------------------" << std::endl;
-    Opal::Parser parser(tokens);
+    Parser parser(tokens);
     parser.printAST();
     std::cout << "----------------------------------------" << std::endl;
 }
@@ -100,4 +100,4 @@ void Repl::runPrompt() {
     }
 }
 
-}  // namespace Opal
+}  // namespace opal

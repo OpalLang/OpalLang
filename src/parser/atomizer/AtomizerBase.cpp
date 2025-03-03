@@ -25,7 +25,7 @@
 
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 AtomizerBase::AtomizerBase(size_t& current, std::vector<Token>& tokens) : current(current), tokens(tokens) {}
 
@@ -41,4 +41,4 @@ Token AtomizerBase::advance() {
     return tokens[++current];
 }
 
-}  // namespace Opal
+}  // namespace opal

@@ -26,7 +26,7 @@
 
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 class LoadNode : public NodeBase {
 private:
@@ -40,4 +40,4 @@ public:
     void print(size_t indent = 0) const override;
 };
 
-}  // namespace Opal
+}  // namespace opal

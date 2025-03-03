@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class CommandBase {
 protected:
@@ -41,4 +41,4 @@ public:
     void setArguments(const std::vector<std::string>& arguments) { args = arguments; }
 };
 
-}  // namespace Opal
+}  // namespace opal

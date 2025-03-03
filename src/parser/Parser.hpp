@@ -27,7 +27,7 @@
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class Parser {
 public:
@@ -44,4 +44,4 @@ private:
     Token peek() const;
 };
 
-}  // namespace Opal
+}  // namespace opal

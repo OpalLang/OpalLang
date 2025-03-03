@@ -32,7 +32,7 @@
 #include <string>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class NodeFactory {
 public:
@@ -49,4 +49,4 @@ public:
     static std::unique_ptr<LoadNode> createLoadNode(const std::string_view& path);
 };
 
-}  // namespace Opal
+}  // namespace opal

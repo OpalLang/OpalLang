@@ -27,7 +27,7 @@
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class OperationAtomizer : public AtomizerBase {
 public:
@@ -36,4 +36,4 @@ public:
     std::unique_ptr<NodeBase> atomize() override;
 };
 
-}  // namespace Opal
+}  // namespace opal

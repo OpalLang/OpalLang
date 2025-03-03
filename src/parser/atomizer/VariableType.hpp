@@ -1,7 +1,7 @@
 #pragma once
 
-namespace Opal {
+namespace opal {
 
 enum class VariableType { UNKNOWN, INT, STRING, BOOL, NIL };
 
-}  // namespace Opal
+}  // namespace opal

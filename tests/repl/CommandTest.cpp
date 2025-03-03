@@ -30,7 +30,7 @@
 
 #include <sstream>
 
-using namespace Opal;
+using namespace opal;
 using namespace testing;
 
 class CommandTest : public ::testing::Test {

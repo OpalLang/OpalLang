@@ -5,7 +5,7 @@
 #include "../../src/parser/node/nodes/VariableNode.hpp"
 #include "../../src/parser/node/nodes/OperationNode.hpp"
 
-namespace Opal::Test {
+namespace opal::Test {
 
 class AtomizerTest : public ::testing::Test {
 protected:

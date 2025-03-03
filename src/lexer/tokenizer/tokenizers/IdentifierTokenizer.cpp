@@ -21,7 +21,7 @@
 
 #include "IdentifierTokenizer.hpp"
 
-namespace Opal {
+namespace opal {
 
 const std::unordered_map<std::string_view, TokenType> IdentifierTokenizer::keywords = {
     {"class", TokenType::CLASS},     {"fn", TokenType::FN},           {"if", TokenType::IF},
@@ -50,4 +50,4 @@ void IdentifierTokenizer::tokenize() {
     addToken(type, text);
 }
 
-}  // namespace Opal
+}  // namespace opal

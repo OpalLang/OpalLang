@@ -25,7 +25,7 @@
 
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 class Repl {
 public:
@@ -35,8 +35,7 @@ private:
     void run(const std::string& source);
     void runPrompt();
 
-    // Gestionnaire de signaux pour le REPL
     ReplSignalManager signalManager;
 };
 
-}  // namespace Opal
+}  // namespace opal

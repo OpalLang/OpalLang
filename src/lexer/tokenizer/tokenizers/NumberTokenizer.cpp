@@ -21,7 +21,7 @@
 
 #include "NumberTokenizer.hpp"
 
-namespace Opal {
+namespace opal {
 
 bool NumberTokenizer::canHandle(char c) const {
     return isDigit(c);
@@ -41,4 +41,4 @@ void NumberTokenizer::tokenize() {
     addToken(TokenType::NUMBER);
 }
 
-}  // namespace Opal
+}  // namespace opal

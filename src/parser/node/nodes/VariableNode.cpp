@@ -22,7 +22,7 @@
 #include "VariableNode.hpp"
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 VariableNode::VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant, VariableType type)
     : NodeBase(tokenType), name(name), value(value), type(type), isConstant(isConstant) {}
@@ -49,4 +49,4 @@ void VariableNode::print(size_t indent) const {
               << ", const=" << (isConstant ? "true" : "false") << ")" << std::endl;
 }
 
-} // namespace Opal
+} // namespace opal

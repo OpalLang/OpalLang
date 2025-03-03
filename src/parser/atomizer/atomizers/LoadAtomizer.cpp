@@ -28,7 +28,7 @@
 #include <string>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 LoadAtomizer::LoadAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
@@ -47,4 +47,4 @@ std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
     return std::unique_ptr<NodeBase>(NodeFactory::createLoadNode(path).release());
 }
 
-}  // namespace Opal
+}  // namespace opal

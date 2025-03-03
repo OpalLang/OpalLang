@@ -23,7 +23,7 @@
 
 #include "../../../error/Error.hpp"
 
-namespace Opal {
+namespace opal {
 
 bool StringTokenizer::canHandle(char c) const {
     return c == '"';
@@ -50,4 +50,4 @@ void StringTokenizer::tokenize() {
     addToken(TokenType::STRING, std::string_view(source.data() + start + 1, current - start - 2));
 }
 
-}  // namespace Opal
+}  // namespace opal

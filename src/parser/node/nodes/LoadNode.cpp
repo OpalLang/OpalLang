@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type), path(path) {}
 
@@ -32,4 +32,4 @@ void LoadNode::print(size_t indent) const {
     std::cout << "Load(path=\"" << path << "\")" << std::endl;
 }
 
-}  // namespace Opal
+}  // namespace opal

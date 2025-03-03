@@ -21,7 +21,7 @@
 
 #include "TokenizerBase.hpp"
 
-namespace Opal {
+namespace opal {
 
 TokenizerBase::TokenizerBase(const std::string&  source,
                              int&                current,
@@ -72,4 +72,4 @@ bool TokenizerBase::isAlphaNumeric(char c) const {
     return isAlpha(c) || isDigit(c);
 }
 
-}  // namespace Opal
+}  // namespace opal

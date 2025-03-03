@@ -23,7 +23,7 @@
 
 #include "../CommandBase.hpp"
 
-namespace Opal {
+namespace opal {
 
 class ClearCommand : public CommandBase {
 public:
@@ -34,4 +34,4 @@ public:
     void execute() override;
 };
 
-}  // namespace Opal
+}  // namespace opal

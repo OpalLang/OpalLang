@@ -23,7 +23,7 @@
 
 #include "../../lexer/Token.hpp"
 
-namespace Opal {
+namespace opal {
 
 enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
 
@@ -43,4 +43,4 @@ public:
     static void  printIndent(size_t indent);
 };
 
-}  // namespace Opal
+}  // namespace opal

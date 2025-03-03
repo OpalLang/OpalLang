@@ -27,7 +27,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace Opal;
+using namespace opal;
 using namespace testing;
 
 class LexerEdgeCasesTest : public ::testing::Test {

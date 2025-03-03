@@ -21,7 +21,7 @@
 
 #pragma once
 
-namespace Opal {
+namespace opal {
 
 enum class TokenType {
     // Keywords
@@ -118,4 +118,4 @@ enum class TokenType {
     ERROR
 };
 
-}
+} // namespace opal

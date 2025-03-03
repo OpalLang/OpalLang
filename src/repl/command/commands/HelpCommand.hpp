@@ -26,7 +26,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace Opal {
+namespace opal {
 
 class HelpCommand : public CommandBase {
 private:
@@ -43,4 +43,4 @@ public:
     void execute() override;
 };
 
-}  // namespace Opal
+}  // namespace opal

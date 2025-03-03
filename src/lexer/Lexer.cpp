@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 Lexer::Lexer(std::string source) : source(std::move(source)) {
     tokenizers = TokenizerFactory::createTokenizers(this->source, current, line, column, start, tokens);
@@ -80,4 +80,4 @@ void Lexer::printTokens() const {
     }
 }
 
-}  // namespace Opal
+}  // namespace opal

@@ -23,7 +23,7 @@
 
 #include "../../../error/Error.hpp"
 
-namespace Opal {
+namespace opal {
 
 bool CommentTokenizer::canHandle(char c) const {
     if (c != '/')
@@ -79,4 +79,4 @@ void CommentTokenizer::handleMultiLineComment() {
     addToken(TokenType::COMMENT);
 }
 
-}  // namespace Opal
+}  // namespace opal

@@ -28,7 +28,7 @@
 #include <stdexcept>
 #include <string>
 
-using namespace Opal;
+using namespace opal;
 using namespace testing;
 
 class FileUtilTest : public ::testing::Test {

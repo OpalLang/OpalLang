@@ -26,7 +26,7 @@
 #include "nodes/VariableNode.hpp"
 #include "nodes/LoadNode.hpp"
 
-namespace Opal {
+namespace opal {
 
 std::unique_ptr<NodeBase> NodeFactory::createNode(TokenType tokenType) {
     return std::make_unique<NodeBase>(tokenType);
@@ -41,4 +41,4 @@ std::unique_ptr<LoadNode> NodeFactory::createLoadNode(const std::string_view& pa
     return std::make_unique<LoadNode>(TokenType::LOAD, path);
 }
 
-}  // namespace Opal
+}  // namespace opal

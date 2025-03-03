@@ -26,7 +26,7 @@
 #include <atomic>
 #include <csignal>
 
-namespace Opal {
+namespace opal {
 
 class ReplSignalManager {
 public:
@@ -47,4 +47,4 @@ private:
     std::atomic<bool> exitRequested;
 };
 
-}  // namespace Opal
+}  // namespace opal

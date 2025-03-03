@@ -26,7 +26,7 @@
 #include <iostream>
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 std::string nodeTypeToString(NodeType type) {
     switch (type) {
@@ -86,4 +86,4 @@ void NodeBase::print(size_t indent) const {
               << std::endl;
 }
 
-}  // namespace Opal
+}  // namespace opal

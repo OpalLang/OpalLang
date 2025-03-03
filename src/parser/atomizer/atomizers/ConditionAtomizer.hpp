@@ -21,22 +21,19 @@
 
 #pragma once
 
-#include "../TokenizerBase.hpp"
+#include "../../node/NodeFactory.hpp"
+#include "../AtomizerBase.hpp"
 
-#include <string_view>
-#include <unordered_map>
+#include <memory>
+#include <vector>
 
 namespace opal {
 
-class IdentifierTokenizer : public TokenizerBase {
+class ConditionAtomizer : public AtomizerBase {
 public:
-    using TokenizerBase::TokenizerBase;
-
-    bool canHandle(char c) const override;
-    void tokenize() override;
-
-private:
-    static const std::unordered_map<std::string_view, TokenType> keywords;
+    ConditionAtomizer(size_t& current, std::vector<Token>& tokens);
+    bool                      canHandle(TokenType type) const override;
+    std::unique_ptr<NodeBase> atomize() override;
 };
 
-}  // namespace opal
+} // namespace opal

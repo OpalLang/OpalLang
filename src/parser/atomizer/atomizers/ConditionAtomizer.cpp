@@ -19,24 +19,22 @@
  * needed for experienced developers.
  */
 
-#pragma once
+#include "ConditionAtomizer.hpp"
 
-#include "../TokenizerBase.hpp"
+#include "../../../parser/node/NodeFactory.hpp"
 
-#include <string_view>
-#include <unordered_map>
+#include <stdexcept>
 
 namespace opal {
 
-class IdentifierTokenizer : public TokenizerBase {
-public:
-    using TokenizerBase::TokenizerBase;
+ConditionAtomizer::ConditionAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
-    bool canHandle(char c) const override;
-    void tokenize() override;
+bool ConditionAtomizer::canHandle(TokenType type) const {
+    return type == TokenType::IF;
+}
 
-private:
-    static const std::unordered_map<std::string_view, TokenType> keywords;
-};
+std::unique_ptr<NodeBase> ConditionAtomizer::atomize() {
+    
+}
 
-}  // namespace opal
+} // namespace opal

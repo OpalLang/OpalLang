@@ -26,11 +26,11 @@
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class CommandFactory {
 public:
     static std::vector<std::unique_ptr<CommandBase>> createCommands();
 };
 
-}  // namespace Opal
+}  // namespace opal

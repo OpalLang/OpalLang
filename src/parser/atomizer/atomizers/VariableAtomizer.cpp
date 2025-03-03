@@ -30,7 +30,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 VariableAtomizer::VariableAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
@@ -127,4 +127,4 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleOperation(std::unique_ptr<Vari
     return std::unique_ptr<NodeBase>(variableNode.release());
 }
 
-}  // namespace Opal
+}  // namespace opal

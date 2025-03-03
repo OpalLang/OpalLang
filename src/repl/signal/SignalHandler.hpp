@@ -25,7 +25,7 @@
 #include <functional>
 #include <unordered_map>
 
-namespace Opal {
+namespace opal {
 
 class SignalHandler {
 public:
@@ -42,4 +42,4 @@ private:
     SignalHandler() = delete;
 };
 
-}  // namespace Opal
+}  // namespace opal
