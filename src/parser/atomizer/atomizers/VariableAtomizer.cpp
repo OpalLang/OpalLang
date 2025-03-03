@@ -32,7 +32,12 @@ void VariableAtomizer::atomize() {
             throw std::runtime_error("Expected value after assignment operator");
         }
 
-        std::cout << "Variable: " << variableName << " = ";
+        std::string variableValue;
+        bool isConst = false;
+
+        if (current >= 3 && tokens[current-3].type == TokenType::CONST) {
+            isConst = true;
+        }
 
         if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::STRING
             || tokens[current].type == TokenType::TRUE || tokens[current].type == TokenType::FALSE
