@@ -36,7 +36,7 @@ class NodeFactory {
 public:
     static std::unique_ptr<NodeBase> createNode(TokenType type);
     static std::unique_ptr<VariableNode>
-    createVariableNode(const std::string& name, const std::string& value, bool isConstant = false);
+    createVariableNode(const std::string& name, const std::string& value, bool isConstant = false, const std::string& type = "");
     static std::unique_ptr<OperationNode> createOperationNode(const std::vector<Token>& tokens);
 };
 

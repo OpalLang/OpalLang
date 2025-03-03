@@ -32,8 +32,8 @@ std::unique_ptr<NodeBase> NodeFactory::createNode(TokenType tokenType) {
 }
 
 std::unique_ptr<VariableNode>
-NodeFactory::createVariableNode(const std::string& name, const std::string& value, bool isConst) {
-    return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConst);
+NodeFactory::createVariableNode(const std::string& name, const std::string& value, bool isConstant, const std::string& type) {
+    return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConstant, type);
 }
 
 std::unique_ptr<OperationNode> NodeFactory::createOperationNode(const std::vector<Token>& tokens) {

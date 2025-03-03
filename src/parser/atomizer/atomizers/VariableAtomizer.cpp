@@ -57,6 +57,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
 
         std::string variableValue;
         bool        isConst = false;
+        std::string variableType;
 
         if (current >= 3 && tokens[current - 3].type == TokenType::CONST) {
             isConst = true;
@@ -75,6 +76,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
                         std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
                     if (opNode) {
                         variableNode->setOperation(std::move(opNode));
+                        variableNode->setType("int"); // Assuming numeric operations result in integers
                         return variableNode;
                     }
                 }
@@ -82,12 +84,25 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
             // Simple value case
             variableValue = std::string(tokens[current].value);
             variableNode->setValue(variableValue);
+            variableNode->setType(tokens[current].type == TokenType::NUMBER ? "int" : "unknown");
             advance();
             return variableNode;
-        } else if (tokens[current].type == TokenType::STRING || tokens[current].type == TokenType::TRUE
-                   || tokens[current].type == TokenType::FALSE || tokens[current].type == TokenType::NIL) {
+        } else if (tokens[current].type == TokenType::STRING) {
             variableValue = std::string(tokens[current].value);
             variableNode->setValue(variableValue);
+            variableNode->setType("string");
+            advance();
+            return variableNode;
+        } else if (tokens[current].type == TokenType::TRUE || tokens[current].type == TokenType::FALSE) {
+            variableValue = std::string(tokens[current].value);
+            variableNode->setValue(variableValue);
+            variableNode->setType("bool");
+            advance();
+            return variableNode;
+        } else if (tokens[current].type == TokenType::NIL) {
+            variableValue = "nil";
+            variableNode->setValue(variableValue);
+            variableNode->setType("nil");
             advance();
             return variableNode;
         } else {
@@ -95,6 +110,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
         }
     } else {
         auto variableNode = NodeFactory::createVariableNode(variableName, "", false);
+        variableNode->setType("unknown");
         return variableNode;
     }
 }
