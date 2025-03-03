@@ -19,32 +19,11 @@
  * needed for experienced developers.
  */
 
-#pragma once
-
-#include "../../lexer/Token.hpp"
-#include "../node/NodeBase.hpp"
-
-#include <memory>
-#include <vector>
+#include "OperationNode.hpp"
 
 namespace Opal {
 
-class AtomizerBase {
-protected:
-    int&                current;
-    std::vector<Token>& tokens;
-
-public:
-    AtomizerBase(int& current, std::vector<Token>& tokens);
-    virtual ~AtomizerBase() = default;
-
-    virtual bool                      canHandle(TokenType) const = 0;
-    virtual std::unique_ptr<NodeBase> atomize()                  = 0;
-
-protected:
-    Token peek() const;
-    Token peekNext() const;
-    Token advance();
-};
+OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& tokens)
+    : NodeBase(tokenType, NodeType::OPERATION), tokens(tokens) {}
 
 }  // namespace Opal

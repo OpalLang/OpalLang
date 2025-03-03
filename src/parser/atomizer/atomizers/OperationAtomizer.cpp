@@ -21,7 +21,10 @@
 
 #include "OperationAtomizer.hpp"
 
+#include "../../node/NodeFactory.hpp"
+
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 
@@ -34,25 +37,38 @@ bool OperationAtomizer::canHandle(TokenType type) const {
            || type == TokenType::DIVIDE || type == TokenType::MODULO;
 }
 
-void OperationAtomizer::atomize() {
-    std::string expr = std::string(tokens[current].value);
+bool isnumber(TokenType type) {
+    return type == TokenType::NUMBER;
+}
+
+std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
+    std::vector<Token> operationTokens;
+
+    operationTokens.push_back(tokens[current]);
     advance();
 
     while (current >= 0 && static_cast<size_t>(current) < tokens.size()) {
-        if (!canHandle(tokens[current].type) || tokens[current].type == TokenType::EOF_TOKEN) {
+        if (!canHandle(tokens[current].type)) {
             break;
         }
-        auto op = tokens[current];
+
+        operationTokens.push_back(tokens[current]);
         advance();
+
         if (current >= 0 && static_cast<size_t>(current) < tokens.size()
             && (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER)) {
-            expr += " " + std::string(op.value) + " " + std::string(tokens[current].value);
+            operationTokens.push_back(tokens[current]);
             advance();
         } else {
             throw std::runtime_error("Expected a number or identifier after operator");
         }
     }
-    std::cout << expr << std::endl;
+    std::cout << "Operation: ";
+    for (const auto& token : operationTokens) {
+        std::cout << token.value << " ";
+    }
+    std::cout << std::endl;
+    return NodeFactory::createOperationNode(operationTokens);
 }
 
 }  // namespace Opal

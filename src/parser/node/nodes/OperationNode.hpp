@@ -21,30 +21,21 @@
 
 #pragma once
 
-#include "../../lexer/Token.hpp"
-#include "../node/NodeBase.hpp"
+#include "../../../lexer/Token.hpp"
+#include "../NodeBase.hpp"
 
-#include <memory>
 #include <vector>
 
 namespace Opal {
 
-class AtomizerBase {
-protected:
-    int&                current;
-    std::vector<Token>& tokens;
+class OperationNode : public NodeBase {
+private:
+    std::vector<Token> tokens;
 
 public:
-    AtomizerBase(int& current, std::vector<Token>& tokens);
-    virtual ~AtomizerBase() = default;
+    OperationNode(TokenType tokenType, const std::vector<Token>& tokens);
 
-    virtual bool                      canHandle(TokenType) const = 0;
-    virtual std::unique_ptr<NodeBase> atomize()                  = 0;
-
-protected:
-    Token peek() const;
-    Token peekNext() const;
-    Token advance();
+    const std::vector<Token>& getTokens() const { return tokens; }
 };
 
 }  // namespace Opal

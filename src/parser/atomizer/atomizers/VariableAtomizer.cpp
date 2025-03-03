@@ -44,7 +44,7 @@ bool VariableAtomizer::canHandle(TokenType type) const {
     return true;
 }
 
-void VariableAtomizer::atomize() {
+std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
     std::string variableName = std::string(tokens[current].value);
     advance();
 
@@ -62,23 +62,42 @@ void VariableAtomizer::atomize() {
             isConst = true;
         }
 
-        if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::STRING
-            || tokens[current].type == TokenType::TRUE || tokens[current].type == TokenType::FALSE
-            || tokens[current].type == TokenType::NIL || tokens[current].type == TokenType::IDENTIFIER) {
+        auto variableNode = NodeFactory::createVariableNode(variableName, "", isConst);
+
+        if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER) {
+            // Operation case
+            size_t nextIndex = current + 1;
+            if (nextIndex < tokens.size()) {
+                OperationAtomizer opAtomizer(current, tokens);
+                if (tokens[current].type == TokenType::NUMBER
+                    || (nextIndex < tokens.size() && opAtomizer.canHandle(tokens[nextIndex].type))) {
+                    auto opNode =
+                        std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
+                    if (opNode) {
+                        variableNode->setOperation(std::move(opNode));
+                        std::cout << "Variable '" << variableNode->getName() << "' assigned to operation" << std::endl;
+                        return variableNode;
+                    }
+                }
+            }
+            // Simple value case
             variableValue = std::string(tokens[current].value);
-
-            auto variableNode = NodeFactory::createVariableNode(variableName, variableValue, isConst);
-            std::cout << "Created " << (isConst ? "const " : "") << "variable: " << variableNode->getName() << " = "
-                      << variableNode->getValue() << std::endl;
-
-            int currentPos = current;
+            variableNode->setValue(variableValue);
             advance();
+            return variableNode;
+        } else if (tokens[current].type == TokenType::STRING || tokens[current].type == TokenType::TRUE
+                   || tokens[current].type == TokenType::FALSE || tokens[current].type == TokenType::NIL) {
+            variableValue = std::string(tokens[current].value);
+            variableNode->setValue(variableValue);
+            advance();
+            return variableNode;
         } else {
             throw std::runtime_error("Expected a value or identifier after assignment operator");
         }
     } else {
         auto variableNode = NodeFactory::createVariableNode(variableName, "", false);
         std::cout << "Variable reference: " << variableNode->getName() << std::endl;
+        return variableNode;
     }
 }
 

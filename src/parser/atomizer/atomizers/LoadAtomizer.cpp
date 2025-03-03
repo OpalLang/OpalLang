@@ -21,8 +21,11 @@
 
 #include "LoadAtomizer.hpp"
 
+#include "../../node/NodeFactory.hpp"
+
 #include <iostream>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace Opal {
@@ -33,12 +36,15 @@ bool LoadAtomizer::canHandle(TokenType type) const {
     return type == TokenType::LOAD;
 }
 
-void LoadAtomizer::atomize() {
+std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
     if (peekNext().type != TokenType::STRING) {
         throw std::runtime_error("Expected a value after load definition");
     }
-    std::cout << "Load path: " << peekNext().value << std::endl;
+    std::string path{peekNext().value};
+    std::cout << "Load path: " << path << std::endl;
     advance();
+    // TODO: Create and return an appropriate node type for LOAD operations
+    return nullptr;
 }
 
 }  // namespace Opal

@@ -21,8 +21,10 @@
 
 #pragma once
 
+#include "../../node/NodeFactory.hpp"
 #include "../AtomizerBase.hpp"
 
+#include <memory>
 #include <vector>
 
 namespace Opal {
@@ -30,8 +32,8 @@ namespace Opal {
 class OperationAtomizer : public AtomizerBase {
 public:
     OperationAtomizer(int& current, std::vector<Token>& tokens);
-    bool canHandle(TokenType type) const override;
-    void atomize() override;
+    bool                      canHandle(TokenType type) const override;
+    std::unique_ptr<NodeBase> atomize() override;
 };
 
 }  // namespace Opal

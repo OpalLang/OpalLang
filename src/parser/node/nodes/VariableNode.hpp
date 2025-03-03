@@ -23,20 +23,26 @@
 
 #include "../../../lexer/Token.hpp"
 #include "../NodeBase.hpp"
+#include "OperationNode.hpp"
 
+#include <memory>
 #include <string>
 
 namespace Opal {
 
 class VariableNode : public NodeBase {
 private:
-    std::string name;
-    std::string value;
-    bool        isConstant;
+    std::string                    name;
+    std::string                    value;
+    bool                           isConstant;
+    std::unique_ptr<OperationNode> operation;
 
 public:
-    VariableNode(TokenType type, const std::string& name, const std::string& value, bool isConstant = false);
+    VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant = false);
 
+    void               setOperation(std::unique_ptr<OperationNode> op) { operation = std::move(op); }
+    void               setValue(const std::string& newValue) { value = newValue; }
+    OperationNode*     getOperation() const { return operation.get(); }
     const std::string& getName() const { return name; }
     const std::string& getValue() const { return value; }
     bool               getIsConst() const { return isConstant; }

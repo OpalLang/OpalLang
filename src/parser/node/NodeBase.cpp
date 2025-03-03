@@ -25,6 +25,6 @@
 
 namespace Opal {
 
-NodeBase::NodeBase(TokenType type) : type(type) {}
+NodeBase::NodeBase(TokenType tokenType, NodeType nodeType) : tokenType(tokenType), nodeType(nodeType) {}
 
 }  // namespace Opal

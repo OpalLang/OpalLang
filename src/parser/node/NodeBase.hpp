@@ -25,13 +25,19 @@
 
 namespace Opal {
 
+enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
+
 class NodeBase {
 protected:
-    TokenType type;
+    NodeType  nodeType;
+    TokenType tokenType;
 
 public:
-    NodeBase(TokenType type);
+    NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
     virtual ~NodeBase() = default;
+
+    NodeType  getNodeType() const { return nodeType; }
+    TokenType getTokenType() const { return tokenType; }
 };
 
 }  // namespace Opal
