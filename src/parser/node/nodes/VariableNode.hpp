@@ -2,6 +2,7 @@
 
 #include "../../../lexer/Token.hpp"
 #include "../NodeBase.hpp"
+#include <string>
 
 namespace Opal {
 
