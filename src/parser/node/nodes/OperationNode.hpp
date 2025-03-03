@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "../../../lexer/Token.hpp"
-#include "../NodeBase.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/node/NodeBase.hpp"
 
 #include <vector>
 

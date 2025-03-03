@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "LoadNode.hpp"
+#include "opal/parser/node/nodes/LoadNode.hpp"
 
 #include <iostream>
 

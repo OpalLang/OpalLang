@@ -19,7 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "VariableNode.hpp"
+#include "opal/parser/node/nodes/VariableNode.hpp"
+
 #include <iostream>
 
 namespace opal {

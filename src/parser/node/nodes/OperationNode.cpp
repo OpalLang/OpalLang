@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "OperationNode.hpp"
+#include "opal/parser/node/nodes/OperationNode.hpp"
 
 #include <iostream>
 

@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "signal/ReplSignalManager.hpp"
+#include "opal/repl/signal/ReplSignalManager.hpp"
 
 #include <string>
 

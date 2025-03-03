@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "../TokenizerBase.hpp"
+#include "opal/lexer/tokenizer/TokenizerBase.hpp"
 
 namespace opal {
 

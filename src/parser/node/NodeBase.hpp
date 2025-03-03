@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "../../lexer/Token.hpp"
+#include "opal/lexer/Token.hpp"
 
 namespace opal {
 

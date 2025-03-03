@@ -19,9 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "ConditionAtomizer.hpp"
-
-#include "../../../parser/node/NodeFactory.hpp"
+#include "opal/parser/atomizer/atomizers/ConditionAtomizer.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
 
 #include <stdexcept>
 
@@ -34,7 +33,7 @@ bool ConditionAtomizer::canHandle(TokenType type) const {
 }
 
 std::unique_ptr<NodeBase> ConditionAtomizer::atomize() {
-    
+    return nullptr;
 }
 
 } // namespace opal

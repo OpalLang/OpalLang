@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "../../node/NodeFactory.hpp"
-#include "../AtomizerBase.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
+#include "opal/parser/atomizer/AtomizerBase.hpp"
 
 #include <memory>
 #include <vector>

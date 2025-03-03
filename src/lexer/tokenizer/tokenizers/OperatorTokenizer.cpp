@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "OperatorTokenizer.hpp"
+#include "opal/lexer/tokenizer/tokenizers/OperatorTokenizer.hpp"
 
 namespace opal {
 

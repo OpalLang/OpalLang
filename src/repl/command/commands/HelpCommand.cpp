@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "HelpCommand.hpp"
+#include "opal/repl/command/commands/HelpCommand.hpp"
 
 #include <iomanip>
 #include <iostream>

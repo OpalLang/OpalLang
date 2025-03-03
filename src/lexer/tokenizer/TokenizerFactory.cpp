@@ -19,13 +19,13 @@
  * needed for experienced developers.
  */
 
-#include "TokenizerFactory.hpp"
+#include "opal/lexer/tokenizer/TokenizerFactory.hpp"
 
-#include "tokenizers/CommentTokenizer.hpp"
-#include "tokenizers/IdentifierTokenizer.hpp"
-#include "tokenizers/NumberTokenizer.hpp"
-#include "tokenizers/OperatorTokenizer.hpp"
-#include "tokenizers/StringTokenizer.hpp"
+#include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
+#include "opal/lexer/tokenizer/tokenizers/IdentifierTokenizer.hpp"
+#include "opal/lexer/tokenizer/tokenizers/NumberTokenizer.hpp"
+#include "opal/lexer/tokenizer/tokenizers/OperatorTokenizer.hpp"
+#include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
 
 namespace opal {
 

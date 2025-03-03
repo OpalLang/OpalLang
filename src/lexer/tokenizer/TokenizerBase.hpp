@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "../Token.hpp"
+#include "opal/lexer/Token.hpp"
 
 #include <string>
 #include <string_view>

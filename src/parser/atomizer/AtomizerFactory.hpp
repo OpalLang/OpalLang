@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "AtomizerBase.hpp"
+#include "opal/parser/atomizer/AtomizerBase.hpp"
 
 #include <memory>
 #include <vector>

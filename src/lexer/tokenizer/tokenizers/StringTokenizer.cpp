@@ -19,9 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "StringTokenizer.hpp"
-
-#include "../../../error/Error.hpp"
+#include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
+#include "opal/error/Error.hpp"
 
 namespace opal {
 

@@ -19,10 +19,10 @@
  * needed for experienced developers.
  */
 
-#include "lexer/Lexer.hpp"
-#include "parser/Parser.hpp"
-#include "repl/Repl.hpp"
-#include "util/FileUtil.hpp"
+#include "opal/lexer/Lexer.hpp"
+#include "opal/parser/Parser.hpp"
+#include "opal/repl/Repl.hpp"
+#include "opal/util/FileUtil.hpp"
 
 #include <iostream>
 #include <string>

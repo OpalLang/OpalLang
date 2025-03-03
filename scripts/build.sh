@@ -23,7 +23,7 @@ cmake -B build || {
 }
 
 echo -e "${GREEN}🔨 Building project...${NC}"
-cmake --build build || {
+cmake --build build --parallel $(nproc) || {
     echo -e "${RED}❌ Build failed${NC}"
     exit 1
 }

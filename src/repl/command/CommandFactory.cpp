@@ -19,11 +19,12 @@
  * needed for experienced developers.
  */
 
-#include "CommandFactory.hpp"
+#include "opal/repl/command/CommandFactory.hpp"
 
-#include "commands/ClearCommand.hpp"
-#include "commands/ExitCommand.hpp"
-#include "commands/HelpCommand.hpp"
+#include "opal/repl/command/commands/ClearCommand.hpp"
+#include "opal/repl/command/commands/ExitCommand.hpp"
+#include "opal/repl/command/commands/HelpCommand.hpp"
+
 namespace opal {
 
 std::vector<std::unique_ptr<CommandBase>> CommandFactory::createCommands() {

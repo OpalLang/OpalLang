@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "../CommandBase.hpp"
+#include "opal/repl/command/CommandBase.hpp"
 
 #include <string>
 #include <unordered_map>

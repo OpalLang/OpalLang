@@ -19,9 +19,9 @@
  * needed for experienced developers.
  */
 
-#include "AtomizerBase.hpp"
+#include "opal/parser/atomizer/AtomizerBase.hpp"
 
-#include "../../lexer/Token.hpp"
+#include "opal/lexer/Token.hpp"
 
 #include <vector>
 

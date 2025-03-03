@@ -50,10 +50,25 @@ if(NOT SOURCES)
     message(FATAL_ERROR "No source files found in ${PROJECT_SOURCE_DIR}/src/")
 endif()
 
+set(INTERFACE_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include")
+file(MAKE_DIRECTORY ${INTERFACE_INCLUDE_DIR})
+file(MAKE_DIRECTORY "${INTERFACE_INCLUDE_DIR}/opal")
+
+file(GLOB SRC_SUBDIRS RELATIVE "${PROJECT_SOURCE_DIR}/src" "${PROJECT_SOURCE_DIR}/src/*")
+foreach(SUBDIR ${SRC_SUBDIRS})
+    if(IS_DIRECTORY "${PROJECT_SOURCE_DIR}/src/${SUBDIR}")
+        file(CREATE_LINK "${PROJECT_SOURCE_DIR}/src/${SUBDIR}" "${INTERFACE_INCLUDE_DIR}/opal/${SUBDIR}" SYMBOLIC)
+    endif()
+endforeach()
+
 include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${INTERFACE_INCLUDE_DIR})
 
 add_library(opal_lib STATIC ${SOURCES})
-target_include_directories(opal_lib PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(opal_lib PUBLIC 
+    ${PROJECT_SOURCE_DIR}/src
+    ${INTERFACE_INCLUDE_DIR}
+)
 
 add_executable(opal ${PROJECT_SOURCE_DIR}/src/Main.cpp)
 target_link_libraries(opal PRIVATE opal_lib)
@@ -68,7 +83,10 @@ file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/tests)
 
 add_executable(tests ${TEST_SOURCES})
 target_link_libraries(tests PRIVATE opal_lib GTest::gtest_main GTest::gmock)
-target_include_directories(tests PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(tests PRIVATE 
+    ${PROJECT_SOURCE_DIR}/src
+    ${INTERFACE_INCLUDE_DIR}
+)
 
 include(GoogleTest)
 gtest_discover_tests(tests)

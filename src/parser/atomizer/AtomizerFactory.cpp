@@ -19,11 +19,10 @@
  * needed for experienced developers.
  */
 
-#include "AtomizerFactory.hpp"
-
-#include "atomizers/LoadAtomizer.hpp"
-#include "atomizers/OperationAtomizer.hpp"
-#include "atomizers/VariableAtomizer.hpp"
+#include "opal/parser/atomizer/AtomizerFactory.hpp"
+#include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
+#include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
+#include "opal/parser/atomizer/atomizers/VariableAtomizer.hpp"
 
 #include <memory>
 #include <vector>

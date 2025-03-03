@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "../lexer/Token.hpp"
-#include "atomizer/AtomizerBase.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/atomizer/AtomizerBase.hpp"
 
 #include <memory>
 #include <vector>

@@ -19,9 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "NodeBase.hpp"
-
-#include "../../lexer/Token.hpp"
+#include "opal/parser/node/NodeBase.hpp"
+#include "opal/lexer/Token.hpp"
 
 #include <iostream>
 #include <string>

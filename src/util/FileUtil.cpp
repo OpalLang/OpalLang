@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "FileUtil.hpp"
+#include "opal/util/FileUtil.hpp"
 
 #include <filesystem>
 #include <fstream>

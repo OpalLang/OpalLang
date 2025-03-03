@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "Error.hpp"
+#include "opal/error/Error.hpp"
 
 namespace opal {
 

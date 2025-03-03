@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "ClearCommand.hpp"
+#include "opal/repl/command/commands/ClearCommand.hpp"
 
 #include <iostream>
 

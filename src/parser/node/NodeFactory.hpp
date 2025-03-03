@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include "../../lexer/Token.hpp"
-#include "../atomizer/VariableType.hpp"
-#include "NodeBase.hpp"
-#include "nodes/OperationNode.hpp"
-#include "nodes/VariableNode.hpp"
-#include "nodes/LoadNode.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/atomizer/VariableType.hpp"
+#include "opal/parser/node/NodeBase.hpp"
+#include "opal/parser/node/nodes/OperationNode.hpp"
+#include "opal/parser/node/nodes/VariableNode.hpp"
+#include "opal/parser/node/nodes/LoadNode.hpp"
 
 #include <memory>
 #include <string>

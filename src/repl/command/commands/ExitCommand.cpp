@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "ExitCommand.hpp"
+#include "opal/repl/command/commands/ExitCommand.hpp"
 
 #include <iostream>
 

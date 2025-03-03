@@ -19,9 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "Lexer.hpp"
-
-#include "../error/Error.hpp"
+#include "opal/lexer/Lexer.hpp"
+#include "opal/error/Error.hpp"
 
 #include <iostream>
 

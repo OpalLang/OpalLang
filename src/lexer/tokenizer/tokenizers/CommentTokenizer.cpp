@@ -19,9 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "CommentTokenizer.hpp"
-
-#include "../../../error/Error.hpp"
+#include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
+#include "opal/error/Error.hpp"
 
 namespace opal {
 

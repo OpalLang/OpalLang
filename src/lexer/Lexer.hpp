@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "Token.hpp"
-#include "tokenizer/TokenizerFactory.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/lexer/tokenizer/TokenizerFactory.hpp"
 
 #include <memory>
 #include <string>

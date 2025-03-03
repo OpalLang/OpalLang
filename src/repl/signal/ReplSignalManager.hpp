@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "SignalHandler.hpp"
+#include "opal/repl/signal/SignalHandler.hpp"
 
 #include <atomic>
 #include <csignal>

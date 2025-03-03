@@ -19,11 +19,11 @@
  * needed for experienced developers.
  */
 
-#include "Repl.hpp"
+#include "opal/repl/Repl.hpp"
 
-#include "../lexer/Lexer.hpp"
-#include "../parser/Parser.hpp"
-#include "command/CommandFactory.hpp"
+#include "opal/lexer/Lexer.hpp"
+#include "opal/parser/Parser.hpp"
+#include "opal/repl/command/CommandFactory.hpp"
 
 #include <iostream>
 #include <sstream>

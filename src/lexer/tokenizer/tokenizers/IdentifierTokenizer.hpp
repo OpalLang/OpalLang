@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "../TokenizerBase.hpp"
+#include "opal/lexer/tokenizer/TokenizerBase.hpp"
 
 #include <string_view>
 #include <unordered_map>

@@ -19,7 +19,7 @@
  * needed for experienced developers.
  */
 
-#include "SignalHandler.hpp"
+#include "opal/repl/signal/SignalHandler.hpp"
 
 #include <iostream>
 

@@ -19,9 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "LoadAtomizer.hpp"
-
-#include "../../../parser/node/NodeFactory.hpp"
+#include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
 
 #include <iostream>
 #include <stdexcept>
