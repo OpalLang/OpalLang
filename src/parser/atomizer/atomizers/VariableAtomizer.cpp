@@ -1,10 +1,12 @@
 #include "VariableAtomizer.hpp"
 
 #include "OperationAtomizer.hpp"
+#include "../../../parser/node/NodeFactory.hpp"
 
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#include <memory>
 
 namespace Opal {
 
@@ -32,18 +34,31 @@ void VariableAtomizer::atomize() {
             throw std::runtime_error("Expected value after assignment operator");
         }
 
-        std::cout << "Variable: " << variableName << " = ";
+        std::string variableValue;
+        bool isConst = false;
+
+        if (current >= 2 && tokens[current-2].type == TokenType::CONST) {
+            isConst = true;
+        }
 
         if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::STRING
             || tokens[current].type == TokenType::TRUE || tokens[current].type == TokenType::FALSE
             || tokens[current].type == TokenType::NIL || tokens[current].type == TokenType::IDENTIFIER) {
-            OperationAtomizer operationAtomizer(current, tokens);
-            operationAtomizer.atomize();
+
+            variableValue = std::string(tokens[current].value);
+
+            auto variableNode = NodeFactory::createVariableNode(variableName, variableValue, isConst);
+            std::cout << "Created " << (isConst ? "const " : "") << "variable: " 
+                      << variableNode->getName() << " = " << variableNode->getValue() << std::endl;
+
+            int currentPos = current;
+            advance();
         } else {
             throw std::runtime_error("Expected a value or identifier after assignment operator");
         }
     } else {
-        std::cout << "Variable reference: " << variableName << std::endl;
+        auto variableNode = NodeFactory::createVariableNode(variableName, "", false);
+        std::cout << "Variable reference: " << variableNode->getName() << std::endl;
     }
 }
 

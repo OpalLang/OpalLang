@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../AtomizerBase.hpp"
-
+#include "../../../parser/node/NodeFactory.hpp"
+#include "../../../parser/node/nodes/VariableNode.hpp"
+#include <memory>
 #include <vector>
 
 namespace Opal {
