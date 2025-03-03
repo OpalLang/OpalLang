@@ -17,17 +17,17 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #include "VariableAtomizer.hpp"
 
-#include "OperationAtomizer.hpp"
 #include "../../../parser/node/NodeFactory.hpp"
+#include "OperationAtomizer.hpp"
 
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <vector>
-#include <memory>
 
 namespace Opal {
 
@@ -56,21 +56,20 @@ void VariableAtomizer::atomize() {
         }
 
         std::string variableValue;
-        bool isConst = false;
+        bool        isConst = false;
 
-        if (current >= 3 && tokens[current-3].type == TokenType::CONST) {
+        if (current >= 3 && tokens[current - 3].type == TokenType::CONST) {
             isConst = true;
         }
 
         if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::STRING
             || tokens[current].type == TokenType::TRUE || tokens[current].type == TokenType::FALSE
             || tokens[current].type == TokenType::NIL || tokens[current].type == TokenType::IDENTIFIER) {
-
             variableValue = std::string(tokens[current].value);
 
             auto variableNode = NodeFactory::createVariableNode(variableName, variableValue, isConst);
-            std::cout << "Created " << (isConst ? "const " : "") << "variable: " 
-                      << variableNode->getName() << " = " << variableNode->getValue() << std::endl;
+            std::cout << "Created " << (isConst ? "const " : "") << "variable: " << variableNode->getName() << " = "
+                      << variableNode->getValue() << std::endl;
 
             int currentPos = current;
             advance();

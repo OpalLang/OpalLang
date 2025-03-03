@@ -17,13 +17,14 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
 #include "../../lexer/Token.hpp"
 #include "NodeBase.hpp"
 #include "nodes/VariableNode.hpp"
+
 #include <memory>
 #include <string>
 
@@ -32,10 +33,8 @@ namespace Opal {
 class NodeFactory {
 public:
     static std::unique_ptr<NodeBase> createNode(TokenType type);
-    static std::unique_ptr<VariableNode> createVariableNode(
-        const std::string& name, 
-        const std::string& value, 
-        bool isConstant = false);
+    static std::unique_ptr<VariableNode>
+    createVariableNode(const std::string& name, const std::string& value, bool isConstant = false);
 };
 
 }  // namespace Opal

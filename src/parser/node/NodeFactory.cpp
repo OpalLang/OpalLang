@@ -17,9 +17,10 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #include "NodeFactory.hpp"
+
 #include "NodeBase.hpp"
 #include "nodes/VariableNode.hpp"
 
@@ -29,17 +30,9 @@ std::unique_ptr<NodeBase> NodeFactory::createNode(TokenType type) {
     return std::make_unique<NodeBase>(type);
 }
 
-std::unique_ptr<VariableNode> NodeFactory::createVariableNode(
-    const std::string& name, 
-    const std::string& value, 
-    bool isConst) {
-    
-    return std::make_unique<VariableNode>(
-        TokenType::IDENTIFIER,
-        name,
-        value,
-        isConst
-    );
+std::unique_ptr<VariableNode>
+NodeFactory::createVariableNode(const std::string& name, const std::string& value, bool isConst) {
+    return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConst);
 }
 
 }  // namespace Opal

@@ -17,13 +17,14 @@
  * performance. It combines modern programming concepts with a clean syntax,
  * making it accessible to newcomers while providing the power and flexibility
  * needed for experienced developers.
-*/
+ */
 
 #pragma once
 
-#include "../AtomizerBase.hpp"
 #include "../../../parser/node/NodeFactory.hpp"
 #include "../../../parser/node/nodes/VariableNode.hpp"
+#include "../AtomizerBase.hpp"
+
 #include <memory>
 #include <vector>
 
