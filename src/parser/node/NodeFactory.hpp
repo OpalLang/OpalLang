@@ -2,7 +2,6 @@
 
 namespace Opal {
 
-class NodeFactory {
-};
+class NodeFactory {};
 
-}
+}  // namespace Opal

@@ -1,7 +1,3 @@
 #include "NodeFactory.hpp"
 
-namespace Opal {
-
-
-
-}
+namespace Opal {}

@@ -5,12 +5,12 @@
 namespace Opal {
 
 class NodeBase {
-    protected:
-        TokenType type;
+protected:
+    TokenType type;
 
-    public:
-        NodeBase(TokenType type);
-        virtual ~NodeBase() = default;
+public:
+    NodeBase(TokenType type);
+    virtual ~NodeBase() = default;
 };
 
 }  // namespace Opal

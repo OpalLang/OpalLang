@@ -3,8 +3,8 @@
 #include "../lexer/Token.hpp"
 #include "atomizer/AtomizerBase.hpp"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace Opal {
 
@@ -13,12 +13,12 @@ public:
     explicit Parser(std::vector<Token> tokens);
 
 private:
-    std::vector<Token> tokens;
-    std::vector<std::unique_ptr<AtomizerBase>> atomizers; 
+    std::vector<Token>                         tokens;
+    std::vector<std::unique_ptr<AtomizerBase>> atomizers;
 
     int current = 0;
 
-    bool isAtEnd() const;
+    bool  isAtEnd() const;
     Token peek() const;
 };
 
