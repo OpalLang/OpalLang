@@ -22,6 +22,7 @@
 #pragma once
 
 #include "../../lexer/Token.hpp"
+#include "../atomizer/VariableType.hpp"
 #include "NodeBase.hpp"
 #include "nodes/OperationNode.hpp"
 #include "nodes/VariableNode.hpp"
@@ -35,8 +36,14 @@ namespace Opal {
 class NodeFactory {
 public:
     static std::unique_ptr<NodeBase> createNode(TokenType type);
-    static std::unique_ptr<VariableNode>
-    createVariableNode(const std::string& name, const std::string& value, bool isConstant = false, const std::string& type = "");
+    static std::unique_ptr<VariableNode> createVariableNode(
+        const std::string& name,
+        const std::string& value,
+        bool isConstant = false,
+        VariableType type = VariableType::UNKNOWN
+    ) {
+        return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConstant, type);
+    }
     static std::unique_ptr<OperationNode> createOperationNode(const std::vector<Token>& tokens);
 };
 

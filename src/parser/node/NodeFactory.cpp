@@ -20,7 +20,7 @@
  */
 
 #include "NodeFactory.hpp"
-
+#include "../atomizer/VariableType.hpp"
 #include "NodeBase.hpp"
 #include "nodes/OperationNode.hpp"
 #include "nodes/VariableNode.hpp"
@@ -29,11 +29,6 @@ namespace Opal {
 
 std::unique_ptr<NodeBase> NodeFactory::createNode(TokenType tokenType) {
     return std::make_unique<NodeBase>(tokenType);
-}
-
-std::unique_ptr<VariableNode>
-NodeFactory::createVariableNode(const std::string& name, const std::string& value, bool isConstant, const std::string& type) {
-    return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConstant, type);
 }
 
 std::unique_ptr<OperationNode> NodeFactory::createOperationNode(const std::vector<Token>& tokens) {
