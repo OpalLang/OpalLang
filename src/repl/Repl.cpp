@@ -67,6 +67,8 @@ void Repl::run(const std::string& source) {
     lexer.printTokens();
     std::cout << "----------------------------------------" << std::endl;
     Opal::Parser parser(tokens);
+    parser.printAST();
+    std::cout << "----------------------------------------" << std::endl;
 }
 
 void Repl::runPrompt() {

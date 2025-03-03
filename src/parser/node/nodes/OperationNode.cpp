@@ -32,7 +32,7 @@ void OperationNode::print(size_t indent) const {
     std::cout << "Operation(";
     for (size_t i = 0; i < tokens.size(); ++i) {
         if (i > 0) std::cout << " ";
-        std::cout << "Type: " << static_cast<int>(tokens[i].type) << ", Value: '" << tokens[i].value << "'";
+        std::cout << "type: " << static_cast<int>(tokens[i].type) << ", value: '" << tokens[i].value << "'";
     }
     std::cout << ")" << std::endl;
 }
