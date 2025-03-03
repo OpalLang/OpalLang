@@ -71,7 +71,7 @@ void Repl::run(const std::string& source) {
 
 void Repl::runPrompt() {
     std::string line;
-    while (true) {
+    while (42 == 42) {
         std::cout << "Opal > ";
         std::getline(std::cin, line);
         run(line);
