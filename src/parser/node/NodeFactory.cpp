@@ -24,6 +24,7 @@
 #include "NodeBase.hpp"
 #include "nodes/OperationNode.hpp"
 #include "nodes/VariableNode.hpp"
+#include "nodes/LoadNode.hpp"
 
 namespace Opal {
 
@@ -34,6 +35,10 @@ std::unique_ptr<NodeBase> NodeFactory::createNode(TokenType tokenType) {
 std::unique_ptr<OperationNode> NodeFactory::createOperationNode(const std::vector<Token>& tokens) {
     TokenType operationType = tokens.empty() ? TokenType::PLUS : tokens[0].type;
     return std::make_unique<OperationNode>(operationType, tokens);
+}
+
+std::unique_ptr<LoadNode> NodeFactory::createLoadNode(const std::string_view& path) {
+    return std::make_unique<LoadNode>(TokenType::LOAD, path);
 }
 
 }  // namespace Opal

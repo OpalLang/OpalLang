@@ -19,34 +19,18 @@
  * needed for experienced developers.
  */
 
-#pragma once
+#include "LoadNode.hpp"
 
-#include "../../lexer/Token.hpp"
-#include "../atomizer/VariableType.hpp"
-#include "NodeBase.hpp"
-#include "nodes/OperationNode.hpp"
-#include "nodes/VariableNode.hpp"
-#include "nodes/LoadNode.hpp"
-
-#include <memory>
-#include <string>
-#include <vector>
+#include <iostream>
 
 namespace Opal {
 
-class NodeFactory {
-public:
-    static std::unique_ptr<NodeBase> createNode(TokenType type);
-    static std::unique_ptr<VariableNode> createVariableNode(
-        const std::string& name,
-        const std::string& value,
-        bool isConstant = false,
-        VariableType type = VariableType::UNKNOWN
-    ) {
-        return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConstant, type);
-    }
-    static std::unique_ptr<OperationNode> createOperationNode(const std::vector<Token>& tokens);
-    static std::unique_ptr<LoadNode> createLoadNode(const std::string_view& path);
-};
+LoadNode::LoadNode(TokenType type, const std::string_view& path)
+    : NodeBase(type), path(path) {}
 
-}  // namespace Opal
+void LoadNode::print(size_t indent) const {
+    printIndent(indent);
+    std::cout << "Load(path=\"" << path << "\")" << std::endl;
+}
+
+} // namespace Opal
