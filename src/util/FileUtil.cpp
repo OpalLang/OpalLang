@@ -50,4 +50,9 @@ bool FileUtil::fileExists(const std::string& filepath) {
     return file.good();
 }
 
+bool FileUtil::hasGoodExtension(const std::string& filepath) {
+    std::string extension = filepath.substr(filepath.find_last_of(".") + 1);
+    return extension == "opal" || extension == "op";
+}
+
 }  // namespace Opal

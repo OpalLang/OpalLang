@@ -45,6 +45,11 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        if (!Opal::FileUtil::hasGoodExtension(argv[1])) {
+            std::cerr << "File has an invalid extension: " << argv[1] << std::endl;
+            return 1;
+        }
+
         try {
             std::string sourceCode = Opal::FileUtil::readFile(argv[1]);
             Opal::Lexer lexer(sourceCode);
