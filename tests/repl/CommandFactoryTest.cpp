@@ -37,7 +37,7 @@ protected:
 };
 
 TEST_F(CommandFactoryTest, CreateAllCommands) {
-    auto commands = CommandFactory::createCommands();
+    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
 
     ASSERT_FALSE(commands.empty());
 
@@ -45,7 +45,7 @@ TEST_F(CommandFactoryTest, CreateAllCommands) {
     bool hasClear = false;
     bool hasExit  = false;
 
-    for (const auto& cmd : commands) {
+    for (const std::unique_ptr<CommandBase>& cmd : commands) {
         if (cmd->canHandle("help"))
             hasHelp = true;
         if (cmd->canHandle("clear"))
@@ -60,12 +60,12 @@ TEST_F(CommandFactoryTest, CreateAllCommands) {
 }
 
 TEST_F(CommandFactoryTest, CommandUniqueness) {
-    auto commands = CommandFactory::createCommands();
+    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
 
     std::set<std::string> handledCommands;
-    for (const auto& cmd : commands) {
+    for (const std::unique_ptr<CommandBase>& cmd : commands) {
         std::vector<std::string> testCommands = {"help", "clear", "exit"};
-        for (const auto& testCmd : testCommands) {
+        for (const std::string& testCmd : testCommands) {
             if (cmd->canHandle(testCmd)) {
                 EXPECT_TRUE(handledCommands.insert(testCmd).second)
                     << "Duplicate command handler found for: " << testCmd;
@@ -75,9 +75,9 @@ TEST_F(CommandFactoryTest, CommandUniqueness) {
 }
 
 TEST_F(CommandFactoryTest, CommandInstantiation) {
-    auto commands = CommandFactory::createCommands();
+    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
 
-    for (const auto& cmd : commands) {
+    for (const std::unique_ptr<CommandBase>& cmd : commands) {
         EXPECT_NE(cmd.get(), nullptr) << "Null command instance found";
     }
 }

@@ -51,8 +51,8 @@ void Repl::run(const std::string& source) {
         args.push_back(arg);
     }
 
-    auto commands = CommandFactory::createCommands();
-    for (const auto& command : commands) {
+    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
+    for (const std::unique_ptr<CommandBase>& command : commands) {
         if (command->canHandle(commandName)) {
             command->setArguments(args);
             command->execute();
@@ -61,7 +61,7 @@ void Repl::run(const std::string& source) {
     }
 
     Lexer lexer(source);
-    auto  tokens = lexer.scanTokens();
+    std::vector<Token> tokens = lexer.scanTokens();
 
     std::cout << "Tokenizing source code" << std::endl;
     std::cout << "----------------------------------------" << std::endl;

@@ -24,8 +24,8 @@ TEST_F(LoadAtomizerTest, BasicLoad) {
     LoadAtomizer atomizer(current, tokens);
     EXPECT_TRUE(atomizer.canHandle(tokens[current].type));
 
-    auto node = atomizer.atomize();
-    auto* loadNode = dynamic_cast<LoadNode*>(node.get());
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
+    opal::LoadNode* loadNode = dynamic_cast<LoadNode*>(node.get());
     ASSERT_NE(loadNode, nullptr);
     EXPECT_EQ(loadNode->getPath(), "script.opal");
 }

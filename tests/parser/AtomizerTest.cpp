@@ -27,10 +27,10 @@ TEST_F(AtomizerTest, VariableAtomizerSimpleAssignment) {
     VariableAtomizer atomizer(current, tokens);
     EXPECT_TRUE(atomizer.canHandle(tokens[current].type));
     
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     ASSERT_NE(node, nullptr);
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getName(), "x");
     EXPECT_EQ(varNode->getValue(), "42");
@@ -49,9 +49,9 @@ TEST_F(AtomizerTest, VariableAtomizerConstAssignment) {
     EXPECT_TRUE(atomizer.canHandle(tokens[1].type));
     
     current = 1;
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_TRUE(varNode->getIsConstant());
     EXPECT_EQ(varNode->getValue(), "42");
@@ -65,9 +65,9 @@ TEST_F(AtomizerTest, VariableAtomizerStringAssignment) {
     tokens.emplace_back(TokenType::STRING, "hello", 1, 11);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getType(), VariableType::STRING);
     EXPECT_EQ(varNode->getValue(), "hello");
@@ -80,9 +80,9 @@ TEST_F(AtomizerTest, VariableAtomizerBoolAssignment) {
     tokens.emplace_back(TokenType::TRUE, "true", 1, 8);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getType(), VariableType::BOOL);
     EXPECT_EQ(varNode->getValue(), "true");
@@ -97,17 +97,17 @@ TEST_F(AtomizerTest, VariableWithOperation) {
     tokens.emplace_back(TokenType::NUMBER, "3", 1, 14);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getName(), "result");
     EXPECT_EQ(varNode->getType(), VariableType::INT);
     
-    auto* opNode = varNode->getOperation();
+   opal::OperationNode* opNode = varNode->getOperation();
     ASSERT_NE(opNode, nullptr);
     
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 3);
     EXPECT_EQ(opTokens[0].type, TokenType::NUMBER);
     EXPECT_EQ(opTokens[0].value, "5");
@@ -125,11 +125,11 @@ TEST_F(AtomizerTest, BasicOperation) {
     OperationAtomizer atomizer(current, tokens);
     EXPECT_TRUE(atomizer.canHandle(tokens[1].type));
     
-    auto node = atomizer.atomize();
-    auto* opNode = dynamic_cast<OperationNode*>(node.get());
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
+    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
     ASSERT_NE(opNode, nullptr);
     
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 3);
     EXPECT_EQ(opTokens[0].type, TokenType::NUMBER);
     EXPECT_EQ(opTokens[0].value, "2");
@@ -145,12 +145,12 @@ TEST_F(AtomizerTest, OperationWithIdentifiers) {
     tokens.emplace_back(TokenType::IDENTIFIER, "y", 1, 5);
     
     OperationAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* opNode = dynamic_cast<OperationNode*>(node.get());
+    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
     ASSERT_NE(opNode, nullptr);
     
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 3);
     EXPECT_EQ(opTokens[0].type, TokenType::IDENTIFIER);
     EXPECT_EQ(opTokens[0].value, "x");
@@ -166,9 +166,9 @@ TEST_F(AtomizerTest, NilAssignment) {
     tokens.emplace_back(TokenType::NIL, "nil", 1, 5);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getType(), VariableType::NIL);
     EXPECT_EQ(varNode->getValue(), "nil");
@@ -203,17 +203,17 @@ TEST_F(AtomizerTest, MultipleArithmeticOperations) {
     tokens.emplace_back(TokenType::NUMBER, "2", 1, 18);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getName(), "result");
     EXPECT_EQ(varNode->getType(), VariableType::INT);
     
-    auto* opNode = varNode->getOperation();
+   opal::OperationNode* opNode = varNode->getOperation();
     ASSERT_NE(opNode, nullptr);
     
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 5);
     EXPECT_EQ(opTokens[0].value, "5");
     EXPECT_EQ(opTokens[1].type, TokenType::PLUS);
@@ -229,9 +229,9 @@ TEST_F(AtomizerTest, VariableReassignment) {
     tokens.emplace_back(TokenType::IDENTIFIER, "y", 1, 5);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getName(), "x");
     EXPECT_EQ(varNode->getValue(), "y");
@@ -248,12 +248,12 @@ TEST_F(AtomizerTest, MultipleOperationsWithIdentifiers) {
     tokens.emplace_back(TokenType::IDENTIFIER, "z", 1, 9);
     
     OperationAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* opNode = dynamic_cast<OperationNode*>(node.get());
+    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
     ASSERT_NE(opNode, nullptr);
     
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 5);
     EXPECT_EQ(opTokens[0].type, TokenType::IDENTIFIER);
     EXPECT_EQ(opTokens[0].value, "x");
@@ -276,17 +276,17 @@ TEST_F(AtomizerTest, MixedOperations) {
     tokens.emplace_back(TokenType::IDENTIFIER, "y", 1, 19);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getName(), "result");
     EXPECT_EQ(varNode->getType(), VariableType::INT);
     
-    auto* opNode = varNode->getOperation();
+   opal::OperationNode* opNode = varNode->getOperation();
     ASSERT_NE(opNode, nullptr);
     
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 5);
     EXPECT_EQ(opTokens[0].value, "42");
     EXPECT_EQ(opTokens[1].type, TokenType::MULTIPLY);
@@ -306,9 +306,9 @@ TEST_F(AtomizerTest, ConstStringAssignment) {
     EXPECT_TRUE(atomizer.canHandle(tokens[1].type));
     
     current = 1;
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_TRUE(varNode->getIsConstant());
     EXPECT_EQ(varNode->getValue(), "hello world");
@@ -322,9 +322,9 @@ TEST_F(AtomizerTest, EmptyString) {
     tokens.emplace_back(TokenType::STRING, "", 1, 8);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getValue(), "");
     EXPECT_EQ(varNode->getType(), VariableType::STRING);
@@ -339,15 +339,15 @@ TEST_F(AtomizerTest, DivisionOperation) {
     tokens.emplace_back(TokenType::NUMBER, "2", 1, 14);
     
     VariableAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
     
-    auto* varNode = dynamic_cast<VariableNode*>(node.get());
+    opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     
-    auto* opNode = varNode->getOperation();
+   opal::OperationNode* opNode = varNode->getOperation();
     ASSERT_NE(opNode, nullptr);
     
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 3);
     EXPECT_EQ(opTokens[0].value, "x");
     EXPECT_EQ(opTokens[1].type, TokenType::DIVIDE);
@@ -363,11 +363,11 @@ TEST_F(AtomizerTest, OperationAtomizerComplex) {
     tokens.emplace_back(TokenType::NUMBER, "5", 1, 9);
 
     OperationAtomizer atomizer(current, tokens);
-    auto node = atomizer.atomize();
-    auto* opNode = dynamic_cast<OperationNode*>(node.get());
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
+    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
     ASSERT_NE(opNode, nullptr);
 
-    const auto& opTokens = opNode->getTokens();
+    const std::vector<Token>& opTokens = opNode->getTokens();
     ASSERT_EQ(opTokens.size(), 5);
     EXPECT_EQ(opTokens[0].value, "2");
     EXPECT_EQ(opTokens[1].type, TokenType::MULTIPLY);
