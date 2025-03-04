@@ -62,10 +62,9 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
             operationTokens.push_back(tokens[current]);
             advance();
         } else {
-            spdlog::error("Expected a number or identifier after operator at position {}", current);
             throw std::runtime_error("Invalid operation: expected a number or identifier after operator");
         }
-    }
+        }
     return NodeFactory::createOperationNode(operationTokens);
 }
 

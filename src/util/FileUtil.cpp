@@ -32,16 +32,12 @@ namespace opal {
 
 std::string FileUtil::readFile(const std::string& filepath) {
     if (!std::filesystem::is_regular_file(filepath)) {
-        std::string error = "The specified path is not a regular file: " + filepath;
-        spdlog::error(error);
-        throw std::runtime_error(error);
+        throw std::runtime_error("The specified path is not a regular file: " + filepath);
     }
 
     std::ifstream file(filepath);
     if (!file.is_open()) {
-        std::string error = "Could not open file: " + filepath;
-        spdlog::error(error);
-        throw std::runtime_error(error);
+        throw std::runtime_error("Could not open file: " + filepath);
     }
     std::stringstream buffer;
     buffer << file.rdbuf();

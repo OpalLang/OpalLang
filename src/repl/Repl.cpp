@@ -94,7 +94,7 @@ void Repl::runPrompt() {
 
         if (std::cin.fail()) {
             std::cin.clear();
-            spdlog::error("Input error. Please try again.");
+            spdlog::info("Input error. Please try again.");
             continue;
         }
 
