@@ -20,11 +20,13 @@
  */
 
 #include "opal/parser/node/NodeBase.hpp"
+
 #include "opal/lexer/Token.hpp"
+
+#include <spdlog/spdlog.h>
 
 #include <iostream>
 #include <string>
-#include <spdlog/spdlog.h>
 
 namespace opal {
 

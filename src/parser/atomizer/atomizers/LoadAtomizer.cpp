@@ -20,13 +20,15 @@
  */
 
 #include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
+
 #include "opal/parser/node/NodeFactory.hpp"
+
+#include <spdlog/spdlog.h>
 
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -37,12 +39,19 @@ bool LoadAtomizer::canHandle(TokenType type) const {
 }
 
 std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
-    if (peekNext().type != TokenType::STRING) {
-        spdlog::error("Expected a value after load definition");
-        exit(1);
+    advance();  // consume LOAD token
+
+    if (current >= tokens.size()) {
+        spdlog::error("Unexpected end of input after load keyword");
+        throw std::runtime_error("Expected string after load keyword");
     }
-    std::string_view path = peekNext().value;
-    advance();
+
+    if (tokens[current].type != TokenType::STRING) {
+        spdlog::error("Expected string after load keyword, got {}", static_cast<int>(tokens[current].type));
+        throw std::runtime_error("Expected string after load keyword");
+    }
+
+    std::string_view path = tokens[current].value;
     advance();
 
     return std::unique_ptr<NodeBase>(NodeFactory::createLoadNode(path).release());

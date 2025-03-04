@@ -23,6 +23,8 @@
 
 #include <spdlog/spdlog.h>
 
+#include <stdexcept>
+
 namespace opal {
 
 bool StringTokenizer::canHandle(char c) const {
@@ -41,8 +43,8 @@ void StringTokenizer::tokenize() {
     }
 
     if (isAtEnd()) {
-        spdlog::error("Unterminated string");
-        exit(1);
+        spdlog::error("Unterminated string at line {}", line);
+        throw std::runtime_error("Unterminated string");
     }
 
     advance();

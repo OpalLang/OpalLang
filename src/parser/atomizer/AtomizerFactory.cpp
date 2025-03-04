@@ -20,6 +20,7 @@
  */
 
 #include "opal/parser/atomizer/AtomizerFactory.hpp"
+
 #include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/VariableAtomizer.hpp"

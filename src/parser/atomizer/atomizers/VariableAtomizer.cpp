@@ -20,15 +20,17 @@
  */
 
 #include "opal/parser/atomizer/atomizers/VariableAtomizer.hpp"
-#include "opal/parser/node/NodeFactory.hpp"
+
 #include "opal/parser/atomizer/VariableType.hpp"
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
+
+#include <spdlog/spdlog.h>
 
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <vector>
-#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -54,15 +56,17 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
 
         if (current >= tokens.size()) {
             spdlog::error("Expected value after assignment operator");
-            exit(1);
+            throw std::runtime_error("No value provided after assignment operator");
         }
 
-        bool isConst = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
-        std::unique_ptr<VariableNode> variableNode = NodeFactory::createVariableNode(variableName, "", isConst, VariableType::UNKNOWN);
+        bool                          isConst = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
+        std::unique_ptr<VariableNode> variableNode =
+            NodeFactory::createVariableNode(variableName, "", isConst, VariableType::UNKNOWN);
 
         return std::unique_ptr<NodeBase>(handleAssignment(variableNode).release());
     } else {
-        std::unique_ptr<VariableNode> variableNode = NodeFactory::createVariableNode(variableName, "", false, VariableType::UNKNOWN);
+        std::unique_ptr<VariableNode> variableNode =
+            NodeFactory::createVariableNode(variableName, "", false, VariableType::UNKNOWN);
         return std::unique_ptr<NodeBase>(variableNode.release());
     }
 }
@@ -71,7 +75,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
     std::string variableValue;
 
     OperationAtomizer opAtomizer(current, tokens);
-    bool hasOperator = opAtomizer.canHandle(tokens[current + 1].type);
+    bool              hasOperator = current + 1 < tokens.size() && opAtomizer.canHandle(tokens[current + 1].type);
 
     if (tokens[current].type == TokenType::NUMBER) {
         if (hasOperator) {
@@ -101,9 +105,8 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
         variableNode->setType(VariableType::UNKNOWN);
     } else {
         spdlog::error("Expected a value or identifier after assignment operator");
-        exit(1);
+        throw std::runtime_error("Invalid value type after assignment operator");
     }
-
     advance();
     return std::unique_ptr<NodeBase>(variableNode.release());
 }
@@ -112,8 +115,10 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleOperation(std::unique_ptr<Vari
     size_t nextIndex = current + 1;
     if (nextIndex < tokens.size()) {
         OperationAtomizer opAtomizer(current, tokens);
-        if (tokens[current].type == TokenType::NUMBER || (nextIndex < tokens.size() && opAtomizer.canHandle(tokens[nextIndex].type))) {
-            std::unique_ptr<OperationNode> opNode = std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
+        if (tokens[current].type == TokenType::NUMBER
+            || (nextIndex < tokens.size() && opAtomizer.canHandle(tokens[nextIndex].type))) {
+            std::unique_ptr<OperationNode> opNode =
+                std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
             if (opNode) {
                 variableNode->setOperation(std::move(opNode));
                 variableNode->setType(VariableType::INT);

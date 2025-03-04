@@ -36,7 +36,7 @@ protected:
 };
 
 TEST_F(LexerTest, ScanNumbers) {
-    Lexer lexer("123 45.67");
+    Lexer              lexer("123 45.67");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 3);
@@ -54,7 +54,7 @@ TEST_F(LexerTest, ScanNumbers) {
 }
 
 TEST_F(LexerTest, ScanStrings) {
-    Lexer lexer("\"Hello, World!\" \"Test\"");
+    Lexer              lexer("\"Hello, World!\" \"Test\"");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 3);
@@ -72,7 +72,7 @@ TEST_F(LexerTest, ScanStrings) {
 }
 
 TEST_F(LexerTest, ScanOperators) {
-    Lexer lexer("+ - * / % == != > >= < <=");
+    Lexer              lexer("+ - * / % == != > >= < <=");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 12);
@@ -93,7 +93,7 @@ TEST_F(LexerTest, ScanOperators) {
 }
 
 TEST_F(LexerTest, ScanKeywords) {
-    Lexer lexer("if elif else while for class fn ret");
+    Lexer              lexer("if elif else while for class fn ret");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 9);
@@ -111,7 +111,7 @@ TEST_F(LexerTest, ScanKeywords) {
 }
 
 TEST_F(LexerTest, ScanIdentifiers) {
-    Lexer lexer("variable x y123 _test");
+    Lexer              lexer("variable x y123 _test");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 5);
@@ -147,23 +147,23 @@ TEST_F(LexerTest, ScanSimpleProgram) {
 
     ASSERT_GT(tokens.size(), 1);
 
-    std::vector<Token>::iterator fnToken = std::find_if(tokens.begin(), tokens.end(), 
-        [](const Token& t) { return t.type == TokenType::FN; });
+    std::vector<Token>::iterator fnToken =
+        std::find_if(tokens.begin(), tokens.end(), [](const Token& t) { return t.type == TokenType::FN; });
     EXPECT_NE(fnToken, tokens.end());
 
-    std::vector<Token>::iterator ifToken = std::find_if(tokens.begin(), tokens.end(),
-        [](const Token& t) { return t.type == TokenType::IF; });
+    std::vector<Token>::iterator ifToken =
+        std::find_if(tokens.begin(), tokens.end(), [](const Token& t) { return t.type == TokenType::IF; });
     EXPECT_NE(ifToken, tokens.end());
 
-    std::vector<Token>::iterator returnToken = std::find_if(tokens.begin(), tokens.end(),
-        [](const Token& t) { return t.type == TokenType::RET; });
+    std::vector<Token>::iterator returnToken =
+        std::find_if(tokens.begin(), tokens.end(), [](const Token& t) { return t.type == TokenType::RET; });
     EXPECT_NE(returnToken, tokens.end());
 
     EXPECT_EQ(tokens.back().type, TokenType::EOF_TOKEN);
 }
 
 TEST_F(LexerTest, ScanSingleLineComment) {
-    Lexer lexer("x = 10; // This is a comment\ny = 20;");
+    Lexer              lexer("x = 10; // This is a comment\ny = 20;");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 10);
@@ -191,7 +191,7 @@ TEST_F(LexerTest, ScanSingleLineComment) {
 }
 
 TEST_F(LexerTest, ScanMultiLineComment) {
-    Lexer lexer("start /* This is a\nmulti-line\ncomment */ end");
+    Lexer              lexer("start /* This is a\nmulti-line\ncomment */ end");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 4);
@@ -211,7 +211,7 @@ TEST_F(LexerTest, ScanMultiLineComment) {
 }
 
 TEST_F(LexerTest, ScanNestedMultiLineComment) {
-    Lexer lexer("before /* outer comment /* nested comment */ still in comment */ after");
+    Lexer              lexer("before /* outer comment /* nested comment */ still in comment */ after");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 4);
@@ -229,7 +229,7 @@ TEST_F(LexerTest, ScanNestedMultiLineComment) {
 }
 
 TEST_F(LexerTest, ScanIncrementDecrementOperators) {
-    Lexer lexer("x++ y-- ++a --b");
+    Lexer              lexer("x++ y-- ++a --b");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 9);
@@ -258,7 +258,7 @@ TEST_F(LexerTest, ScanIncrementDecrementOperators) {
 }
 
 TEST_F(LexerTest, ScanRangeOperator) {
-    Lexer lexer("1..10");
+    Lexer              lexer("1..10");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 4);
@@ -276,7 +276,7 @@ TEST_F(LexerTest, ScanRangeOperator) {
 }
 
 TEST_F(LexerTest, ScanBinaryOperators) {
-    Lexer lexer("x & y | z # w ~ k << m >> n");
+    Lexer              lexer("x & y | z # w ~ k << m >> n");
     std::vector<Token> tokens = lexer.scanTokens();
     ASSERT_EQ(tokens.size(), 14);
 
@@ -316,7 +316,7 @@ TEST_F(LexerTest, ScanBinaryOperators) {
 }
 
 TEST_F(LexerTest, ScanCompoundBinaryOperations) {
-    Lexer lexer("(a & b) | (c << 2) >> 1");
+    Lexer              lexer("(a & b) | (c << 2) >> 1");
     std::vector<Token> tokens = lexer.scanTokens();
     ASSERT_EQ(tokens.size(), 14);
 
@@ -430,7 +430,7 @@ TEST_F(LexerTest, ScanCompoundAssignmentOperators) {
 }
 
 TEST_F(LexerTest, ScanNewKeywords) {
-    Lexer lexer("const enum switch case default break continue");
+    Lexer              lexer("const enum switch case default break continue");
     std::vector<Token> tokens = lexer.scanTokens();
 
     ASSERT_EQ(tokens.size(), 8);
@@ -460,7 +460,7 @@ TEST_F(LexerTest, ScanNewKeywords) {
 }
 
 TEST_F(LexerTest, ScanSwitchStatement) {
-    Lexer lexer(R"(
+    Lexer              lexer(R"(
         switch (value) {
             case 1:
                 ret "one";
@@ -488,7 +488,7 @@ TEST_F(LexerTest, ScanSwitchStatement) {
 }
 
 TEST_F(LexerTest, ScanEnumDeclaration) {
-    Lexer lexer(R"(
+    Lexer              lexer(R"(
         enum Color {
             RED,
             GREEN,
@@ -521,7 +521,7 @@ TEST_F(LexerTest, ScanEnumDeclaration) {
 }
 
 TEST_F(LexerTest, ScanLoadStatements) {
-    Lexer lexer("load \"my.h\" load \"math\"");
+    Lexer              lexer("load \"my.h\" load \"math\"");
     std::vector<Token> tokens = lexer.scanTokens();
     ASSERT_EQ(tokens.size(), 5);
     EXPECT_EQ(tokens[0].type, TokenType::LOAD);

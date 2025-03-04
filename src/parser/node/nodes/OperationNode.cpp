@@ -21,8 +21,9 @@
 
 #include "opal/parser/node/nodes/OperationNode.hpp"
 
-#include <iostream>
 #include <spdlog/spdlog.h>
+
+#include <iostream>
 
 namespace opal {
 
