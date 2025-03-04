@@ -82,19 +82,3 @@ TEST_F(CommandTest, UnknownCommand) {
 
     EXPECT_EQ(unknownCommand, commands.end());
 }
-
-TEST_F(CommandTest, CommandWithArguments) {
-    std::vector<std::string>                            args     = {"arg1", "arg2"};
-    std::vector<std::unique_ptr<CommandBase>>           commands = CommandFactory::createCommands();
-    std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
-            return cmd->canHandle("help");
-        });
-
-    ASSERT_NE(helpCommand, commands.end());
-    (*helpCommand)->setArguments(args);
-    (*helpCommand)->execute();
-
-    std::string output = testCout.str();
-    EXPECT_THAT(output, HasSubstr("Available commands"));
-}

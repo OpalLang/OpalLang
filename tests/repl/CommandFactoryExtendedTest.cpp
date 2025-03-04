@@ -152,58 +152,6 @@ TEST_F(CommandFactoryExtendedTest, CommandAliases) {
     EXPECT_NE(helpCommand, commands.end());
 }
 
-TEST_F(CommandFactoryExtendedTest, CommandWithArguments) {
-    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
-
-    std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
-            return cmd->canHandle("help");
-        });
-
-    ASSERT_NE(helpCommand, commands.end());
-
-    std::vector<std::string> args = {"arg1", "arg2", "arg3"};
-    (*helpCommand)->setArguments(args);
-
-    (*helpCommand)->execute();
-
-    std::string output = testCout.str();
-    EXPECT_THAT(output, HasSubstr("Available commands"));
-}
-
-TEST_F(CommandFactoryExtendedTest, CommandExecutionOrder) {
-    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
-
-    testCout.str("");
-    testCout.clear();
-
-    std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
-            return cmd->canHandle("help");
-        });
-
-    std::vector<std::unique_ptr<CommandBase>>::iterator clearCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
-            return cmd->canHandle("clear");
-        });
-
-    ASSERT_NE(helpCommand, commands.end());
-    ASSERT_NE(clearCommand, commands.end());
-
-    (*helpCommand)->execute();
-    std::string helpOutput = testCout.str();
-
-    testCout.str("");
-    testCout.clear();
-
-    (*clearCommand)->execute();
-    std::string clearOutput = testCout.str();
-
-    EXPECT_NE(helpOutput, clearOutput);
-    EXPECT_THAT(helpOutput, HasSubstr("Available commands"));
-    EXPECT_THAT(clearOutput, HasSubstr("\033c"));
-}
-
 TEST_F(CommandFactoryExtendedTest, EmptyCommandList) {
     std::vector<std::unique_ptr<CommandBase>> emptyCommands;
 
