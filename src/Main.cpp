@@ -30,35 +30,27 @@
 #include <string>
 
 int main(int argc, char* argv[]) {
-    spdlog::set_pattern("[%H:%M:%S] [%^%L%$] %v");
-    spdlog::set_level(spdlog::level::debug);
-    spdlog::info("Opal Language");
+    try {
+        spdlog::set_pattern("[%H:%M:%S] [%^%L%$] %v");
+        spdlog::set_level(spdlog::level::debug);
+        spdlog::info("Opal Language");
 
-    if (argc < 2) {
-        opal::Repl repl;
-
-        try {
+        if (argc < 2) {
+            opal::Repl repl;
             repl.start();
-        } catch (const std::exception& e) {
-            spdlog::error("Error: {}", e.what());
-            return 1;
-        }
-    } else {
-        if (!opal::FileUtil::fileExists(argv[1])) {
-            std::string error = "File does not exist: " + std::string(argv[1]);
-            spdlog::error(error);
-            return 1;
-        }
+        } else {
+            if (!opal::FileUtil::fileExists(argv[1])) {
+                spdlog::error("File does not exist: {}", argv[1]);
+                return 1;
+            }
 
-        if (!opal::FileUtil::hasGoodExtension(argv[1])) {
-            std::string error = "File has an invalid extension: " + std::string(argv[1]);
-            spdlog::error(error);
-            return 1;
-        }
+            if (!opal::FileUtil::hasGoodExtension(argv[1])) {
+                spdlog::error("File has an invalid extension: {}", argv[1]);
+                return 1;
+            }
 
-        try {
-            std::string              sourceCode = opal::FileUtil::readFile(argv[1]);
-            opal::Lexer              lexer(sourceCode);
+            std::string sourceCode = opal::FileUtil::readFile(argv[1]);
+            opal::Lexer lexer(sourceCode);
             std::vector<opal::Token> tokens = lexer.scanTokens();
 
             spdlog::info("Tokenizing file: {}", argv[1]);
@@ -71,11 +63,10 @@ int main(int argc, char* argv[]) {
             opal::Parser parser(tokens);
             parser.printAST();
             spdlog::info("----------------------------------------");
-        } catch (const std::exception& e) {
-            spdlog::error("Error: {}", e.what());
-            return 1;
         }
+        return 0;
+    } catch (const std::exception& e) {
+        spdlog::error("Error: {}", e.what());
+        return 1;
     }
-
-    return 0;
 }
