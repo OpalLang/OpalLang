@@ -41,7 +41,7 @@ void SignalHandler::restoreDefaultHandler(int signalType) {
 
 void SignalHandler::restoreAllDefaults() {
     std::vector<int> signalTypes;
-    for (const auto& pair : callbacks) {
+    for (const std::pair<const int, SignalCallback>& pair : callbacks) {
         signalTypes.push_back(pair.first);
     }
 
@@ -51,7 +51,7 @@ void SignalHandler::restoreAllDefaults() {
 }
 
 void SignalHandler::handleSignal(int signalType) {
-    auto it = callbacks.find(signalType);
+    std::unordered_map<int, SignalCallback>::iterator it = callbacks.find(signalType);
     if (it != callbacks.end()) {
         it->second(signalType);
     }

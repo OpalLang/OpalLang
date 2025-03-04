@@ -73,7 +73,7 @@ bool Lexer::isAtEnd() const {
 }
 
 void Lexer::printTokens() const {
-    for (const auto& token : tokens) {
+    for (const Token& token : tokens) {
         std::cout << "Type: " << static_cast<int>(token.type) << " Value: '" << token.value << "' Line: " << token.line
                   << " Column: " << token.column << std::endl;
     }

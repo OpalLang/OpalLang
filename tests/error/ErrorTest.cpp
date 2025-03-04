@@ -111,7 +111,7 @@ TEST_F(ErrorTest, GetErrors) {
     Error::lexerError(2, 10, "Deuxième erreur");
     getOutput();
 
-    const auto& errors = Error::getErrors();
+    const std::vector<Error::ErrorInfo>& errors = Error::getErrors();
     ASSERT_EQ(errors.size(), 2);
 
     EXPECT_EQ(errors[0].message, "Première erreur");
@@ -127,7 +127,7 @@ TEST_F(ErrorTest, ErrorInfoStructure) {
     Error::error(1, 5, "Message de test");
     getOutput();
 
-    const auto& errors = Error::getErrors();
+    const std::vector<Error::ErrorInfo>& errors = Error::getErrors();
     ASSERT_EQ(errors.size(), 1);
 
     const Error::ErrorInfo& info = errors[0];
@@ -174,7 +174,7 @@ TEST_F(ErrorTest, ErrorsAfterReset) {
     Error::error(2, 10, "Deuxième erreur");
     getOutput();
 
-    const auto& errors = Error::getErrors();
+    const std::vector<Error::ErrorInfo>& errors = Error::getErrors();
     ASSERT_EQ(errors.size(), 1);
     EXPECT_EQ(errors[0].message, "Deuxième erreur");
     EXPECT_TRUE(Error::hadError());
