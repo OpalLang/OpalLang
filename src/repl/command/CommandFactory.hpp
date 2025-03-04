@@ -28,9 +28,9 @@
 
 namespace opal {
 
-class CommandFactory {
-public:
-    static std::vector<std::unique_ptr<CommandBase>> createCommands();
-};
+    class CommandFactory {
+        public:
+            static std::vector<std::unique_ptr<CommandBase>> createCommands();
+    };
 
 }  // namespace opal

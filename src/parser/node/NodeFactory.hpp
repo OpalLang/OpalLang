@@ -34,17 +34,17 @@
 
 namespace opal {
 
-class NodeFactory {
-public:
-    static std::unique_ptr<NodeBase>     createNode(TokenType type);
-    static std::unique_ptr<VariableNode> createVariableNode(const std::string& name,
-                                                            const std::string& value,
-                                                            bool               isConstant = false,
-                                                            VariableType       type       = VariableType::UNKNOWN) {
-        return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConstant, type);
-    }
-    static std::unique_ptr<OperationNode> createOperationNode(const std::vector<Token>& tokens);
-    static std::unique_ptr<LoadNode>      createLoadNode(const std::string_view& path);
-};
+    class NodeFactory {
+        public:
+            static std::unique_ptr<NodeBase>     createNode(TokenType type);
+            static std::unique_ptr<VariableNode> createVariableNode(const std::string& name,
+                                                                    const std::string& value,
+                                                                    bool               isConstant = false,
+                                                                    VariableType       type       = VariableType::UNKNOWN) {
+                return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConstant, type);
+            }
+            static std::unique_ptr<OperationNode> createOperationNode(const std::vector<Token>& tokens);
+            static std::unique_ptr<LoadNode>      createLoadNode(const std::string_view& path);
+    };
 
 }  // namespace opal

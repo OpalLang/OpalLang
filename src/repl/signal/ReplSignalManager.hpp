@@ -28,23 +28,23 @@
 
 namespace opal {
 
-class ReplSignalManager {
-public:
-    ReplSignalManager();
-    ~ReplSignalManager();
+    class ReplSignalManager {
+        private:
+            std::atomic<bool> _interruptRequested;
+            std::atomic<bool> _exitRequested;
 
-    void setupSignalHandlers();
-    bool isInterruptRequested() const;
-    void resetInterruptFlag();
-    bool shouldExit() const;
-    void setExitFlag(bool value);
+        public:
+            ReplSignalManager();
+            ~ReplSignalManager();
 
-    void handleInterrupt(int signal);
-    void handleTerminate(int signal);
+            void setupSignalHandlers();
+            bool isInterruptRequested() const;
+            void resetInterruptFlag();
+            bool shouldExit() const;
+            void setExitFlag(bool value);
 
-private:
-    std::atomic<bool> _interruptRequested;
-    std::atomic<bool> _exitRequested;
-};
+            void handleInterrupt(int signal);
+            void handleTerminate(int signal);
+    };
 
 }  // namespace opal

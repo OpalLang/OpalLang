@@ -25,17 +25,17 @@
 
 namespace opal {
 
-class ErrorUtil {
-public:
-    static std::string errorMessage(const std::string& message, int line, int column) {
-        return message + " at line " + std::to_string(line) + ", column " + std::to_string(column);
-    }
+    class ErrorUtil {
+        private:
+            ErrorUtil()                            = delete;
+            ~ErrorUtil()                           = delete;
+            ErrorUtil(const ErrorUtil&)            = delete;
+            ErrorUtil& operator=(const ErrorUtil&) = delete;
 
-private:
-    ErrorUtil()                            = delete;
-    ~ErrorUtil()                           = delete;
-    ErrorUtil(const ErrorUtil&)            = delete;
-    ErrorUtil& operator=(const ErrorUtil&) = delete;
-};
+        public:
+            static std::string errorMessage(const std::string& message, int line, int column) {
+                return message + " at line " + std::to_string(line) + ", column " + std::to_string(column);
+            }
+    };
 
 }  // namespace opal

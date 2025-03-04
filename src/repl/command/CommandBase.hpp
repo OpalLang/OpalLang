@@ -27,18 +27,18 @@
 
 namespace opal {
 
-class CommandBase {
-protected:
-    std::vector<std::string> _args;
+    class CommandBase {
+        protected:
+            std::vector<std::string> _args;
 
-public:
-    CommandBase()          = default;
-    virtual ~CommandBase() = default;
+        public:
+            CommandBase()          = default;
+            virtual ~CommandBase() = default;
 
-    virtual bool canHandle(const std::string& commandName) const = 0;
-    virtual void execute()                                       = 0;
+            virtual bool canHandle(const std::string& commandName) const = 0;
+            virtual void execute()                                       = 0;
 
-    void setArguments(const std::vector<std::string>& arguments) { _args = arguments; }
-};
+            void setArguments(const std::vector<std::string>& arguments) { _args = arguments; }
+    };
 
 }  // namespace opal

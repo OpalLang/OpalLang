@@ -31,23 +31,23 @@
 
 namespace opal {
 
-class Lexer {
-public:
-    explicit Lexer(std::string source);
-    std::vector<Token> scanTokens();
-    void               printTokens() const;
+    class Lexer {
+        public:
+            explicit Lexer(std::string source);
+            std::vector<Token> scanTokens();
+            void               printTokens() const;
 
-private:
-    std::string                                 _source;
-    std::vector<Token>                          _tokens;
-    std::vector<std::unique_ptr<TokenizerBase>> _tokenizers;
-    int                                         _start   = 0;
-    int                                         _current = 0;
-    int                                         _line    = 1;
-    int                                         _column  = 1;
+        private:
+            std::string                                 _source;
+            std::vector<Token>                          _tokens;
+            std::vector<std::unique_ptr<TokenizerBase>> _tokenizers;
+            int                                         _start   = 0;
+            int                                         _current = 0;
+            int                                         _line    = 1;
+            int                                         _column  = 1;
 
-    void scanToken();
-    bool isAtEnd() const;
-};
+            void scanToken();
+            bool isAtEnd() const;
+    };
 
 }  // namespace opal

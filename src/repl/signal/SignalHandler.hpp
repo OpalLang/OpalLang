@@ -27,19 +27,20 @@
 
 namespace opal {
 
-class SignalHandler {
-public:
-    using SignalCallback = std::function<void(int)>;
+    class SignalHandler {
+        public:
+            using SignalCallback = std::function<void(int)>;
 
-    static void initialize();
-    static void registerHandler(int signalType, SignalCallback callback);
-    static void restoreDefaultHandler(int signalType);
-    static void restoreAllDefaults();
-    static void handleSignal(int signalType);
+            static void initialize();
+            static void registerHandler(int signalType, SignalCallback callback);
+            static void restoreDefaultHandler(int signalType);
+            static void restoreAllDefaults();
+            static void handleSignal(int signalType);
 
-private:
-    static std::unordered_map<int, SignalCallback> _callbacks;
-    SignalHandler() = delete;
-};
+        private:
+            static std::unordered_map<int, SignalCallback> _callbacks;
+
+            SignalHandler() = delete;
+    };
 
 }  // namespace opal

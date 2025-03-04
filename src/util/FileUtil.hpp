@@ -25,18 +25,18 @@
 
 namespace opal {
 
-class FileUtil {
-public:
-    static std::string readFile(const std::string& filepath);
-    static void        writeFile(const std::string& filepath, const std::string& content);
-    static bool        fileExists(const std::string& filepath);
-    static bool        hasGoodExtension(const std::string& filepath);
+    class FileUtil {
+        private:
+            FileUtil()                           = delete;
+            ~FileUtil()                          = delete;
+            FileUtil(const FileUtil&)            = delete;
+            FileUtil& operator=(const FileUtil&) = delete;
 
-private:
-    FileUtil()                           = delete;
-    ~FileUtil()                          = delete;
-    FileUtil(const FileUtil&)            = delete;
-    FileUtil& operator=(const FileUtil&) = delete;
-};
+        public:
+            static std::string readFile(const std::string& filepath);
+            static void        writeFile(const std::string& filepath, const std::string& content);
+            static bool        fileExists(const std::string& filepath);
+            static bool        hasGoodExtension(const std::string& filepath);
+    };
 
 }  // namespace opal

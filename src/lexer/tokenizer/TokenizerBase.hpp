@@ -29,37 +29,37 @@
 
 namespace opal {
 
-class TokenizerBase {
-protected:
-    const std::string&  _source;
-    int&                _current;
-    int&                _line;
-    int&                _column;
-    int&                _start;
-    std::vector<Token>& _tokens;
+    class TokenizerBase {
+        protected:
+            const std::string&  _source;
+            int&                _current;
+            int&                _line;
+            int&                _column;
+            int&                _start;
+            std::vector<Token>& _tokens;
 
-public:
-    TokenizerBase(const std::string&  source,
-                  int&                current,
-                  int&                line,
-                  int&                column,
-                  int&                start,
-                  std::vector<Token>& tokens);
-    virtual ~TokenizerBase() = default;
+        public:
+            TokenizerBase(const std::string&  source,
+                        int&                current,
+                        int&                line,
+                        int&                column,
+                        int&                start,
+                        std::vector<Token>& tokens);
+            virtual ~TokenizerBase() = default;
 
-    virtual bool canHandle(char c) const = 0;
-    virtual void tokenize()              = 0;
+            virtual bool canHandle(char c) const = 0;
+            virtual void tokenize()              = 0;
 
-protected:
-    bool isAtEnd() const;
-    char peek() const;
-    char peekNext() const;
-    char advance();
-    void addToken(TokenType type);
-    void addToken(TokenType type, std::string_view value);
-    bool isDigit(char c) const;
-    bool isAlpha(char c) const;
-    bool isAlphaNumeric(char c) const;
-};
+        protected:
+            bool isAtEnd() const;
+            char peek() const;
+            char peekNext() const;
+            char advance();
+            void addToken(TokenType type);
+            void addToken(TokenType type, std::string_view value);
+            bool isDigit(char c) const;
+            bool isAlpha(char c) const;
+            bool isAlphaNumeric(char c) const;
+    };
 
 }  // namespace opal

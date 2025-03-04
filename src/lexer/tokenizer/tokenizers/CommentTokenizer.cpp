@@ -20,12 +20,11 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
-
 #include "opal/util/ErrorUtil.hpp"
 
 #include <stdexcept>
 
-namespace opal {
+using namespace opal;
 
 bool CommentTokenizer::canHandle(char c) const {
     if (c != '/')
@@ -80,5 +79,3 @@ void CommentTokenizer::handleMultiLineComment() {
 
     this->addToken(TokenType::COMMENT);
 }
-
-}  // namespace opal

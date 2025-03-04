@@ -27,15 +27,15 @@
 
 namespace opal {
 
-class Token {
-public:
-    TokenType        type;
-    std::string_view value;
-    int              line;
-    int              column;
+    class Token {
+        public:
+            TokenType        type;
+            std::string_view value;
+            int              line;
+            int              column;
 
-    Token(TokenType type, std::string_view value, int line, int column)
-        : type(type), value(value), line(line), column(column) {}
-};
+            Token(TokenType type, std::string_view value, int line, int column)
+                : type(type), value(value), line(line), column(column) {}
+    };
 
 }  // namespace opal

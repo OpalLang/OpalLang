@@ -29,11 +29,11 @@
 
 namespace opal {
 
-class OperationAtomizer : public AtomizerBase {
-public:
-    OperationAtomizer(size_t& current, std::vector<Token>& tokens);
-    bool                      canHandle(TokenType type) const override;
-    std::unique_ptr<NodeBase> atomize() override;
-};
+    class OperationAtomizer : public AtomizerBase {
+        public:
+            OperationAtomizer(size_t& current, std::vector<Token>& tokens);
+            bool                      canHandle(TokenType type) const override;
+            std::unique_ptr<NodeBase> atomize() override;
+    };
 
 }  // namespace opal

@@ -25,13 +25,13 @@
 
 namespace opal {
 
-class ClearCommand : public CommandBase {
-public:
-    ClearCommand()           = default;
-    ~ClearCommand() override = default;
+    class ClearCommand : public CommandBase {
+        public:
+            ClearCommand()           = default;
+            ~ClearCommand() override = default;
 
-    bool canHandle(const std::string& commandName) const override;
-    void execute() override;
-};
+            bool canHandle(const std::string& commandName) const override;
+            void execute() override;
+    };
 
 }  // namespace opal

@@ -28,15 +28,15 @@
 
 namespace opal {
 
-class IdentifierTokenizer : public TokenizerBase {
-public:
-    using TokenizerBase::TokenizerBase;
+    class IdentifierTokenizer : public TokenizerBase {
+        public:
+            using TokenizerBase::TokenizerBase;
 
-    bool canHandle(char c) const override;
-    void tokenize() override;
+            bool canHandle(char c) const override;
+            void tokenize() override;
 
-private:
-    static const std::unordered_map<std::string_view, TokenType> _keywords;
-};
+        private:
+            static const std::unordered_map<std::string_view, TokenType> _keywords;
+    };
 
 }  // namespace opal

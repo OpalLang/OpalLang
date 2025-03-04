@@ -29,19 +29,19 @@
 
 namespace opal {
 
-class Parser {
-public:
-    explicit Parser(std::vector<Token> tokens);
-    void printAST() const;
+    class Parser {
+        private:
+            std::vector<Token>                         _tokens;
+            std::vector<std::unique_ptr<AtomizerBase>> _atomizers;
+            std::vector<std::unique_ptr<NodeBase>>     _nodes;
+            size_t                                     _current = 0;
 
-private:
-    std::vector<Token>                         _tokens;
-    std::vector<std::unique_ptr<AtomizerBase>> _atomizers;
-    std::vector<std::unique_ptr<NodeBase>>     _nodes;
-    size_t                                     _current = 0;
+            bool  isAtEnd() const;
+            Token peek() const;
 
-    bool  isAtEnd() const;
-    Token peek() const;
-};
+        public:
+            explicit Parser(std::vector<Token> tokens);
+            void printAST() const;
+    };
 
 }  // namespace opal

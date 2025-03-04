@@ -25,12 +25,12 @@
 
 namespace opal {
 
-class StringTokenizer : public TokenizerBase {
-public:
-    using TokenizerBase::TokenizerBase;
+    class StringTokenizer : public TokenizerBase {
+        public:
+            using TokenizerBase::TokenizerBase;
 
-    bool canHandle(char c) const override;
-    void tokenize() override;
-};
+            bool canHandle(char c) const override;
+            void tokenize() override;
+    };
 
 }  // namespace opal

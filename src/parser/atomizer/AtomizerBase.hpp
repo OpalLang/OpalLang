@@ -29,22 +29,22 @@
 
 namespace opal {
 
-class AtomizerBase {
-protected:
-    size_t&             _current;
-    std::vector<Token>& _tokens;
+    class AtomizerBase {
+        protected:
+            size_t&             _current;
+            std::vector<Token>& _tokens;
 
-public:
-    AtomizerBase(size_t& current, std::vector<Token>& tokens);
-    virtual ~AtomizerBase() = default;
+        public:
+            AtomizerBase(size_t& current, std::vector<Token>& tokens);
+            virtual ~AtomizerBase() = default;
 
-    virtual bool                      canHandle(TokenType) const = 0;
-    virtual std::unique_ptr<NodeBase> atomize()                  = 0;
+            virtual bool                      canHandle(TokenType) const = 0;
+            virtual std::unique_ptr<NodeBase> atomize()                  = 0;
 
-protected:
-    Token peek() const;
-    Token peekNext() const;
-    Token advance();
-};
+        protected:
+            Token peek() const;
+            Token peekNext() const;
+            Token advance();
+    };
 
 }  // namespace opal

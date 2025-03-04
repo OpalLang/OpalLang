@@ -27,15 +27,15 @@
 
 namespace opal {
 
-class Repl {
-public:
-    void start();
+    class Repl {
+        private:
+            ReplSignalManager _signalManager;
 
-private:
-    void run(const std::string& source);
-    void runPrompt();
+            void run(const std::string& source);
+            void runPrompt();
 
-    ReplSignalManager _signalManager;
-};
+        public:
+            void start();
+    };
 
 }  // namespace opal

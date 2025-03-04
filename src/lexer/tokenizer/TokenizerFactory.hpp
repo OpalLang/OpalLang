@@ -28,14 +28,14 @@
 
 namespace opal {
 
-class TokenizerFactory {
-public:
-    static std::vector<std::unique_ptr<TokenizerBase>> createTokenizers(const std::string&  source,
-                                                                        int&                current,
-                                                                        int&                line,
-                                                                        int&                column,
-                                                                        int&                start,
-                                                                        std::vector<Token>& tokens);
-};
+    class TokenizerFactory {
+        public:
+            static std::vector<std::unique_ptr<TokenizerBase>> createTokenizers(const std::string&  source,
+                                                                                int&                current,
+                                                                                int&                line,
+                                                                                int&                column,
+                                                                                int&                start,
+                                                                                std::vector<Token>& tokens);
+    };
 
 }  // namespace opal

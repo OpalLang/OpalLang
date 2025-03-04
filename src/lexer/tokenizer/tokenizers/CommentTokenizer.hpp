@@ -25,16 +25,16 @@
 
 namespace opal {
 
-class CommentTokenizer : public TokenizerBase {
-public:
-    using TokenizerBase::TokenizerBase;
+    class CommentTokenizer : public TokenizerBase {
+        public:
+            using TokenizerBase::TokenizerBase;
 
-    bool canHandle(char c) const override;
-    void tokenize() override;
+            bool canHandle(char c) const override;
+            void tokenize() override;
 
-private:
-    void handleSingleLineComment();
-    void handleMultiLineComment();
-};
+        private:
+            void handleSingleLineComment();
+            void handleMultiLineComment();
+    };
 
 }  // namespace opal
