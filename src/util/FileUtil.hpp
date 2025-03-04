@@ -31,6 +31,7 @@ public:
     static void        writeFile(const std::string& filepath, const std::string& content);
     static bool        fileExists(const std::string& filepath);
     static bool        hasGoodExtension(const std::string& filepath);
+    static std::string errorMessage(const std::string& message, int line, int column);
 
 private:
     FileUtil()                           = delete;

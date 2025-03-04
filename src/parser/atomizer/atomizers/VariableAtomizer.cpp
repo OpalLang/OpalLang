@@ -24,6 +24,7 @@
 #include "opal/parser/atomizer/VariableType.hpp"
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 #include "opal/parser/node/NodeFactory.hpp"
+#include "opal/util/FileUtil.hpp"
 
 #include <spdlog/spdlog.h>
 
@@ -52,10 +53,13 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
     advance();
 
     if (current < tokens.size() && tokens[current].type == TokenType::EQUAL) {
+        Token equalToken = tokens[current];
         advance();
 
         if (current >= tokens.size()) {
-            throw std::runtime_error("No value provided after assignment operator");
+            throw std::runtime_error(FileUtil::errorMessage("No value provided after assignment operator",
+                                                            equalToken.line,
+                                                            equalToken.column));
         }
 
         bool                          isConst = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
@@ -103,7 +107,9 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
         variableNode->setValue(variableValue);
         variableNode->setType(VariableType::UNKNOWN);
     } else {
-        throw std::runtime_error("Expected a value or identifier after assignment operator");
+        throw std::runtime_error(FileUtil::errorMessage("Expected a value or identifier after assignment operator",
+                                                        tokens[current].line,
+                                                        tokens[current].column));
     }
     advance();
     return std::unique_ptr<NodeBase>(variableNode.release());
