@@ -39,17 +39,17 @@ int main(int argc, char* argv[]) {
         try {
             repl.start();
         } catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
+            spdlog::error("Error: {}", e.what());
             return 1;
         }
     } else {
         if (!opal::FileUtil::fileExists(argv[1])) {
-            std::cerr << "File does not exist: " << argv[1] << std::endl;
+            spdlog::error("File does not exist: {}", argv[1]);
             return 1;
         }
 
         if (!opal::FileUtil::hasGoodExtension(argv[1])) {
-            std::cerr << "File has an invalid extension: " << argv[1] << std::endl;
+            spdlog::error("File has an invalid extension: {}", argv[1]);
             return 1;
         }
 
@@ -58,18 +58,18 @@ int main(int argc, char* argv[]) {
             opal::Lexer lexer(sourceCode);
             std::vector<opal::Token> tokens = lexer.scanTokens();
 
-            std::cout << "Tokenizing file: " << argv[1] << std::endl;
-            std::cout << "----------------------------------------" << std::endl;
+            spdlog::info("Tokenizing file: {}", argv[1]);
+            spdlog::info("----------------------------------------");
             lexer.printTokens();
-            std::cout << "----------------------------------------" << std::endl;
+            spdlog::info("----------------------------------------");
 
-            std::cout << "Generating AST:" << std::endl;
-            std::cout << "----------------------------------------" << std::endl;
+            spdlog::info("Generating AST:");
+            spdlog::info("----------------------------------------");
             opal::Parser parser(tokens);
             parser.printAST();
-            std::cout << "----------------------------------------" << std::endl;
+            spdlog::info("----------------------------------------");
         } catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
+            spdlog::error("Error: {}", e.what());
             return 1;
         }
     }

@@ -22,6 +22,7 @@
 #include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
 
 #include <spdlog/spdlog.h>
+
 namespace opal {
 
 bool StringTokenizer::canHandle(char c) const {
@@ -41,7 +42,7 @@ void StringTokenizer::tokenize() {
 
     if (isAtEnd()) {
         spdlog::error("Unterminated string");
-        return;
+        exit(1);
     }
 
     advance();
