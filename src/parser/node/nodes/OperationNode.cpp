@@ -32,7 +32,7 @@ OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& toke
 
 void OperationNode::print(size_t indent) const {
     this->printIndent(indent);
-    spdlog::info("Operation(");
+    std::cout << "Operation(";
     for (size_t i = 0; i < this->_tokens.size(); ++i) {
         if (i > 0) {
             std::cout << " ";

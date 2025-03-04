@@ -24,6 +24,7 @@
 #include "opal/parser/atomizer/AtomizerBase.hpp"
 #include "opal/parser/node/NodeFactory.hpp"
 #include "opal/parser/node/nodes/VariableNode.hpp"
+#include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 
 #include <memory>
 #include <vector>
@@ -73,6 +74,41 @@ namespace opal {
              * @return std::unique_ptr<NodeBase> The processed node after operation
              */
             std::unique_ptr<NodeBase> handleOperation(std::unique_ptr<VariableNode>& variableNode);
+            
+            /**
+             * @brief Sets the value and type of a variable node based on the current token
+             * @param variableNode Reference to the variable node being processed
+             * @param type The type of the current token
+             */
+            void setVariableValueAndType(std::unique_ptr<VariableNode>& variableNode, TokenType type);
+            
+            /**
+             * @brief Determines if the current token should be handled as part of an operation
+             * @param currentType The type of the current token
+             * @return bool True if the token should be handled as an operation
+             */
+            bool shouldHandleAsOperation(TokenType currentType);
+            
+            /**
+             * @brief Check if the current token sequence can be parsed as an operation
+             * @param opAtomizer The operation atomizer to use for checking
+             * @return bool True if the sequence can be parsed as an operation
+             */
+            bool canParseAsOperation(const OperationAtomizer& opAtomizer) const;
+            
+            /**
+             * @brief Parse the current token sequence as an operation
+             * @param opAtomizer The operation atomizer to use for parsing
+             * @return std::unique_ptr<OperationNode> The parsed operation node
+             */
+            std::unique_ptr<OperationNode> parseOperation(OperationAtomizer& opAtomizer);
+            
+            /**
+             * @brief Handle the current token as a simple value assignment
+             * @param variableNode Reference to the variable node being processed
+             * @return std::unique_ptr<NodeBase> The processed node
+             */
+            std::unique_ptr<NodeBase> handleAsSimpleValue(std::unique_ptr<VariableNode>& variableNode);
     };
 
 }  // namespace opal

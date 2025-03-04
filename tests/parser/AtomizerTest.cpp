@@ -398,4 +398,97 @@ TEST_F(AtomizerTest, OperationAtomizerComplex) {
     EXPECT_EQ(opTokens[4].value, "5");
 }
 
+TEST_F(AtomizerTest, ParenthesizedOperation) {
+    // Testing: (2 + 2) * 3
+    tokens.emplace_back(TokenType::LEFT_PAREN, "(", 1, 1);
+    tokens.emplace_back(TokenType::NUMBER, "2", 1, 2);
+    tokens.emplace_back(TokenType::PLUS, "+", 1, 4);
+    tokens.emplace_back(TokenType::NUMBER, "2", 1, 6);
+    tokens.emplace_back(TokenType::RIGHT_PAREN, ")", 1, 7);
+    tokens.emplace_back(TokenType::MULTIPLY, "*", 1, 9);
+    tokens.emplace_back(TokenType::NUMBER, "3", 1, 11);
+
+    OperationAtomizer atomizer(current, tokens);
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
+    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
+    ASSERT_NE(opNode, nullptr);
+
+    const std::vector<Token>& opTokens = opNode->getTokens();
+    ASSERT_EQ(opTokens.size(), 7);
+    EXPECT_EQ(opTokens[0].type, TokenType::LEFT_PAREN);
+    EXPECT_EQ(opTokens[1].value, "2");
+    EXPECT_EQ(opTokens[2].type, TokenType::PLUS);
+    EXPECT_EQ(opTokens[3].value, "2");
+    EXPECT_EQ(opTokens[4].type, TokenType::RIGHT_PAREN);
+    EXPECT_EQ(opTokens[5].type, TokenType::MULTIPLY);
+    EXPECT_EQ(opTokens[6].value, "3");
+}
+
+TEST_F(AtomizerTest, NestedParentheses) {
+    // Testing: ((2 + 3) * 4)
+    tokens.emplace_back(TokenType::LEFT_PAREN, "(", 1, 1);
+    tokens.emplace_back(TokenType::LEFT_PAREN, "(", 1, 2);
+    tokens.emplace_back(TokenType::NUMBER, "2", 1, 3);
+    tokens.emplace_back(TokenType::PLUS, "+", 1, 5);
+    tokens.emplace_back(TokenType::NUMBER, "3", 1, 7);
+    tokens.emplace_back(TokenType::RIGHT_PAREN, ")", 1, 8);
+    tokens.emplace_back(TokenType::MULTIPLY, "*", 1, 10);
+    tokens.emplace_back(TokenType::NUMBER, "4", 1, 12);
+    tokens.emplace_back(TokenType::RIGHT_PAREN, ")", 1, 13);
+
+    OperationAtomizer atomizer(current, tokens);
+    std::unique_ptr<NodeBase> node = atomizer.atomize();
+    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
+    ASSERT_NE(opNode, nullptr);
+
+    const std::vector<Token>& opTokens = opNode->getTokens();
+    ASSERT_EQ(opTokens.size(), 9);
+    EXPECT_EQ(opTokens[0].type, TokenType::LEFT_PAREN);
+    EXPECT_EQ(opTokens[1].type, TokenType::LEFT_PAREN);
+    EXPECT_EQ(opTokens[2].value, "2");
+    EXPECT_EQ(opTokens[3].type, TokenType::PLUS);
+    EXPECT_EQ(opTokens[4].value, "3");
+    EXPECT_EQ(opTokens[5].type, TokenType::RIGHT_PAREN);
+    EXPECT_EQ(opTokens[6].type, TokenType::MULTIPLY);
+    EXPECT_EQ(opTokens[7].value, "4");
+    EXPECT_EQ(opTokens[8].type, TokenType::RIGHT_PAREN);
+}
+
+TEST_F(AtomizerTest, UnmatchedLeftParenthesis) {
+    // Testing: (2 + 3 * 4
+    tokens.emplace_back(TokenType::LEFT_PAREN, "(", 1, 1);
+    tokens.emplace_back(TokenType::NUMBER, "2", 1, 2);
+    tokens.emplace_back(TokenType::PLUS, "+", 1, 4);
+    tokens.emplace_back(TokenType::NUMBER, "3", 1, 6);
+    tokens.emplace_back(TokenType::MULTIPLY, "*", 1, 8);
+    tokens.emplace_back(TokenType::NUMBER, "4", 1, 10);
+
+    OperationAtomizer atomizer(current, tokens);
+    EXPECT_THROW(atomizer.atomize(), std::runtime_error);
+}
+
+TEST_F(AtomizerTest, UnmatchedRightParenthesis) {
+    // Testing: 2 + 3) * 4
+    tokens.emplace_back(TokenType::NUMBER, "2", 1, 1);
+    tokens.emplace_back(TokenType::PLUS, "+", 1, 3);
+    tokens.emplace_back(TokenType::NUMBER, "3", 1, 5);
+    tokens.emplace_back(TokenType::RIGHT_PAREN, ")", 1, 6);
+    tokens.emplace_back(TokenType::MULTIPLY, "*", 1, 8);
+    tokens.emplace_back(TokenType::NUMBER, "4", 1, 10);
+
+    OperationAtomizer atomizer(current, tokens);
+    EXPECT_THROW(atomizer.atomize(), std::runtime_error);
+}
+
+TEST_F(AtomizerTest, EmptyParentheses) {
+    // Testing: () + 2
+    tokens.emplace_back(TokenType::LEFT_PAREN, "(", 1, 1);
+    tokens.emplace_back(TokenType::RIGHT_PAREN, ")", 1, 2);
+    tokens.emplace_back(TokenType::PLUS, "+", 1, 4);
+    tokens.emplace_back(TokenType::NUMBER, "2", 1, 6);
+
+    OperationAtomizer atomizer(current, tokens);
+    EXPECT_THROW(atomizer.atomize(), std::runtime_error);
+}
+
 }  // namespace opal::Test
