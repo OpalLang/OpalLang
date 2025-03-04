@@ -23,6 +23,8 @@
 
 #include <spdlog/spdlog.h>
 
+#include <stdexcept>
+
 namespace opal {
 
 bool CommentTokenizer::canHandle(char c) const {
@@ -51,7 +53,8 @@ void CommentTokenizer::handleSingleLineComment() {
 }
 
 void CommentTokenizer::handleMultiLineComment() {
-    int nesting = 1;
+    int nesting   = 1;
+    int startLine = line;
 
     while (nesting > 0 && !isAtEnd()) {
         if (peek() == '*' && peekNext() == '/') {
@@ -72,8 +75,8 @@ void CommentTokenizer::handleMultiLineComment() {
     }
 
     if (nesting > 0) {
-        spdlog::error("Unterminated multi-line comment");
-        return;
+        spdlog::error("Unterminated multi-line comment starting at line {}", startLine);
+        throw std::runtime_error("Unterminated multi-line comment");
     }
 
     addToken(TokenType::COMMENT);

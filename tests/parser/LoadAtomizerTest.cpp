@@ -30,7 +30,7 @@ namespace opal::Test {
 class LoadAtomizerTest : public ::testing::Test {
 protected:
     std::vector<Token> tokens;
-    size_t current = 0;
+    size_t             current = 0;
 
     void SetUp() override {
         tokens.clear();
@@ -46,8 +46,8 @@ TEST_F(LoadAtomizerTest, BasicLoad) {
     LoadAtomizer atomizer(current, tokens);
     EXPECT_TRUE(atomizer.canHandle(tokens[current].type));
 
-    std::unique_ptr<NodeBase> node = atomizer.atomize();
-    opal::LoadNode* loadNode = dynamic_cast<LoadNode*>(node.get());
+    std::unique_ptr<NodeBase> node     = atomizer.atomize();
+    opal::LoadNode*           loadNode = dynamic_cast<LoadNode*>(node.get());
     ASSERT_NE(loadNode, nullptr);
     EXPECT_EQ(loadNode->getPath(), "script.opal");
 }
@@ -69,4 +69,4 @@ TEST_F(LoadAtomizerTest, LoadNoTokenAfter) {
     EXPECT_THROW(atomizer.atomize(), std::runtime_error);
 }
 
-} // namespace Opal::Test
+}  // namespace opal::Test

@@ -21,34 +21,48 @@
 
 #include "opal/parser/node/nodes/VariableNode.hpp"
 
-#include <iostream>
 #include <spdlog/spdlog.h>
+
+#include <iostream>
 
 namespace opal {
 
-VariableNode::VariableNode(TokenType tokenType, const std::string& name, const std::string& value, bool isConstant, VariableType type)
+VariableNode::VariableNode(TokenType          tokenType,
+                           const std::string& name,
+                           const std::string& value,
+                           bool               isConstant,
+                           VariableType       type)
     : NodeBase(tokenType), name(name), value(value), type(type), isConstant(isConstant) {}
 
 void VariableNode::print(size_t indent) const {
     std::string typeStr;
     switch (type) {
-        case VariableType::INT: typeStr = "INT"; break;
-        case VariableType::STRING: typeStr = "STRING"; break;
-        case VariableType::BOOL: typeStr = "BOOL"; break;
-        case VariableType::NIL: typeStr = "NIL"; break;
-        default: typeStr = "UNKNOWN"; break;
+        case VariableType::INT:
+            typeStr = "INT";
+            break;
+        case VariableType::STRING:
+            typeStr = "STRING";
+            break;
+        case VariableType::BOOL:
+            typeStr = "BOOL";
+            break;
+        case VariableType::NIL:
+            typeStr = "NIL";
+            break;
+        default:
+            typeStr = "UNKNOWN";
+            break;
     }
     spdlog::info("Variable(name={})", name);
-    
+
     if (operation) {
         std::cout << ", operation=";
         operation->print(0);
     } else if (!value.empty()) {
         std::cout << ", value=" << value;
     }
-    
-    std::cout << ", type=" << typeStr 
-              << ", const=" << (isConstant ? "true" : "false") << ")" << std::endl;
+
+    std::cout << ", type=" << typeStr << ", const=" << (isConstant ? "true" : "false") << ")" << std::endl;
 }
 
-} // namespace opal
+}  // namespace opal

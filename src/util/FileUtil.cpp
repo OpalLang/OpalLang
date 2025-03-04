@@ -21,24 +21,27 @@
 
 #include "opal/util/FileUtil.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <spdlog/spdlog.h>
 
 namespace opal {
 
 std::string FileUtil::readFile(const std::string& filepath) {
     if (!std::filesystem::is_regular_file(filepath)) {
-        spdlog::error("The specified path is not a regular file: {}", filepath);
-        exit(1);
+        std::string error = "The specified path is not a regular file: " + filepath;
+        spdlog::error(error);
+        throw std::runtime_error(error);
     }
 
     std::ifstream file(filepath);
     if (!file.is_open()) {
-        spdlog::error("Could not open file: {}", filepath);
-        exit(1);
+        std::string error = "Could not open file: " + filepath;
+        spdlog::error(error);
+        throw std::runtime_error(error);
     }
     std::stringstream buffer;
     buffer << file.rdbuf();
@@ -48,8 +51,7 @@ std::string FileUtil::readFile(const std::string& filepath) {
 void FileUtil::writeFile(const std::string& filepath, const std::string& content) {
     std::ofstream file(filepath);
     if (!file.is_open()) {
-        spdlog::error("Could not open file for writing: {}", filepath);
-        exit(1);
+        throw std::runtime_error("Could not open file for writing: " + filepath);
     }
     file << content;
 }

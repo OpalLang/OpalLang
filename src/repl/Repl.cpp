@@ -25,10 +25,11 @@
 #include "opal/parser/Parser.hpp"
 #include "opal/repl/command/CommandFactory.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -61,7 +62,7 @@ void Repl::run(const std::string& source) {
         }
     }
 
-    Lexer lexer(source);
+    Lexer              lexer(source);
     std::vector<Token> tokens = lexer.scanTokens();
 
     spdlog::info("Tokenizing source code");

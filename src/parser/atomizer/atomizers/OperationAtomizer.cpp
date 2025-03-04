@@ -20,13 +20,15 @@
  */
 
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
+
 #include "opal/parser/node/NodeFactory.hpp"
+
+#include <spdlog/spdlog.h>
 
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <vector>
-#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -60,8 +62,8 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
             operationTokens.push_back(tokens[current]);
             advance();
         } else {
-            spdlog::error("Expected a number or identifier after operator");
-            exit(1);
+            spdlog::error("Expected a number or identifier after operator at position {}", current);
+            throw std::runtime_error("Invalid operation: expected a number or identifier after operator");
         }
     }
     return NodeFactory::createOperationNode(operationTokens);

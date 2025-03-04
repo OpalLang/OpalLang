@@ -84,7 +84,9 @@ TEST_F(CommandFactoryExtendedTest, CommandPriority) {
     commands.push_back(std::make_unique<AlwaysMatchCommand>());
 
     std::vector<std::unique_ptr<CommandBase>>::iterator foundCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("help"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("help");
+        });
 
     ASSERT_NE(foundCommand, commands.end());
     EXPECT_LT(std::distance(commands.begin(), foundCommand),
@@ -95,13 +97,19 @@ TEST_F(CommandFactoryExtendedTest, CommandCaseInsensitivity) {
     std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
 
     std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("help"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("help");
+        });
 
     std::vector<std::unique_ptr<CommandBase>>::iterator clearCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("clear"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("clear");
+        });
 
     std::vector<std::unique_ptr<CommandBase>>::iterator exitCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("exit"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("exit");
+        });
 
     EXPECT_NE(helpCommand, commands.end());
     EXPECT_NE(clearCommand, commands.end());
@@ -118,7 +126,9 @@ TEST_F(CommandFactoryExtendedTest, CommandWithLeadingAndTrailingSpaces) {
     std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
 
     std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("help"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("help");
+        });
 
     ASSERT_NE(helpCommand, commands.end());
 
@@ -131,10 +141,13 @@ TEST_F(CommandFactoryExtendedTest, CommandAliases) {
     std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
 
     std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("?"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("?");
+        });
 
-    helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("help"); });
+    helpCommand = std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+        return cmd->canHandle("help");
+    });
 
     EXPECT_NE(helpCommand, commands.end());
 }
@@ -143,7 +156,9 @@ TEST_F(CommandFactoryExtendedTest, CommandWithArguments) {
     std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
 
     std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("help"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("help");
+        });
 
     ASSERT_NE(helpCommand, commands.end());
 
@@ -163,10 +178,14 @@ TEST_F(CommandFactoryExtendedTest, CommandExecutionOrder) {
     testCout.clear();
 
     std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("help"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("help");
+        });
 
     std::vector<std::unique_ptr<CommandBase>>::iterator clearCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("clear"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("clear");
+        });
 
     ASSERT_NE(helpCommand, commands.end());
     ASSERT_NE(clearCommand, commands.end());
@@ -188,9 +207,10 @@ TEST_F(CommandFactoryExtendedTest, CommandExecutionOrder) {
 TEST_F(CommandFactoryExtendedTest, EmptyCommandList) {
     std::vector<std::unique_ptr<CommandBase>> emptyCommands;
 
-    std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand = std::find_if(emptyCommands.begin(), emptyCommands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
-        return cmd->canHandle("help");
-    });
+    std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
+        std::find_if(emptyCommands.begin(), emptyCommands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("help");
+        });
 
     EXPECT_EQ(helpCommand, emptyCommands.end());
 }
@@ -207,7 +227,9 @@ TEST_F(CommandFactoryExtendedTest, CustomCommand) {
     commands.push_back(std::make_unique<CustomCommand>());
 
     std::vector<std::unique_ptr<CommandBase>>::iterator customCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) { return cmd->canHandle("custom"); });
+        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
+            return cmd->canHandle("custom");
+        });
 
     ASSERT_NE(customCommand, commands.end());
 
@@ -218,8 +240,8 @@ TEST_F(CommandFactoryExtendedTest, CustomCommand) {
 }
 
 TEST_F(CommandFactoryExtendedTest, CommandFactoryExtensibility) {
-    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
-    size_t initialSize = commands.size();
+    std::vector<std::unique_ptr<CommandBase>> commands    = CommandFactory::createCommands();
+    size_t                                    initialSize = commands.size();
 
     EXPECT_GT(initialSize, 0);
 }

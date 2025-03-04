@@ -118,4 +118,4 @@ enum class TokenType {
     ERROR
 };
 
-} // namespace opal
+}  // namespace opal

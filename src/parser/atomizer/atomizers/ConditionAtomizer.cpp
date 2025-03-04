@@ -20,6 +20,7 @@
  */
 
 #include "opal/parser/atomizer/atomizers/ConditionAtomizer.hpp"
+
 #include "opal/parser/node/NodeFactory.hpp"
 
 #include <stdexcept>
@@ -36,4 +37,4 @@ std::unique_ptr<NodeBase> ConditionAtomizer::atomize() {
     return nullptr;
 }
 
-} // namespace opal
+}  // namespace opal
