@@ -29,15 +29,15 @@ enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
 
 class NodeBase {
 protected:
-    NodeType  nodeType;
-    TokenType tokenType;
+    NodeType  _nodeType;
+    TokenType _tokenType;
 
 public:
     NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
     virtual ~NodeBase() = default;
 
-    NodeType  getNodeType() const { return nodeType; }
-    TokenType getTokenType() const { return tokenType; }
+    NodeType  getNodeType() const { return _nodeType; }
+    TokenType getTokenType() const { return _tokenType; }
 
     virtual void print(size_t indent = 0) const;
     static void  printIndent(size_t indent);

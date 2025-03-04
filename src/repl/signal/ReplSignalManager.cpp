@@ -39,7 +39,7 @@ static void staticTerminateHandler(int signal) {
     }
 }
 
-ReplSignalManager::ReplSignalManager() : interruptRequested(false), exitRequested(false) {
+ReplSignalManager::ReplSignalManager() : _interruptRequested(false), _exitRequested(false) {
     activeManager = this;
     SignalHandler::initialize();
 }
@@ -58,28 +58,28 @@ void ReplSignalManager::setupSignalHandlers() {
 }
 
 bool ReplSignalManager::isInterruptRequested() const {
-    return interruptRequested.load();
+    return _interruptRequested.load();
 }
 
 void ReplSignalManager::resetInterruptFlag() {
-    interruptRequested.store(false);
+    _interruptRequested.store(false);
 }
 
 bool ReplSignalManager::shouldExit() const {
-    return exitRequested.load();
+    return _exitRequested.load();
 }
 
 void ReplSignalManager::setExitFlag(bool value) {
-    exitRequested.store(value);
+    _exitRequested.store(value);
 }
 
 void ReplSignalManager::handleInterrupt(int /*signal*/) {
-    interruptRequested.store(true);
+    _interruptRequested.store(true);
 
     std::cout << "\nOpal > ";
     std::cout.flush();
 }
 
 void ReplSignalManager::handleTerminate(int /*signal*/) {
-    exitRequested.store(true);
+    _exitRequested.store(true);
 }

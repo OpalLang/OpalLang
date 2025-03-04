@@ -20,7 +20,6 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
-
 #include "opal/util/ErrorUtil.hpp"
 
 #include <stdexcept>
@@ -36,18 +35,18 @@ void StringTokenizer::tokenize() {
 
     while (this->peek() != '"' && !this->isAtEnd()) {
         if (this->peek() == '\n') {
-            this->line++;
-            this->column = 1;
+            this->_line++;
+            this->_column = 1;
         }
         this->advance();
     }
 
     if (this->isAtEnd()) {
-        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated string", line, 1));
+        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated string", this->_line, 1));
     }
 
     this->advance();
-    std::string_view text(this->source.data() + this->start + 1, this->current - this->start - 2);
+    std::string_view text(this->_source.data() + this->_start + 1, this->_current - this->_start - 2);
 
     this->addToken(TokenType::STRING, text);
 }

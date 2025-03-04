@@ -36,7 +36,7 @@ public:
     void tokenize() override;
 
 private:
-    static const std::unordered_map<std::string_view, TokenType> keywords;
+    static const std::unordered_map<std::string_view, TokenType> _keywords;
 };
 
 }  // namespace opal

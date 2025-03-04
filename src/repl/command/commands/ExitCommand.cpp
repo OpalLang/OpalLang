@@ -32,6 +32,6 @@ bool ExitCommand::canHandle(const std::string& commandName) const {
 }
 
 void ExitCommand::execute() {
-    spdlog::info("Exiting the REPL");
+    spdlog::info("\nExiting the REPL");
     exit(0);
 }

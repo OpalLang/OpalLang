@@ -45,22 +45,22 @@ bool isnumber(TokenType type) {
 std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
     std::vector<Token> operationTokens;
 
-    operationTokens.push_back(this->tokens[this->current]);
+    operationTokens.push_back(this->_tokens[this->_current]);
     this->advance();
 
-    while (this->current < this->tokens.size()) {
-        if (!this->canHandle(this->tokens[this->current].type)) {
+    while (this->_current < this->_tokens.size()) {
+        if (!this->canHandle(this->_tokens[this->_current].type)) {
             break;
         }
 
-        Token operatorToken = this->tokens[this->current];
+        Token operatorToken = this->_tokens[this->_current];
         operationTokens.push_back(operatorToken);
         this->advance();
 
-        if (this->current < this->tokens.size()
-            && (this->tokens[this->current].type == TokenType::NUMBER
-                || this->tokens[this->current].type == TokenType::IDENTIFIER)) {
-            operationTokens.push_back(this->tokens[this->current]);
+        if (this->_current < this->_tokens.size()
+            && (this->_tokens[this->_current].type == TokenType::NUMBER
+                || this->_tokens[this->_current].type == TokenType::IDENTIFIER)) {
+            operationTokens.push_back(this->_tokens[this->_current]);
             this->advance();
         } else {
             throw std::runtime_error(

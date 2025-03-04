@@ -38,20 +38,20 @@ bool LoadAtomizer::canHandle(TokenType type) const {
 }
 
 std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
-    Token loadToken = this->tokens[this->current];
+    Token loadToken = this->_tokens[this->_current];
     this->advance();
 
-    if (this->current >= this->tokens.size()) {
+    if (this->_current >= this->_tokens.size()) {
         throw std::runtime_error(
             ErrorUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column));
     }
 
-    if (this->tokens[this->current].type != TokenType::STRING) {
+    if (this->_tokens[this->_current].type != TokenType::STRING) {
         throw std::runtime_error(
             ErrorUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column + 5));
     }
 
-    std::string_view path = this->tokens[this->current].value;
+    std::string_view path = this->_tokens[this->_current].value;
     this->advance();
     return std::unique_ptr<NodeBase>(NodeFactory::createLoadNode(path).release());
 }

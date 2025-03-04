@@ -31,8 +31,8 @@ namespace opal {
 
 class AtomizerBase {
 protected:
-    size_t&             current;
-    std::vector<Token>& tokens;
+    size_t&             _current;
+    std::vector<Token>& _tokens;
 
 public:
     AtomizerBase(size_t& current, std::vector<Token>& tokens);

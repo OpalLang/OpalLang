@@ -38,13 +38,13 @@ public:
     void               printTokens() const;
 
 private:
-    std::string                                 source;
-    std::vector<Token>                          tokens;
-    std::vector<std::unique_ptr<TokenizerBase>> tokenizers;
-    int                                         start   = 0;
-    int                                         current = 0;
-    int                                         line    = 1;
-    int                                         column  = 1;
+    std::string                                 _source;
+    std::vector<Token>                          _tokens;
+    std::vector<std::unique_ptr<TokenizerBase>> _tokenizers;
+    int                                         _start   = 0;
+    int                                         _current = 0;
+    int                                         _line    = 1;
+    int                                         _column  = 1;
 
     void scanToken();
     bool isAtEnd() const;

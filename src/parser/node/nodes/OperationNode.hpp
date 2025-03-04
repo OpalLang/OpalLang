@@ -30,12 +30,12 @@ namespace opal {
 
 class OperationNode : public NodeBase {
 private:
-    std::vector<Token> tokens;
+    std::vector<Token> _tokens;
 
 public:
     OperationNode(TokenType tokenType, const std::vector<Token>& tokens);
 
-    const std::vector<Token>& getTokens() const { return tokens; }
+    const std::vector<Token>& getTokens() const { return _tokens; }
     void                      print(size_t indent = 0) const override;
 };
 

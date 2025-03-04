@@ -29,35 +29,35 @@ TokenizerBase::TokenizerBase(const std::string&  source,
                              int&                column,
                              int&                start,
                              std::vector<Token>& tokens)
-    : source(source), current(current), line(line), column(column), start(start), tokens(tokens) {}
+    : _source(source), _current(current), _line(line), _column(column), _start(start), _tokens(tokens) {}
 
 bool TokenizerBase::isAtEnd() const {
-    return current >= static_cast<int>(source.length());
+    return _current >= static_cast<int>(_source.length());
 }
 
 char TokenizerBase::peek() const {
-    if (isAtEnd())
+    if (this->isAtEnd())
         return '\0';
-    return source[current];
+    return _source[_current];
 }
 
 char TokenizerBase::peekNext() const {
-    if (current + 1 >= static_cast<int>(source.length()))
+    if (_current + 1 >= static_cast<int>(_source.length()))
         return '\0';
-    return source[current + 1];
+    return _source[_current + 1];
 }
 
 char TokenizerBase::advance() {
-    column++;
-    return source[current++];
+    _column++;
+    return _source[_current++];
 }
 
 void TokenizerBase::addToken(TokenType type) {
-    addToken(type, std::string_view(source.data() + start, current - start));
+    this->addToken(type, std::string_view(_source.data() + _start, _current - _start));
 }
 
 void TokenizerBase::addToken(TokenType type, std::string_view value) {
-    tokens.emplace_back(type, value, line, column - (current - start));
+    _tokens.emplace_back(type, value, _line, _column - (_current - _start));
 }
 
 bool TokenizerBase::isDigit(char c) const {
@@ -69,7 +69,7 @@ bool TokenizerBase::isAlpha(char c) const {
 }
 
 bool TokenizerBase::isAlphaNumeric(char c) const {
-    return isAlpha(c) || isDigit(c);
+    return this->isAlpha(c) || this->isDigit(c);
 }
 
 }  // namespace opal

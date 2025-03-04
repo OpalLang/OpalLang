@@ -28,16 +28,17 @@
 using namespace opal;
 
 OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& tokens)
-    : NodeBase(tokenType, NodeType::OPERATION), tokens(tokens) {}
+    : NodeBase(tokenType, NodeType::OPERATION), _tokens(tokens) {}
 
 void OperationNode::print(size_t indent) const {
     this->printIndent(indent);
     spdlog::info("Operation(");
-    for (size_t i = 0; i < this->tokens.size(); ++i) {
+    for (size_t i = 0; i < this->_tokens.size(); ++i) {
         if (i > 0) {
             std::cout << " ";
         }
-        std::cout << "type: " << static_cast<int>(this->tokens[i].type) << ", value: '" << this->tokens[i].value << "'";
+        std::cout << "type: " << static_cast<int>(this->_tokens[i].type) << ", value: '" << this->_tokens[i].value
+                  << "'";
     }
     std::cout << ")" << std::endl;
 }

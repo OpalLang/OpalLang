@@ -23,7 +23,7 @@
 
 using namespace opal;
 
-const std::unordered_map<std::string_view, TokenType> IdentifierTokenizer::keywords = {
+const std::unordered_map<std::string_view, TokenType> IdentifierTokenizer::_keywords = {
     {"class", TokenType::CLASS},     {"fn", TokenType::FN},           {"if", TokenType::IF},
     {"elif", TokenType::ELIF},       {"else", TokenType::ELSE},       {"while", TokenType::WHILE},
     {"for", TokenType::FOR},         {"foreach", TokenType::FOREACH}, {"in", TokenType::IN},
@@ -44,8 +44,8 @@ void IdentifierTokenizer::tokenize() {
         this->advance();
     }
 
-    std::string_view text(this->source.data() + this->start, this->current - this->start);
-    std::unordered_map<std::string_view, TokenType>::const_iterator it = this->keywords.find(text);
-    TokenType type = it != this->keywords.end() ? it->second : TokenType::IDENTIFIER;
+    std::string_view text(this->_source.data() + this->_start, this->_current - this->_start);
+    std::unordered_map<std::string_view, TokenType>::const_iterator it = this->_keywords.find(text);
+    TokenType type = it != this->_keywords.end() ? it->second : TokenType::IDENTIFIER;
     this->addToken(type, text);
 }

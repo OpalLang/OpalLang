@@ -32,11 +32,11 @@ VariableNode::VariableNode(TokenType          tokenType,
                            const std::string& value,
                            bool               isConstant,
                            VariableType       type)
-    : NodeBase(tokenType), name(name), value(value), type(type), isConstant(isConstant) {}
+    : NodeBase(tokenType), _name(name), _value(value), _type(type), _isConstant(isConstant) {}
 
 void VariableNode::print(size_t indent) const {
     std::string typeStr;
-    switch (this->type) {
+    switch (this->_type) {
         case VariableType::INT:
             typeStr = "INT";
             break;
@@ -55,13 +55,13 @@ void VariableNode::print(size_t indent) const {
     }
 
     this->printIndent(indent);
-    spdlog::info("Variable(name={})", this->name);
-    if (this->operation) {
+    spdlog::info("Variable(name={})", this->_name);
+    if (this->_operation) {
         std::cout << ", operation=";
-        this->operation->print(0);
-    } else if (!this->value.empty()) {
-        std::cout << ", value=" << this->value;
+        this->_operation->print(0);
+    } else if (!this->_value.empty()) {
+        std::cout << ", value=" << this->_value;
     }
 
-    std::cout << ", type=" << typeStr << ", const=" << (this->isConstant ? "true" : "false") << ")" << std::endl;
+    std::cout << ", type=" << typeStr << ", const=" << (this->_isConstant ? "true" : "false") << ")" << std::endl;
 }

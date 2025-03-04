@@ -30,42 +30,42 @@
 
 using namespace opal;
 
-Lexer::Lexer(std::string source) : source(std::move(source)) {
-    tokenizers = TokenizerFactory::createTokenizers(this->source,
-                                                    this->current,
-                                                    this->line,
-                                                    this->column,
-                                                    this->start,
-                                                    this->tokens);
+Lexer::Lexer(std::string source) : _source(std::move(source)) {
+    this->_tokenizers = TokenizerFactory::createTokenizers(this->_source,
+                                                           this->_current,
+                                                           this->_line,
+                                                           this->_column,
+                                                           this->_start,
+                                                           this->_tokens);
 }
 
 std::vector<Token> Lexer::scanTokens() {
     while (!this->isAtEnd()) {
-        this->start = this->current;
+        this->_start = this->_current;
         this->scanToken();
     }
 
-    this->tokens.emplace_back(TokenType::EOF_TOKEN, "EOF", this->line, this->column);
-    return this->tokens;
+    this->_tokens.emplace_back(TokenType::EOF_TOKEN, "EOF", this->_line, this->_column);
+    return this->_tokens;
 }
 
 void Lexer::scanToken() {
-    char c = this->source[this->current];
+    char c = this->_source[this->_current];
 
     if (c == ' ' || c == '\r' || c == '\t') {
-        this->current++;
-        this->column++;
+        this->_current++;
+        this->_column++;
         return;
     }
 
     if (c == '\n') {
-        this->current++;
-        this->line++;
-        this->column = 1;
+        this->_current++;
+        this->_line++;
+        this->_column = 1;
         return;
     }
 
-    for (const std::unique_ptr<TokenizerBase>& tokenizer : this->tokenizers) {
+    for (const std::unique_ptr<TokenizerBase>& tokenizer : this->_tokenizers) {
         if (tokenizer->canHandle(c)) {
             tokenizer->tokenize();
             return;
@@ -73,15 +73,15 @@ void Lexer::scanToken() {
     }
 
     throw std::runtime_error(
-        ErrorUtil::errorMessage("Invalid character '" + std::string(1, c) + "'", this->line, this->column));
+        ErrorUtil::errorMessage("Invalid character '" + std::string(1, c) + "'", this->_line, this->_column));
 }
 
 bool Lexer::isAtEnd() const {
-    return this->current >= static_cast<int>(this->source.length());
+    return this->_current >= static_cast<int>(this->_source.length());
 }
 
 void Lexer::printTokens() const {
-    for (const Token& token : this->tokens) {
+    for (const Token& token : this->_tokens) {
         spdlog::info("Type: {}, Value: '{}', Line: {}, Column: {}",
                      static_cast<int>(token.type),
                      token.value,

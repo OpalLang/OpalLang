@@ -25,23 +25,23 @@
 
 using namespace opal;
 
-std::unordered_map<int, SignalHandler::SignalCallback> SignalHandler::callbacks;
+std::unordered_map<int, SignalHandler::SignalCallback> SignalHandler::_callbacks;
 
 void SignalHandler::initialize() {}
 
 void SignalHandler::registerHandler(int signalType, SignalCallback callback) {
-    callbacks[signalType] = callback;
+    _callbacks[signalType] = callback;
     std::signal(signalType, handleSignal);
 }
 
 void SignalHandler::restoreDefaultHandler(int signalType) {
     std::signal(signalType, SIG_DFL);
-    callbacks.erase(signalType);
+    _callbacks.erase(signalType);
 }
 
 void SignalHandler::restoreAllDefaults() {
     std::vector<int> signalTypes;
-    for (const std::pair<const int, SignalCallback>& pair : callbacks) {
+    for (const std::pair<const int, SignalCallback>& pair : _callbacks) {
         signalTypes.push_back(pair.first);
     }
 
@@ -51,8 +51,9 @@ void SignalHandler::restoreAllDefaults() {
 }
 
 void SignalHandler::handleSignal(int signalType) {
-    std::unordered_map<int, SignalCallback>::iterator it = callbacks.find(signalType);
-    if (it != callbacks.end()) {
+    std::unordered_map<int, SignalCallback>::iterator it = _callbacks.find(signalType);
+
+    if (it != _callbacks.end()) {
         it->second(signalType);
     }
 }

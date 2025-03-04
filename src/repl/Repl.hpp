@@ -35,7 +35,7 @@ private:
     void run(const std::string& source);
     void runPrompt();
 
-    ReplSignalManager signalManager;
+    ReplSignalManager _signalManager;
 };
 
 }  // namespace opal

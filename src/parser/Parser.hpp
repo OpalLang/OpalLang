@@ -35,10 +35,10 @@ public:
     void printAST() const;
 
 private:
-    std::vector<Token>                         tokens;
-    std::vector<std::unique_ptr<AtomizerBase>> atomizers;
-    std::vector<std::unique_ptr<NodeBase>>     nodes;
-    size_t                                     current = 0;
+    std::vector<Token>                         _tokens;
+    std::vector<std::unique_ptr<AtomizerBase>> _atomizers;
+    std::vector<std::unique_ptr<NodeBase>>     _nodes;
+    size_t                                     _current = 0;
 
     bool  isAtEnd() const;
     Token peek() const;

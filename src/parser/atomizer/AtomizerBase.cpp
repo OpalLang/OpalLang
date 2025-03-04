@@ -27,18 +27,18 @@
 
 namespace opal {
 
-AtomizerBase::AtomizerBase(size_t& current, std::vector<Token>& tokens) : current(current), tokens(tokens) {}
+AtomizerBase::AtomizerBase(size_t& current, std::vector<Token>& tokens) : _current(current), _tokens(tokens) {}
 
 Token AtomizerBase::peek() const {
-    return tokens[current];
+    return _tokens[_current];
 }
 
 Token AtomizerBase::peekNext() const {
-    return tokens[current + 1];
+    return _tokens[_current + 1];
 }
 
 Token AtomizerBase::advance() {
-    return tokens[++current];
+    return _tokens[++_current];
 }
 
 }  // namespace opal

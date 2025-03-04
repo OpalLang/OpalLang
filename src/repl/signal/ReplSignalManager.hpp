@@ -43,8 +43,8 @@ public:
     void handleTerminate(int signal);
 
 private:
-    std::atomic<bool> interruptRequested;
-    std::atomic<bool> exitRequested;
+    std::atomic<bool> _interruptRequested;
+    std::atomic<bool> _exitRequested;
 };
 
 }  // namespace opal

@@ -30,7 +30,7 @@ namespace opal {
 
 class HelpCommand : public CommandBase {
 private:
-    static const std::unordered_map<std::string, std::string> commandDescriptions;
+    static const std::unordered_map<std::string, std::string> _commandDescriptions;
 
 public:
     HelpCommand()           = default;

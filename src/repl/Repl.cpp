@@ -34,7 +34,7 @@
 using namespace opal;
 
 void Repl::start() {
-    signalManager.setupSignalHandlers();
+    _signalManager.setupSignalHandlers();
     this->runPrompt();
 }
 
@@ -77,11 +77,11 @@ void Repl::run(const std::string& source) {
 void Repl::runPrompt() {
     std::string line;
 
-    while (!signalManager.shouldExit()) {
+    while (!_signalManager.shouldExit()) {
         std::cout << "Opal > ";
 
-        if (signalManager.isInterruptRequested()) {
-            signalManager.resetInterruptFlag();
+        if (_signalManager.isInterruptRequested()) {
+            _signalManager.resetInterruptFlag();
             continue;
         }
 

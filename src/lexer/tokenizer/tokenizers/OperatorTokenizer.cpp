@@ -23,7 +23,7 @@
 
 using namespace opal;
 
-const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operators = {
+const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::_operators = {
     {"(", TokenType::LEFT_PAREN},
     {")", TokenType::RIGHT_PAREN},
     {"{", TokenType::LEFT_BRACE},
@@ -34,14 +34,12 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
     {".", TokenType::DOT},
     {":", TokenType::COLON},
     {";", TokenType::SEMICOLON},
-
     {"+", TokenType::PLUS},
     {"-", TokenType::MINUS},
     {"*", TokenType::MULTIPLY},
     {"/", TokenType::DIVIDE},
     {"%", TokenType::MODULO},
     {"^", TokenType::POWER},
-
     {"=", TokenType::EQUAL},
     {"!", TokenType::NOT},
     {"<", TokenType::LESS},
@@ -50,22 +48,17 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
     {"!=", TokenType::NOT_EQUAL},
     {"<=", TokenType::LESS_EQUAL},
     {">=", TokenType::GREATER_EQUAL},
-
     {"&&", TokenType::AND},
     {"||", TokenType::OR},
-
     {"++", TokenType::INCREMENT},
     {"--", TokenType::DECREMENT},
-
     {"..", TokenType::RANGE},
-
     {"&", TokenType::BITWISE_AND},
     {"|", TokenType::BITWISE_OR},
     {"~", TokenType::BITWISE_NOT},
     {"#", TokenType::BITWISE_XOR},
     {"<<", TokenType::SHIFT_LEFT},
     {">>", TokenType::SHIFT_RIGHT},
-
     {"+=", TokenType::PLUS_EQUAL},
     {"-=", TokenType::MINUS_EQUAL},
     {"*=", TokenType::MULTIPLY_EQUAL},
@@ -83,8 +76,9 @@ bool OperatorTokenizer::canHandle(char c) const {
     std::string str(1, c);
     std::string potential2 = str + this->peek();
     std::string potential3 = potential2 + this->peekNext();
-    return operators.find(str) != operators.end() || operators.find(potential2) != operators.end()
-           || operators.find(potential3) != operators.end();
+    return this->_operators.find(str) != this->_operators.end()
+           || this->_operators.find(potential2) != this->_operators.end()
+           || this->_operators.find(potential3) != this->_operators.end();
 }
 
 void OperatorTokenizer::tokenize() {
@@ -92,28 +86,28 @@ void OperatorTokenizer::tokenize() {
 
     if (!this->isAtEnd()) {
         std::string potential3                                              = first + this->peek() + this->peekNext();
-        std::unordered_map<std::string_view, TokenType>::const_iterator it3 = operators.find(potential3);
-        if (it3 != operators.end()) {
+        std::unordered_map<std::string_view, TokenType>::const_iterator it3 = this->_operators.find(potential3);
+        if (it3 != this->_operators.end()) {
             this->advance();
             this->advance();
-            std::string_view text(this->source.data() + this->start, this->current - this->start);
+            std::string_view text(this->_source.data() + this->_start, this->_current - this->_start);
             this->addToken(it3->second, text);
             return;
         }
 
         std::string                                                     potential2 = first + this->peek();
-        std::unordered_map<std::string_view, TokenType>::const_iterator it2        = operators.find(potential2);
-        if (it2 != operators.end()) {
+        std::unordered_map<std::string_view, TokenType>::const_iterator it2        = this->_operators.find(potential2);
+        if (it2 != this->_operators.end()) {
             this->advance();
-            std::string_view text(this->source.data() + this->start, this->current - this->start);
+            std::string_view text(this->_source.data() + this->_start, this->_current - this->_start);
             this->addToken(it2->second, text);
             return;
         }
     }
 
-    std::unordered_map<std::string_view, TokenType>::const_iterator it = operators.find(first);
-    if (it != operators.end()) {
-        std::string_view text(this->source.data() + this->start, this->current - this->start);
+    std::unordered_map<std::string_view, TokenType>::const_iterator it = this->_operators.find(first);
+    if (it != this->_operators.end()) {
+        std::string_view text(this->_source.data() + this->_start, this->_current - this->_start);
 
         this->addToken(it->second, text);
     }

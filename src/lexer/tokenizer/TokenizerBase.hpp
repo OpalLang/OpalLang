@@ -31,12 +31,12 @@ namespace opal {
 
 class TokenizerBase {
 protected:
-    const std::string&  source;
-    int&                current;
-    int&                line;
-    int&                column;
-    int&                start;
-    std::vector<Token>& tokens;
+    const std::string&  _source;
+    int&                _current;
+    int&                _line;
+    int&                _column;
+    int&                _start;
+    std::vector<Token>& _tokens;
 
 public:
     TokenizerBase(const std::string&  source,

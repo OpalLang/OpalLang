@@ -74,7 +74,7 @@ std::string tokenTypeToString(TokenType type) {
     }
 }
 
-NodeBase::NodeBase(TokenType tokenType, NodeType nodeType) : nodeType(nodeType), tokenType(tokenType) {}
+NodeBase::NodeBase(TokenType tokenType, NodeType nodeType) : _nodeType(nodeType), _tokenType(tokenType) {}
 
 void NodeBase::printIndent(size_t indent) {
     for (size_t i = 0; i < indent; i++) {
@@ -84,5 +84,5 @@ void NodeBase::printIndent(size_t indent) {
 
 void NodeBase::print(size_t indent) const {
     this->printIndent(indent);
-    spdlog::info("Node(type={}, token={})", nodeTypeToString(this->nodeType), tokenTypeToString(this->tokenType));
+    spdlog::info("Node(type={}, token={})", nodeTypeToString(this->_nodeType), tokenTypeToString(this->_tokenType));
 }

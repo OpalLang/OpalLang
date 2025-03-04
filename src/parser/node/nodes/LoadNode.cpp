@@ -27,9 +27,9 @@
 
 using namespace opal;
 
-LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type), path(path) {}
+LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type), _path(path) {}
 
 void LoadNode::print(size_t indent) const {
     this->printIndent(indent);
-    spdlog::info("Load(path=\"{}\")", this->path);
+    spdlog::info("Load(path=\"{}\")", this->_path);
 }

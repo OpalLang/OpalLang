@@ -30,23 +30,23 @@
 using namespace opal;
 
 Token Parser::peek() const {
-    return tokens[current];
+    return _tokens[_current];
 }
 
 bool Parser::isAtEnd() const {
-    return current >= tokens.size() || tokens[current].type == TokenType::EOF_TOKEN;
+    return _current >= _tokens.size() || _tokens[_current].type == TokenType::EOF_TOKEN;
 }
 
-Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
-    atomizers = AtomizerFactory::createAtomizers(current, this->tokens);
+Parser::Parser(std::vector<Token> tokens) : _tokens(tokens) {
+    _atomizers = AtomizerFactory::createAtomizers(_current, _tokens);
 
     while (!this->isAtEnd()) {
         bool handled = false;
-        for (const std::unique_ptr<AtomizerBase>& atomizer : atomizers) {
+        for (const std::unique_ptr<AtomizerBase>& atomizer : _atomizers) {
             if (atomizer->canHandle(this->peek().type)) {
                 std::unique_ptr<NodeBase> node = atomizer->atomize();
                 if (node) {
-                    nodes.push_back(std::move(node));
+                    _nodes.push_back(std::move(node));
                 }
                 handled = true;
                 break;
@@ -54,13 +54,13 @@ Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
         }
 
         if (!handled) {
-            current++;
+            _current++;
         }
     }
 }
 
 void Parser::printAST() const {
-    for (const std::unique_ptr<NodeBase>& node : nodes) {
+    for (const std::unique_ptr<NodeBase>& node : _nodes) {
         node->print();
     }
 }

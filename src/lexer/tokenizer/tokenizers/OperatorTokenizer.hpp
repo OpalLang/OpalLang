@@ -36,7 +36,7 @@ public:
     void tokenize() override;
 
 private:
-    static const std::unordered_map<std::string_view, TokenType> operators;
+    static const std::unordered_map<std::string_view, TokenType> _operators;
 };
 
 }  // namespace opal

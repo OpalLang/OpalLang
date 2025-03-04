@@ -29,7 +29,7 @@ namespace opal {
 
 class CommandBase {
 protected:
-    std::vector<std::string> args;
+    std::vector<std::string> _args;
 
 public:
     CommandBase()          = default;
@@ -38,7 +38,7 @@ public:
     virtual bool canHandle(const std::string& commandName) const = 0;
     virtual void execute()                                       = 0;
 
-    void setArguments(const std::vector<std::string>& arguments) { args = arguments; }
+    void setArguments(const std::vector<std::string>& arguments) { _args = arguments; }
 };
 
 }  // namespace opal

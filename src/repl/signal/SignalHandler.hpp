@@ -38,7 +38,7 @@ public:
     static void handleSignal(int signalType);
 
 private:
-    static std::unordered_map<int, SignalCallback> callbacks;
+    static std::unordered_map<int, SignalCallback> _callbacks;
     SignalHandler() = delete;
 };
 

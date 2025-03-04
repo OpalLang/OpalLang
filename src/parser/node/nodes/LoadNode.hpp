@@ -30,12 +30,12 @@ namespace opal {
 
 class LoadNode : public NodeBase {
 private:
-    std::string_view path;
+    std::string_view _path;
 
 public:
     LoadNode(TokenType type, const std::string_view& path);
 
-    const std::string_view& getPath() const { return path; }
+    const std::string_view& getPath() const { return _path; }
 
     void print(size_t indent = 0) const override;
 };

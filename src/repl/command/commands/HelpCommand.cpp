@@ -28,7 +28,7 @@
 
 using namespace opal;
 
-const std::unordered_map<std::string, std::string> HelpCommand::commandDescriptions = {
+const std::unordered_map<std::string, std::string> HelpCommand::_commandDescriptions = {
     {"help", "Display available commands"},
     {"clear", "Clear the screen"},
     {"exit", "Exit the REPL"}};
@@ -41,10 +41,10 @@ void HelpCommand::execute() {
     spdlog::info("Available commands:\n\n");
 
     size_t maxLength = 0;
-    for (const std::pair<const std::string, std::string>& cmd_desc : commandDescriptions) {
+    for (const std::pair<const std::string, std::string>& cmd_desc : _commandDescriptions) {
         maxLength = std::max(maxLength, cmd_desc.first.length());
     }
-    for (const std::pair<const std::string, std::string>& cmd_desc : commandDescriptions) {
+    for (const std::pair<const std::string, std::string>& cmd_desc : _commandDescriptions) {
         spdlog::info("  {} {}", cmd_desc.first, cmd_desc.second);
     }
     std::cout << std::endl;

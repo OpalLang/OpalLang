@@ -54,7 +54,7 @@ void CommentTokenizer::handleSingleLineComment() {
 
 void CommentTokenizer::handleMultiLineComment() {
     int nesting   = 1;
-    int startLine = this->line;
+    int startLine = this->_line;
 
     while (nesting > 0 && !this->isAtEnd()) {
         if (this->peek() == '*' && this->peekNext() == '/') {
@@ -67,15 +67,15 @@ void CommentTokenizer::handleMultiLineComment() {
             nesting++;
         } else {
             if (this->peek() == '\n') {
-                this->line++;
-                this->column = 1;
+                this->_line++;
+                this->_column = 1;
             }
             this->advance();
         }
     }
 
     if (nesting > 0) {
-        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated multi-line comment", this->line, 1));
+        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated multi-line comment", this->_line, 1));
     }
 
     this->addToken(TokenType::COMMENT);
