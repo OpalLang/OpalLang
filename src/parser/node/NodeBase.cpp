@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <string>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -81,8 +82,7 @@ void NodeBase::printIndent(size_t indent) {
 
 void NodeBase::print(size_t indent) const {
     printIndent(indent);
-    std::cout << "Node(type=" << nodeTypeToString(nodeType) << ", token=" << tokenTypeToString(tokenType) << ")"
-              << std::endl;
+    spdlog::info("Node(type={}, token={})", nodeTypeToString(nodeType), tokenTypeToString(tokenType));
 }
 
 }  // namespace opal

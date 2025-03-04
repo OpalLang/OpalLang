@@ -24,7 +24,7 @@ case "$OS" in
         sudo apt-get update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc lcov
+        sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc lcov libspdlog-dev
         ;;
 
     *Arch*|*Manjaro*|*EndeavourOS*|*Garuda*|*ArcoLinux*|*Artix*|*BlackArch*|*Chakra*)
@@ -32,7 +32,7 @@ case "$OS" in
         sudo pacman -Syu
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo pacman -S --needed base-devel cmake gcc clang gtest gmock doxygen inotify-tools bc lcov
+        sudo pacman -S --needed base-devel cmake gcc clang gtest gmock doxygen inotify-tools bc lcov spdlog
         ;;
 
     *Fedora*|*Fedora\ Silverblue*|*Fedora\ CoreOS*|*Fedora\ IoT*|*Fedora\ Kinoite*)
@@ -40,7 +40,7 @@ case "$OS" in
         sudo dnf update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo dnf install -y cmake gcc-c++ clang gtest-devel gmock-devel doxygen inotify-tools bc lcov
+        sudo dnf install -y cmake gcc-c++ clang gtest-devel gmock-devel doxygen inotify-tools bc lcov spdlog-devel
         ;;
 
     *RHEL*|*CentOS*|*Rocky*|*AlmaLinux*|*Oracle\ Linux*|*Scientific\ Linux*)
@@ -50,7 +50,7 @@ case "$OS" in
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
         sudo yum install -y cmake gcc-c++ clang doxygen inotify-tools bc lcov
         sudo yum install -y epel-release
-        sudo yum install -y gtest-devel gmock-devel
+        sudo yum install -y gtest-devel gmock-devel spdlog-devel
         ;;
 
     *openSUSE*|*SUSE*|*SLES*)
@@ -58,7 +58,7 @@ case "$OS" in
         sudo zypper refresh
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo zypper install -y cmake gcc-c++ clang gtest gmock doxygen inotify-tools bc lcov
+        sudo zypper install -y cmake gcc-c++ clang gtest gmock doxygen inotify-tools bc lcov spdlog-devel
         ;;
 
     *macOS*|*Darwin*)
@@ -68,7 +68,7 @@ case "$OS" in
         fi
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        brew install cmake llvm googletest doxygen fswatch bc lcov
+        brew install cmake llvm googletest doxygen fswatch bc lcov spdlog
         ;;
 
     *FreeBSD*|*OpenBSD*|*NetBSD*|*DragonFly*)
@@ -76,7 +76,7 @@ case "$OS" in
         sudo pkg update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo pkg install -y cmake llvm gtest gmock doxygen inotify-tools bc lcov
+        sudo pkg install -y cmake llvm gtest gmock doxygen inotify-tools bc lcov spdlog
         ;;
 
     *Alpine*)
@@ -84,7 +84,7 @@ case "$OS" in
         sudo apk update
         
         echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-        sudo apk add cmake g++ clang gtest gmock doxygen inotify-tools bc lcov
+        sudo apk add cmake g++ clang gtest gmock doxygen inotify-tools bc lcov spdlog-dev
         ;;
 
     *Microsoft*|*Windows*)
@@ -93,21 +93,21 @@ case "$OS" in
             sudo apt-get update
             
             echo -e "${YELLOW}📥 Installing dependencies...${NC}"
-            sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc lcov
+            sudo apt-get install -y build-essential cmake g++ clang-format libgtest-dev libgmock-dev doxygen inotify-tools bc lcov libspdlog-dev
         else
             echo -e "${YELLOW}📥 Installing dependencies via Chocolatey...${NC}"
             if ! command -v choco &> /dev/null; then
                 echo -e "${YELLOW}🍫 Installing Chocolatey...${NC}"
                 powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
             fi
-            choco install -y cmake llvm googletest doxygen bc
+            choco install -y cmake llvm googletest doxygen bc spdlog
             choco install -y visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.NativeDesktop"
         fi
         ;;
         
     *)
         echo -e "${RED}❌ Unsupported operating system: $OS${NC}"
-        echo -e "${YELLOW}Please install manually: cmake, C++ compiler (g++ or clang), googletest, doxygen${NC}"
+        echo -e "${YELLOW}Please install manually: cmake, C++ compiler (g++ or clang), googletest, doxygen, spdlog${NC}"
         exit 1
         ;;
 esac

@@ -22,6 +22,7 @@
 #include "opal/parser/node/nodes/VariableNode.hpp"
 
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -37,7 +38,7 @@ void VariableNode::print(size_t indent) const {
         case VariableType::NIL: typeStr = "NIL"; break;
         default: typeStr = "UNKNOWN"; break;
     }
-    std::cout << std::string(indent, ' ') << "Variable(name=" << name;
+    spdlog::info("Variable(name={})", name);
     
     if (operation) {
         std::cout << ", operation=";

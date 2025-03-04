@@ -23,6 +23,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -32,7 +33,7 @@ const std::unordered_map<std::string, std::string> HelpCommand::commandDescripti
     {"exit", "Exit the REPL"}};
 
 void HelpCommand::execute() {
-    std::cout << "Available commands:\n\n";
+    spdlog::info("Available commands:\n\n");
 
     size_t maxLength = 0;
     for (const std::pair<const std::string, std::string>& cmd_desc : commandDescriptions) {
@@ -40,7 +41,7 @@ void HelpCommand::execute() {
     }
 
     for (const std::pair<const std::string, std::string>& cmd_desc : commandDescriptions) {
-        std::cout << "  " << std::left << std::setw(maxLength + 2) << cmd_desc.first << cmd_desc.second << std::endl;
+        spdlog::info("  {} {}", cmd_desc.first, cmd_desc.second);
     }
     std::cout << std::endl;
 }

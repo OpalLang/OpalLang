@@ -22,6 +22,7 @@
 #include "opal/parser/node/nodes/LoadNode.hpp"
 
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -29,7 +30,7 @@ LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type
 
 void LoadNode::print(size_t indent) const {
     printIndent(indent);
-    std::cout << "Load(path=\"" << path << "\")" << std::endl;
+    spdlog::info("Load(path=\"{}\")", path);
 }
 
 }  // namespace opal

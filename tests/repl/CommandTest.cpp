@@ -19,11 +19,11 @@
  * needed for experienced developers.
  */
 
-#include "repl/command/CommandBase.hpp"
-#include "repl/command/CommandFactory.hpp"
-#include "repl/command/commands/ClearCommand.hpp"
-#include "repl/command/commands/ExitCommand.hpp"
-#include "repl/command/commands/HelpCommand.hpp"
+#include "opal/repl/command/CommandBase.hpp"
+#include "opal/repl/command/CommandFactory.hpp"
+#include "opal/repl/command/commands/ClearCommand.hpp"
+#include "opal/repl/command/commands/ExitCommand.hpp"
+#include "opal/repl/command/commands/HelpCommand.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

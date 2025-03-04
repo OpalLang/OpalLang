@@ -27,6 +27,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+find_package(spdlog REQUIRED)
+find_package(fmt REQUIRED)
+
 enable_testing()
 
 include(FetchContent)
@@ -70,6 +73,8 @@ target_include_directories(opal_lib PUBLIC
     ${PROJECT_SOURCE_DIR}/src
     ${INTERFACE_INCLUDE_DIR}
 )
+
+target_link_libraries(opal_lib PUBLIC spdlog::spdlog fmt::fmt)
 
 add_executable(opal ${PROJECT_SOURCE_DIR}/src/Main.cpp)
 target_link_libraries(opal PRIVATE opal_lib)
