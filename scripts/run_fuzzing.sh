@@ -1,49 +1,93 @@
 #!/bin/bash
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m'
-echo -e "${YELLOW}🔍 Checking if Python 3 is installed...${NC}"
-if command -v python3 &>/dev/null; then
-    echo -e "${GREEN}✅ Python 3 is already installed!${NC}"
-else
-    echo -e "${YELLOW}📦 Python 3 is not installed. Attempting to install...${NC}"
+
+OUTPUT_DIR="fuzzing_results"
+NUM_TESTS=${1:-100}
+MAX_LENGTH=1000
+OPAL_EXECUTABLE="bin/opal"
+LOG_FILE="$OUTPUT_DIR/fuzzing_log.txt"
+REPORT_FILE="$OUTPUT_DIR/report.md"
+
+mkdir -p $OUTPUT_DIR
+rm -f $OUTPUT_DIR/error_*.txt
+echo "=== Opal Fuzzing Log ===" > $LOG_FILE
+
+function log_message() {
+    local message=$1
+    echo "$message" | tee -a $LOG_FILE
+}
+
+function generate_fuzz_sample() {
+    local length=$1
+    local sample=""
+    local chars="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:'\",.<>?/"
+    for ((i=0; i<$length; i++)); do
+        sample+="${chars:RANDOM%${#chars}:1}"
+    done
+    echo "$sample"
+}
+
+function generate_random_input() {
+    local choice=$((RANDOM % 5))
+    case $choice in
+        0) generate_fuzz_sample $MAX_LENGTH ;;
+        1) echo "\"$(generate_fuzz_sample $((MAX_LENGTH / 2)))\"" ;;
+        2) echo $((RANDOM)) ;;
+        3) echo $((RANDOM / 1000)) ;;
+        4) echo "/* $(generate_fuzz_sample $((MAX_LENGTH / 2))) */" ;;
+    esac
+}
+
+success_count=0
+fail_count=0
+total_memory=0
+max_memory=0
+start_time=$(date +%s)
+
+for ((i=1; i<=$NUM_TESTS; i++)); do
+    sample=$(generate_random_input)
+    echo "$sample" > temp_test.op
     
-    if command -v apt-get &>/dev/null; then
-        sudo apt-get update
-        sudo apt-get install -y python3
-    elif command -v dnf &>/dev/null; then
-        sudo dnf install -y python3
-    elif command -v yum &>/dev/null; then
-        sudo yum install -y python3
-    elif command -v pacman &>/dev/null; then
-        sudo pacman -S --noconfirm python
-    elif command -v zypper &>/dev/null; then
-        sudo zypper install -y python3
-    elif command -v brew &>/dev/null; then
-        brew install python
-    else
-        echo -e "${RED}❌ Could not determine package manager. Please install Python 3 manually.${NC}"
-        exit 1
-    fi
+    memory_info=$(/usr/bin/time -f "%M" $OPAL_EXECUTABLE temp_test.op 2>&1)
+    exit_code=$?
+    memory_kb=$(echo "$memory_info" | tail -n1)
     
-    if command -v python3 &>/dev/null; then
-        echo -e "${GREEN}✅ Python 3 has been successfully installed!${NC}"
-    else
-        echo -e "${RED}❌ Failed to install Python 3. Please install it manually.${NC}"
-        exit 1
+    total_memory=$((total_memory + memory_kb))
+    if [ $memory_kb -gt $max_memory ]; then
+        max_memory=$memory_kb
     fi
-fi
 
-PYTHON_VERSION=$(python3 --version)
-echo -e "${GREEN}ℹ️ $PYTHON_VERSION detected${NC}"
+    if [ $exit_code -ne 0 ] && [ $exit_code -ne 1 ]; then
+        fail_count=$((fail_count + 1))
+        mv temp_test.op "$OUTPUT_DIR/error_$i.op"
+        echo "$memory_info" > "$OUTPUT_DIR/error_$i.txt"
+        log_message "Test $i failed (Memory: ${memory_kb}KB)"
+    else
+        success_count=$((success_count + 1))
+        log_message "Test $i succeeded (Memory: ${memory_kb}KB)"
+    fi
+done
 
-echo -e "${YELLOW}🚀 Running fuzzing tests...${NC}"
-python3 $(dirname "$0")/fuzzing_test.py "$@"
+end_time=$(date +%s)
+duration=$((end_time - start_time))
+avg_memory=$((total_memory / NUM_TESTS))
 
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✅ Fuzzing tests completed successfully!${NC}"
-else
-    echo -e "${RED}❌ Fuzzing tests failed with error code $?${NC}"
-    exit 1
-fi
+cat > "$REPORT_FILE" << EOF
+# Fuzzing Campaign Report
+
+## Summary
+- Total tests: $NUM_TESTS
+- Successful tests: $success_count
+- Failed tests: $fail_count
+- Success rate: $(( (success_count * 100) / NUM_TESTS ))%
+
+## Performance Metrics
+- Duration: ${duration}s
+- Average memory usage: ${avg_memory}KB
+- Peak memory usage: ${max_memory}KB
+
+## Details
+Failed test files can be found in the \`$OUTPUT_DIR\` directory.
+EOF
+
+log_message "Fuzzing campaign completed! Report saved in: $REPORT_FILE"
+rm -f temp_test.op
