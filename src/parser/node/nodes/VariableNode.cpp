@@ -32,7 +32,7 @@ VariableNode::VariableNode(TokenType          tokenType,
                            const std::string& value,
                            bool               isConstant,
                            VariableType       type)
-    : NodeBase(tokenType), _name(name), _value(value), _type(type), _isConstant(isConstant) {}
+    : NodeBase(tokenType), _name(name), _value(value), _isConstant(isConstant), _type(type) {}
 
 void VariableNode::print(size_t indent) const {
     std::string typeStr;
