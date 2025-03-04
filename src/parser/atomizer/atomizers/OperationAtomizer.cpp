@@ -22,9 +22,7 @@
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 
 #include "opal/parser/node/NodeFactory.hpp"
-#include "opal/util/FileUtil.hpp"
-
-#include <spdlog/spdlog.h>
+#include "opal/util/ErrorUtil.hpp"
 
 #include <iostream>
 #include <memory>
@@ -64,8 +62,7 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
             operationTokens.push_back(tokens[current]);
             advance();
         } else {
-            throw std::runtime_error(
-                FileUtil::errorMessage("Invalid operation: expected a number or identifier after operator",
+            throw std::runtime_error(ErrorUtil::errorMessage("Invalid operation: expected a number or identifier after operator",
                                        operatorToken.line,
                                        operatorToken.column));
         }

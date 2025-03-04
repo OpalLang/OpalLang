@@ -20,6 +20,7 @@
  */
 
 #include "opal/util/FileUtil.hpp"
+#include "opal/util/ErrorUtil.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -169,6 +170,6 @@ TEST_F(FileUtilTest, FileExistsWithSpecialCharacters) {
 }
 
 TEST_F(FileUtilTest, ErrorMessageFormatting) {
-    std::string message = FileUtil::errorMessage("Invalid token", 42, 10);
+    std::string message = ErrorUtil::errorMessage("Invalid token", 42, 10);
     EXPECT_EQ(message, "Invalid token at line 42, column 10");
 }

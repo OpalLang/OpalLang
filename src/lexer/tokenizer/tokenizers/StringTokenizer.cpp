@@ -20,10 +20,7 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
-
-#include "opal/util/FileUtil.hpp"
-
-#include <spdlog/spdlog.h>
+#include "opal/util/ErrorUtil.hpp"
 
 #include <stdexcept>
 
@@ -45,7 +42,7 @@ void StringTokenizer::tokenize() {
     }
 
     if (isAtEnd()) {
-        throw std::runtime_error(FileUtil::errorMessage("Unterminated string", line, 1));
+        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated string", line, 1));
     }
 
     advance();

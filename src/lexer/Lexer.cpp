@@ -20,11 +20,9 @@
  */
 
 #include "opal/lexer/Lexer.hpp"
-
-#include "opal/util/FileUtil.hpp"
+#include "opal/util/ErrorUtil.hpp"
 
 #include <spdlog/spdlog.h>
-
 #include <iostream>
 #include <stdexcept>
 
@@ -67,7 +65,7 @@ void Lexer::scanToken() {
         }
     }
 
-    throw std::runtime_error(FileUtil::errorMessage("Invalid character '" + std::string(1, c) + "'", line, column));
+    throw std::runtime_error(ErrorUtil::errorMessage("Invalid character '" + std::string(1, c) + "'", line, column));
 }
 
 bool Lexer::isAtEnd() const {
