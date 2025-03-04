@@ -19,14 +19,14 @@
  * needed for experienced developers.
  */
 
-#include "FileUtil.hpp"
+#include "opal/util/FileUtil.hpp"
 
 #include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
 
-namespace Opal {
+namespace opal {
 
 std::string FileUtil::readFile(const std::string& filepath) {
     if (!std::filesystem::is_regular_file(filepath)) {
@@ -59,4 +59,4 @@ bool FileUtil::hasGoodExtension(const std::string& filepath) {
     return extension == "opal" || extension == "op";
 }
 
-}  // namespace Opal
+}  // namespace opal

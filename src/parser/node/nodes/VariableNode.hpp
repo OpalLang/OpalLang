@@ -21,15 +21,15 @@
 
 #pragma once
 
-#include "../../../lexer/Token.hpp"
-#include "../../atomizer/VariableType.hpp"
-#include "../NodeBase.hpp"
-#include "OperationNode.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/atomizer/VariableType.hpp"
+#include "opal/parser/node/NodeBase.hpp"
+#include "opal/parser/node/nodes/OperationNode.hpp"
 
 #include <memory>
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 class VariableNode : public NodeBase {
 private:
@@ -54,4 +54,4 @@ public:
     void print(size_t indent = 0) const override;
 };
 
-}  // namespace Opal
+}  // namespace opal

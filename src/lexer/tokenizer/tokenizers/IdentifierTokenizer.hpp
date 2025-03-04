@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include "../TokenizerBase.hpp"
+#include "opal/lexer/tokenizer/TokenizerBase.hpp"
 
 #include <string_view>
 #include <unordered_map>
 
-namespace Opal {
+namespace opal {
 
 class IdentifierTokenizer : public TokenizerBase {
 public:
@@ -39,4 +39,4 @@ private:
     static const std::unordered_map<std::string_view, TokenType> keywords;
 };
 
-}  // namespace Opal
+}  // namespace opal

@@ -19,11 +19,11 @@
  * needed for experienced developers.
  */
 
-#include "ExitCommand.hpp"
+#include "opal/repl/command/commands/ExitCommand.hpp"
 
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 bool ExitCommand::canHandle(const std::string& commandName) const {
     return commandName == "exit";
@@ -34,4 +34,4 @@ void ExitCommand::execute() {
     exit(0);
 }
 
-}  // namespace Opal
+}  // namespace opal

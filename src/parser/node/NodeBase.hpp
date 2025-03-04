@@ -21,9 +21,9 @@
 
 #pragma once
 
-#include "../../lexer/Token.hpp"
+#include "opal/lexer/Token.hpp"
 
-namespace Opal {
+namespace opal {
 
 enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS };
 
@@ -38,9 +38,9 @@ public:
 
     NodeType  getNodeType() const { return nodeType; }
     TokenType getTokenType() const { return tokenType; }
-    
+
     virtual void print(size_t indent = 0) const;
-    static void printIndent(size_t indent);
+    static void  printIndent(size_t indent);
 };
 
-}  // namespace Opal
+}  // namespace opal

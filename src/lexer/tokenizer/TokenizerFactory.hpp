@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include "TokenizerBase.hpp"
+#include "opal/lexer/tokenizer/TokenizerBase.hpp"
 
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class TokenizerFactory {
 public:
@@ -38,4 +38,4 @@ public:
                                                                         std::vector<Token>& tokens);
 };
 
-}  // namespace Opal
+}  // namespace opal

@@ -19,17 +19,21 @@
  * needed for experienced developers.
  */
 
-#include "opal/parser/node/nodes/LoadNode.hpp"
+#include "opal/parser/atomizer/atomizers/ConditionAtomizer.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
 
-#include <iostream>
+#include <stdexcept>
 
 namespace opal {
 
-LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type), path(path) {}
+ConditionAtomizer::ConditionAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
-void LoadNode::print(size_t indent) const {
-    printIndent(indent);
-    std::cout << "Load(path=\"" << path << "\")" << std::endl;
+bool ConditionAtomizer::canHandle(TokenType type) const {
+    return type == TokenType::IF;
 }
 
-}  // namespace opal
+std::unique_ptr<NodeBase> ConditionAtomizer::atomize() {
+    return nullptr;
+}
+
+} // namespace opal

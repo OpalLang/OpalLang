@@ -21,11 +21,12 @@
 
 #pragma once
 
-#include "../../../lexer/Token.hpp"
-#include "../NodeBase.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/node/NodeBase.hpp"
+
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 class LoadNode : public NodeBase {
 private:
@@ -33,10 +34,10 @@ private:
 
 public:
     LoadNode(TokenType type, const std::string_view& path);
-    
+
     const std::string_view& getPath() const { return path; }
 
     void print(size_t indent = 0) const override;
 };
 
-} // namespace Opal
+}  // namespace opal

@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include "../../../lexer/Token.hpp"
-#include "../NodeBase.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/node/NodeBase.hpp"
 
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class OperationNode : public NodeBase {
 private:
@@ -36,7 +36,7 @@ public:
     OperationNode(TokenType tokenType, const std::vector<Token>& tokens);
 
     const std::vector<Token>& getTokens() const { return tokens; }
-    void print(size_t indent = 0) const override;
+    void                      print(size_t indent = 0) const override;
 };
 
-}  // namespace Opal
+}  // namespace opal

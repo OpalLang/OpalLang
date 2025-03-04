@@ -19,19 +19,20 @@
  * needed for experienced developers.
  */
 
-#include "Repl.hpp"
+#include "opal/repl/Repl.hpp"
 
-#include "../lexer/Lexer.hpp"
-#include "../parser/Parser.hpp"
-#include "command/CommandFactory.hpp"
+#include "opal/lexer/Lexer.hpp"
+#include "opal/parser/Parser.hpp"
+#include "opal/repl/command/CommandFactory.hpp"
 
 #include <iostream>
 #include <sstream>
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 void Repl::start() {
+    signalManager.setupSignalHandlers();
     runPrompt();
 }
 
@@ -66,16 +67,37 @@ void Repl::run(const std::string& source) {
     std::cout << "----------------------------------------" << std::endl;
     lexer.printTokens();
     std::cout << "----------------------------------------" << std::endl;
-    Opal::Parser parser(tokens);
+    Parser parser(tokens);
+    parser.printAST();
+    std::cout << "----------------------------------------" << std::endl;
 }
 
 void Repl::runPrompt() {
     std::string line;
-    while (true) {
+
+    while (!signalManager.shouldExit()) {
         std::cout << "Opal > ";
+
+        if (signalManager.isInterruptRequested()) {
+            signalManager.resetInterruptFlag();
+            continue;
+        }
+
         std::getline(std::cin, line);
+
+        if (std::cin.eof()) {
+            std::cout << "\nExiting REPL" << std::endl;
+            break;
+        }
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cout << "Input error. Please try again." << std::endl;
+            continue;
+        }
+
         run(line);
     }
 }
 
-}  // namespace Opal
+}  // namespace opal

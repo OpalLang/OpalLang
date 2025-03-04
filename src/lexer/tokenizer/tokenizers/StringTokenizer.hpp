@@ -21,9 +21,9 @@
 
 #pragma once
 
-#include "../TokenizerBase.hpp"
+#include "opal/lexer/tokenizer/TokenizerBase.hpp"
 
-namespace Opal {
+namespace opal {
 
 class StringTokenizer : public TokenizerBase {
 public:
@@ -33,4 +33,4 @@ public:
     void tokenize() override;
 };
 
-}  // namespace Opal
+}  // namespace opal

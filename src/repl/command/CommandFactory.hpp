@@ -21,16 +21,16 @@
 
 #pragma once
 
-#include "CommandBase.hpp"
+#include "opal/repl/command/CommandBase.hpp"
 
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class CommandFactory {
 public:
     static std::vector<std::unique_ptr<CommandBase>> createCommands();
 };
 
-}  // namespace Opal
+}  // namespace opal

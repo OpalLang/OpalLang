@@ -19,15 +19,15 @@
  * needed for experienced developers.
  */
 
-#include "Parser.hpp"
+#include "opal/parser/Parser.hpp"
 
-#include "../lexer/Token.hpp"
-#include "atomizer/AtomizerBase.hpp"
-#include "atomizer/AtomizerFactory.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/atomizer/AtomizerBase.hpp"
+#include "opal/parser/atomizer/AtomizerFactory.hpp"
 
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 Token Parser::peek() const {
     return tokens[current];
@@ -42,7 +42,7 @@ Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
 
     while (!isAtEnd()) {
         bool handled = false;
-        for (const auto& atomizer : atomizers) {
+        for (const std::unique_ptr<AtomizerBase>& atomizer : atomizers) {
             if (atomizer->canHandle(peek().type)) {
                 auto node = atomizer->atomize();
                 if (node) {
@@ -60,9 +60,9 @@ Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
 }
 
 void Parser::printAST() const {
-    for (const auto& node : nodes) {
+    for (const std::unique_ptr<NodeBase>& node : nodes) {
         node->print();
     }
 }
 
-}  // namespace Opal
+}  // namespace opal

@@ -23,7 +23,7 @@
 
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 class FileUtil {
 public:
@@ -39,4 +39,4 @@ private:
     FileUtil& operator=(const FileUtil&) = delete;
 };
 
-}  // namespace Opal
+}  // namespace opal

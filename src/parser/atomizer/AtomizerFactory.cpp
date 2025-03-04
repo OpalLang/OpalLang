@@ -19,16 +19,15 @@
  * needed for experienced developers.
  */
 
-#include "AtomizerFactory.hpp"
-
-#include "atomizers/LoadAtomizer.hpp"
-#include "atomizers/OperationAtomizer.hpp"
-#include "atomizers/VariableAtomizer.hpp"
+#include "opal/parser/atomizer/AtomizerFactory.hpp"
+#include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
+#include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
+#include "opal/parser/atomizer/atomizers/VariableAtomizer.hpp"
 
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 std::vector<std::unique_ptr<AtomizerBase>> AtomizerFactory::createAtomizers(size_t&             current,
                                                                             std::vector<Token>& tokens) {
@@ -40,4 +39,4 @@ std::vector<std::unique_ptr<AtomizerBase>> AtomizerFactory::createAtomizers(size
     return atomizers;
 }
 
-}  // namespace Opal
+}  // namespace opal

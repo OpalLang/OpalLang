@@ -32,7 +32,7 @@
 #include <sstream>
 #include <vector>
 
-using namespace Opal;
+using namespace opal;
 using namespace testing;
 
 class CommandFactoryExtendedTest : public ::testing::Test {

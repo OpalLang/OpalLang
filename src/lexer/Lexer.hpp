@@ -21,15 +21,15 @@
 
 #pragma once
 
-#include "Token.hpp"
-#include "tokenizer/TokenizerFactory.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/lexer/tokenizer/TokenizerFactory.hpp"
 
 #include <memory>
 #include <string>
 #include <string_view>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class Lexer {
 public:
@@ -50,4 +50,4 @@ private:
     bool isAtEnd() const;
 };
 
-}  // namespace Opal
+}  // namespace opal

@@ -19,17 +19,42 @@
  * needed for experienced developers.
  */
 
-#include "opal/parser/node/nodes/LoadNode.hpp"
+#include "opal/repl/signal/SignalHandler.hpp"
 
 #include <iostream>
 
 namespace opal {
 
-LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type), path(path) {}
+std::unordered_map<int, SignalHandler::SignalCallback> SignalHandler::callbacks;
 
-void LoadNode::print(size_t indent) const {
-    printIndent(indent);
-    std::cout << "Load(path=\"" << path << "\")" << std::endl;
+void SignalHandler::initialize() {}
+
+void SignalHandler::registerHandler(int signalType, SignalCallback callback) {
+    callbacks[signalType] = callback;
+    std::signal(signalType, handleSignal);
+}
+
+void SignalHandler::restoreDefaultHandler(int signalType) {
+    std::signal(signalType, SIG_DFL);
+    callbacks.erase(signalType);
+}
+
+void SignalHandler::restoreAllDefaults() {
+    std::vector<int> signalTypes;
+    for (const auto& pair : callbacks) {
+        signalTypes.push_back(pair.first);
+    }
+
+    for (int signalType : signalTypes) {
+        restoreDefaultHandler(signalType);
+    }
+}
+
+void SignalHandler::handleSignal(int signalType) {
+    auto it = callbacks.find(signalType);
+    if (it != callbacks.end()) {
+        it->second(signalType);
+    }
 }
 
 }  // namespace opal

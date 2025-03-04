@@ -21,14 +21,14 @@
 
 #pragma once
 
-#include "../../../parser/node/NodeFactory.hpp"
-#include "../../../parser/node/nodes/VariableNode.hpp"
-#include "../AtomizerBase.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
+#include "opal/parser/node/nodes/VariableNode.hpp"
+#include "opal/parser/atomizer/AtomizerBase.hpp"
 
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class VariableAtomizer : public AtomizerBase {
 public:
@@ -41,4 +41,4 @@ private:
     std::unique_ptr<NodeBase> handleOperation(std::unique_ptr<VariableNode>& variableNode);
 };
 
-}  // namespace Opal
+}  // namespace opal

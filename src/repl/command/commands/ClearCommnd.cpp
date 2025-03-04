@@ -19,11 +19,11 @@
  * needed for experienced developers.
  */
 
-#include "ClearCommand.hpp"
+#include "opal/repl/command/commands/ClearCommand.hpp"
 
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 bool ClearCommand::canHandle(const std::string& commandName) const {
     return commandName == "clear";
@@ -33,4 +33,4 @@ void ClearCommand::execute() {
     std::cout << "\033c";
 }
 
-}  // namespace Opal
+}  // namespace opal

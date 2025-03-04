@@ -19,17 +19,27 @@
  * needed for experienced developers.
  */
 
-#include "opal/parser/node/nodes/LoadNode.hpp"
+#pragma once
 
-#include <iostream>
+#include <csignal>
+#include <functional>
+#include <unordered_map>
 
 namespace opal {
 
-LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type), path(path) {}
+class SignalHandler {
+public:
+    using SignalCallback = std::function<void(int)>;
 
-void LoadNode::print(size_t indent) const {
-    printIndent(indent);
-    std::cout << "Load(path=\"" << path << "\")" << std::endl;
-}
+    static void initialize();
+    static void registerHandler(int signalType, SignalCallback callback);
+    static void restoreDefaultHandler(int signalType);
+    static void restoreAllDefaults();
+    static void handleSignal(int signalType);
+
+private:
+    static std::unordered_map<int, SignalCallback> callbacks;
+    SignalHandler() = delete;
+};
 
 }  // namespace opal

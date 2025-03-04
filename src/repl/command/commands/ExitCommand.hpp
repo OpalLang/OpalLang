@@ -21,9 +21,9 @@
 
 #pragma once
 
-#include "../CommandBase.hpp"
+#include "opal/repl/command/CommandBase.hpp"
 
-namespace Opal {
+namespace opal {
 
 class ExitCommand : public CommandBase {
 public:
@@ -34,4 +34,4 @@ public:
     void execute() override;
 };
 
-}  // namespace Opal
+}  // namespace opal

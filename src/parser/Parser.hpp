@@ -21,13 +21,13 @@
 
 #pragma once
 
-#include "../lexer/Token.hpp"
-#include "atomizer/AtomizerBase.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/atomizer/AtomizerBase.hpp"
 
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class Parser {
 public:
@@ -44,4 +44,4 @@ private:
     Token peek() const;
 };
 
-}  // namespace Opal
+}  // namespace opal

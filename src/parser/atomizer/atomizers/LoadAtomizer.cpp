@@ -19,16 +19,15 @@
  * needed for experienced developers.
  */
 
-#include "LoadAtomizer.hpp"
-
-#include "../../../parser/node/NodeFactory.hpp"
+#include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
 
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 LoadAtomizer::LoadAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
@@ -47,4 +46,4 @@ std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
     return std::unique_ptr<NodeBase>(NodeFactory::createLoadNode(path).release());
 }
 
-}  // namespace Opal
+}  // namespace opal

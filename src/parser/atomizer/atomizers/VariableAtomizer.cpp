@@ -19,18 +19,17 @@
  * needed for experienced developers.
  */
 
-#include "VariableAtomizer.hpp"
-
-#include "../../../parser/node/NodeFactory.hpp"
-#include "../VariableType.hpp"
-#include "OperationAtomizer.hpp"
+#include "opal/parser/atomizer/atomizers/VariableAtomizer.hpp"
+#include "opal/parser/node/NodeFactory.hpp"
+#include "opal/parser/atomizer/VariableType.hpp"
+#include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 VariableAtomizer::VariableAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
@@ -69,7 +68,18 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
 std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<VariableNode>& variableNode) {
     std::string variableValue;
 
-    if (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER) {
+    OperationAtomizer opAtomizer(current, tokens);
+    bool hasOperator = opAtomizer.canHandle(tokens[current + 1].type);
+
+    if (tokens[current].type == TokenType::NUMBER) {
+        if (hasOperator) {
+            return std::unique_ptr<NodeBase>(handleOperation(variableNode).release());
+        } else {
+            variableValue = std::string(tokens[current].value);
+            variableNode->setValue(variableValue);
+            variableNode->setType(VariableType::INT);
+        }
+    } else if (tokens[current].type == TokenType::IDENTIFIER && hasOperator) {
         return std::unique_ptr<NodeBase>(handleOperation(variableNode).release());
     } else if (tokens[current].type == TokenType::STRING) {
         variableValue = std::string(tokens[current].value);
@@ -83,6 +93,10 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
         variableValue = "nil";
         variableNode->setValue(variableValue);
         variableNode->setType(VariableType::NIL);
+    } else if (tokens[current].type == TokenType::IDENTIFIER) {
+        variableValue = std::string(tokens[current].value);
+        variableNode->setValue(variableValue);
+        variableNode->setType(VariableType::UNKNOWN);
     } else {
         throw std::runtime_error("Expected a value or identifier after assignment operator");
     }
@@ -112,4 +126,4 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleOperation(std::unique_ptr<Vari
     return std::unique_ptr<NodeBase>(variableNode.release());
 }
 
-}  // namespace Opal
+}  // namespace opal

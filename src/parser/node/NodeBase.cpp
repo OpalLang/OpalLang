@@ -19,37 +19,55 @@
  * needed for experienced developers.
  */
 
-#include "NodeBase.hpp"
-#include "../../lexer/Token.hpp"
+#include "opal/parser/node/NodeBase.hpp"
+#include "opal/lexer/Token.hpp"
+
 #include <iostream>
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 std::string nodeTypeToString(NodeType type) {
     switch (type) {
-        case NodeType::BASE: return "BASE";
-        case NodeType::VARIABLE: return "VARIABLE";
-        case NodeType::OPERATION: return "OPERATION";
-        case NodeType::FUNCTION: return "FUNCTION";
-        case NodeType::CLASS: return "CLASS";
-        default: return "UNKNOWN";
+        case NodeType::BASE:
+            return "BASE";
+        case NodeType::VARIABLE:
+            return "VARIABLE";
+        case NodeType::OPERATION:
+            return "OPERATION";
+        case NodeType::FUNCTION:
+            return "FUNCTION";
+        case NodeType::CLASS:
+            return "CLASS";
+        default:
+            return "UNKNOWN";
     }
 }
 
 std::string tokenTypeToString(TokenType type) {
     switch (type) {
-        case TokenType::NUMBER: return "NUMBER";
-        case TokenType::STRING: return "STRING";
-        case TokenType::IDENTIFIER: return "IDENTIFIER";
-        case TokenType::PLUS: return "PLUS";
-        case TokenType::MINUS: return "MINUS";
-        case TokenType::MULTIPLY: return "MULTIPLY";
-        case TokenType::DIVIDE: return "DIVIDE";
-        case TokenType::EQUAL: return "EQUAL";
-        case TokenType::CONST: return "CONST";
-        case TokenType::EOF_TOKEN: return "EOF";
-        default: return "OTHER";
+        case TokenType::NUMBER:
+            return "NUMBER";
+        case TokenType::STRING:
+            return "STRING";
+        case TokenType::IDENTIFIER:
+            return "IDENTIFIER";
+        case TokenType::PLUS:
+            return "PLUS";
+        case TokenType::MINUS:
+            return "MINUS";
+        case TokenType::MULTIPLY:
+            return "MULTIPLY";
+        case TokenType::DIVIDE:
+            return "DIVIDE";
+        case TokenType::EQUAL:
+            return "EQUAL";
+        case TokenType::CONST:
+            return "CONST";
+        case TokenType::EOF_TOKEN:
+            return "EOF";
+        default:
+            return "OTHER";
     }
 }
 
@@ -63,8 +81,8 @@ void NodeBase::printIndent(size_t indent) {
 
 void NodeBase::print(size_t indent) const {
     printIndent(indent);
-    std::cout << "Node(type=" << nodeTypeToString(nodeType) 
-              << ", token=" << tokenTypeToString(tokenType) << ")" << std::endl;
+    std::cout << "Node(type=" << nodeTypeToString(nodeType) << ", token=" << tokenTypeToString(tokenType) << ")"
+              << std::endl;
 }
 
-}  // namespace Opal
+}  // namespace opal

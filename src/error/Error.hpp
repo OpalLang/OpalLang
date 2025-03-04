@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class Error {
 public:
@@ -51,4 +51,4 @@ private:
     static std::vector<ErrorInfo> errors;
 };
 
-}  // namespace Opal
+}  // namespace opal

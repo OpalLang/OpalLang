@@ -21,13 +21,13 @@
 
 #pragma once
 
-#include "../../lexer/Token.hpp"
-#include "../node/NodeBase.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/node/NodeBase.hpp"
 
 #include <memory>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class AtomizerBase {
 protected:
@@ -47,4 +47,4 @@ protected:
     Token advance();
 };
 
-}  // namespace Opal
+}  // namespace opal

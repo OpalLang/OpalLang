@@ -21,9 +21,9 @@
 
 #pragma once
 
-#include "../TokenizerBase.hpp"
+#include "opal/lexer/tokenizer/TokenizerBase.hpp"
 
-namespace Opal {
+namespace opal {
 
 class CommentTokenizer : public TokenizerBase {
 public:
@@ -37,4 +37,4 @@ private:
     void handleMultiLineComment();
 };
 
-}  // namespace Opal
+}  // namespace opal

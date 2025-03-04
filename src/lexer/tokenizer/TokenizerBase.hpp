@@ -21,13 +21,13 @@
 
 #pragma once
 
-#include "../Token.hpp"
+#include "opal/lexer/Token.hpp"
 
 #include <string>
 #include <string_view>
 #include <vector>
 
-namespace Opal {
+namespace opal {
 
 class TokenizerBase {
 protected:
@@ -62,4 +62,4 @@ protected:
     bool isAlphaNumeric(char c) const;
 };
 
-}  // namespace Opal
+}  // namespace opal

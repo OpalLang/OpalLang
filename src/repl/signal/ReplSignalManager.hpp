@@ -19,17 +19,32 @@
  * needed for experienced developers.
  */
 
-#include "opal/parser/node/nodes/LoadNode.hpp"
+#pragma once
 
-#include <iostream>
+#include "opal/repl/signal/SignalHandler.hpp"
+
+#include <atomic>
+#include <csignal>
 
 namespace opal {
 
-LoadNode::LoadNode(TokenType type, const std::string_view& path) : NodeBase(type), path(path) {}
+class ReplSignalManager {
+public:
+    ReplSignalManager();
+    ~ReplSignalManager();
 
-void LoadNode::print(size_t indent) const {
-    printIndent(indent);
-    std::cout << "Load(path=\"" << path << "\")" << std::endl;
-}
+    void setupSignalHandlers();
+    bool isInterruptRequested() const;
+    void resetInterruptFlag();
+    bool shouldExit() const;
+    void setExitFlag(bool value);
+
+    void handleInterrupt(int signal);
+    void handleTerminate(int signal);
+
+private:
+    std::atomic<bool> interruptRequested;
+    std::atomic<bool> exitRequested;
+};
 
 }  // namespace opal

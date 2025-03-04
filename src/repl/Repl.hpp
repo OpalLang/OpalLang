@@ -21,9 +21,11 @@
 
 #pragma once
 
+#include "opal/repl/signal/ReplSignalManager.hpp"
+
 #include <string>
 
-namespace Opal {
+namespace opal {
 
 class Repl {
 public:
@@ -32,6 +34,8 @@ public:
 private:
     void run(const std::string& source);
     void runPrompt();
+
+    ReplSignalManager signalManager;
 };
 
-}  // namespace Opal
+}  // namespace opal

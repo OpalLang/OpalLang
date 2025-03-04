@@ -19,9 +19,9 @@
  * needed for experienced developers.
  */
 
-#include "OperatorTokenizer.hpp"
+#include "opal/lexer/tokenizer/tokenizers/OperatorTokenizer.hpp"
 
-namespace Opal {
+namespace opal {
 
 const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operators = {
     // Delimiters
@@ -129,4 +129,4 @@ void OperatorTokenizer::tokenize() {
     }
 }
 
-}  // namespace Opal
+}  // namespace opal

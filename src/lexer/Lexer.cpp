@@ -19,13 +19,12 @@
  * needed for experienced developers.
  */
 
-#include "Lexer.hpp"
-
-#include "../error/Error.hpp"
+#include "opal/lexer/Lexer.hpp"
+#include "opal/error/Error.hpp"
 
 #include <iostream>
 
-namespace Opal {
+namespace opal {
 
 Lexer::Lexer(std::string source) : source(std::move(source)) {
     tokenizers = TokenizerFactory::createTokenizers(this->source, current, line, column, start, tokens);
@@ -57,7 +56,7 @@ void Lexer::scanToken() {
         return;
     }
 
-    for (const auto& tokenizer : tokenizers) {
+    for (const std::unique_ptr<TokenizerBase>& tokenizer : tokenizers) {
         if (tokenizer->canHandle(c)) {
             tokenizer->tokenize();
             return;
@@ -80,4 +79,4 @@ void Lexer::printTokens() const {
     }
 }
 
-}  // namespace Opal
+}  // namespace opal
