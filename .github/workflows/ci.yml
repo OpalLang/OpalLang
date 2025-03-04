@@ -1,7 +1,7 @@
 name: Opal CI/CD
 
 env:
-  OPAL_VERSION: "0.1.0"
+  OPAL_VERSION: "0.2.0"
 
 on:
   push:
