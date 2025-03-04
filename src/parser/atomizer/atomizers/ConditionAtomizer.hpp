@@ -29,10 +29,33 @@
 
 namespace opal {
 
+    /**
+     * @class ConditionAtomizer
+     * @brief Atomizer for handling conditional statements
+     * 
+     * Processes token sequences that represent conditional expressions
+     * such as if-else statements and conditional operators in the Opal language.
+     */
     class ConditionAtomizer : public AtomizerBase {
         public:
+            /**
+             * @brief Constructs a new Condition Atomizer object
+             * @param current Reference to the current token index
+             * @param tokens Reference to the token collection
+             */
             ConditionAtomizer(size_t& current, std::vector<Token>& tokens);
-            bool                      canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Checks if this atomizer can handle the given token type
+             * @param type The token type to check
+             * @return bool True if this atomizer can handle the token type, false otherwise
+             */
+            bool canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Converts a sequence of tokens into a condition node
+             * @return std::unique_ptr<NodeBase> A unique pointer to the created condition node
+             */
             std::unique_ptr<NodeBase> atomize() override;
     };
 

@@ -28,14 +28,39 @@
 
 namespace opal {
 
+    /**
+     * @class IdentifierTokenizer
+     * @brief Tokenizer for handling identifiers and keywords
+     * 
+     * Processes character sequences that represent identifiers (variable names, function names, etc.)
+     * and keywords in the Opal language, distinguishing between the two based on a predefined set.
+     */
     class IdentifierTokenizer : public TokenizerBase {
         public:
+            /**
+             * @brief Inherits constructor from TokenizerBase
+             */
             using TokenizerBase::TokenizerBase;
 
+            /**
+             * @brief Checks if this tokenizer can handle the given character
+             * @param c The character to check
+             * @return bool True if this tokenizer can handle the character, false otherwise
+             */
             bool canHandle(char c) const override;
+            
+            /**
+             * @brief Processes an identifier and creates a corresponding token
+             * 
+             * Determines if the identifier is a keyword or a user-defined identifier
+             * and creates the appropriate token type.
+             */
             void tokenize() override;
 
         private:
+            /**
+             * @brief Map of keyword strings to their corresponding token types
+             */
             static const std::unordered_map<std::string_view, TokenType> _keywords;
     };
 

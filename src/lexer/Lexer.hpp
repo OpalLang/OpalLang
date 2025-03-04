@@ -31,11 +31,33 @@
 
 namespace opal {
 
+    /**
+     * @class Lexer
+     * @brief Tokenizes Opal source code into a sequence of tokens
+     * 
+     * The lexer is responsible for breaking down source code into meaningful tokens
+     * that can be processed by the parser.
+     */
     class Lexer {
         public:
+            /**
+             * @brief Constructs a new Lexer object
+             * @param source The source code to tokenize
+             */
             explicit Lexer(std::string source);
+            
+            /**
+             * @brief Scans the source code and produces a vector of tokens
+             * @return std::vector<Token> The tokens extracted from the source
+             */
             std::vector<Token> scanTokens();
-            void               printTokens() const;
+            
+            /**
+             * @brief Prints all tokens to standard output
+             * 
+             * Useful for debugging and visualizing the lexical analysis results.
+             */
+            void printTokens() const;
 
         private:
             std::string                                 _source;
@@ -46,7 +68,17 @@ namespace opal {
             int                                         _line    = 1;
             int                                         _column  = 1;
 
+            /**
+             * @brief Scans a single token from the current position
+             * 
+             * Advances the current position and adds the found token to the token list.
+             */
             void scanToken();
+            
+            /**
+             * @brief Checks if the lexer has reached the end of the source
+             * @return bool True if at the end of source, false otherwise
+             */
             bool isAtEnd() const;
     };
 

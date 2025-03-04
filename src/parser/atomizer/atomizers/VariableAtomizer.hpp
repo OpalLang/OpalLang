@@ -30,14 +30,48 @@
 
 namespace opal {
 
+    /**
+     * @class VariableAtomizer
+     * @brief Atomizer for handling variable declarations and assignments
+     * 
+     * Processes token sequences that represent variable declarations,
+     * assignments, and operations involving variables in the Opal language.
+     */
     class VariableAtomizer : public AtomizerBase {
         public:
+            /**
+             * @brief Constructs a new Variable Atomizer object
+             * @param current Reference to the current token index
+             * @param tokens Reference to the token collection
+             */
             VariableAtomizer(size_t& current, std::vector<Token>& tokens);
-            bool                      canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Checks if this atomizer can handle the given token type
+             * @param type The token type to check
+             * @return bool True if this atomizer can handle the token type, false otherwise
+             */
+            bool canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Converts a sequence of tokens into a variable node
+             * @return std::unique_ptr<NodeBase> A unique pointer to the created variable node
+             */
             std::unique_ptr<NodeBase> atomize() override;
 
         private:
+            /**
+             * @brief Handles variable assignment operations
+             * @param variableNode Reference to the variable node being processed
+             * @return std::unique_ptr<NodeBase> The processed node after assignment
+             */
             std::unique_ptr<NodeBase> handleAssignment(std::unique_ptr<VariableNode>& variableNode);
+            
+            /**
+             * @brief Handles operations involving variables
+             * @param variableNode Reference to the variable node being processed
+             * @return std::unique_ptr<NodeBase> The processed node after operation
+             */
             std::unique_ptr<NodeBase> handleOperation(std::unique_ptr<VariableNode>& variableNode);
     };
 

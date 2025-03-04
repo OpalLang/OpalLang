@@ -28,8 +28,19 @@
 
 namespace opal {
 
+    /**
+     * @class CommandFactory
+     * @brief Factory class for creating command instances
+     * 
+     * Creates and initializes all the different commands available
+     * in the REPL environment.
+     */
     class CommandFactory {
         public:
+            /**
+             * @brief Creates a collection of all available REPL commands
+             * @return std::vector<std::unique_ptr<CommandBase>> A collection of initialized commands
+             */
             static std::vector<std::unique_ptr<CommandBase>> createCommands();
     };
 

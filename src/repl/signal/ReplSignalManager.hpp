@@ -28,22 +28,67 @@
 
 namespace opal {
 
+    /**
+     * @class ReplSignalManager
+     * @brief Manages signal handling for the REPL environment
+     * 
+     * Handles system signals such as SIGINT (Ctrl+C) and SIGTERM to provide
+     * graceful interruption and termination of the REPL.
+     */
     class ReplSignalManager {
         private:
             std::atomic<bool> _interruptRequested;
             std::atomic<bool> _exitRequested;
 
         public:
+            /**
+             * @brief Constructs a new ReplSignalManager object
+             */
             ReplSignalManager();
+            
+            /**
+             * @brief Destroys the ReplSignalManager object
+             */
             ~ReplSignalManager();
 
+            /**
+             * @brief Sets up the signal handlers for the REPL
+             */
             void setupSignalHandlers();
+            
+            /**
+             * @brief Checks if an interrupt was requested
+             * @return bool True if an interrupt was requested, false otherwise
+             */
             bool isInterruptRequested() const;
+            
+            /**
+             * @brief Resets the interrupt flag
+             */
             void resetInterruptFlag();
+            
+            /**
+             * @brief Checks if the REPL should exit
+             * @return bool True if the REPL should exit, false otherwise
+             */
             bool shouldExit() const;
+            
+            /**
+             * @brief Sets the exit flag
+             * @param value The value to set the exit flag to
+             */
             void setExitFlag(bool value);
 
+            /**
+             * @brief Handles interrupt signals (SIGINT)
+             * @param signal The signal number
+             */
             void handleInterrupt(int signal);
+            
+            /**
+             * @brief Handles termination signals (SIGTERM)
+             * @param signal The signal number
+             */
             void handleTerminate(int signal);
     };
 

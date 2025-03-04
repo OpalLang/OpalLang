@@ -34,17 +34,50 @@
 
 namespace opal {
 
+    /**
+     * @class NodeFactory
+     * @brief Factory class for creating AST nodes
+     * 
+     * Provides static methods to create different types of AST nodes,
+     * encapsulating the creation logic and ensuring proper initialization.
+     */
     class NodeFactory {
         public:
-            static std::unique_ptr<NodeBase>     createNode(TokenType type);
+            /**
+             * @brief Creates a generic node based on token type
+             * @param type The token type to create a node for
+             * @return std::unique_ptr<NodeBase> A unique pointer to the created node
+             */
+            static std::unique_ptr<NodeBase> createNode(TokenType type);
+            
+            /**
+             * @brief Creates a variable node
+             * @param name The name of the variable
+             * @param value The initial value of the variable
+             * @param isConstant Whether the variable is constant (cannot be reassigned)
+             * @param type The data type of the variable
+             * @return std::unique_ptr<VariableNode> A unique pointer to the created variable node
+             */
             static std::unique_ptr<VariableNode> createVariableNode(const std::string& name,
                                                                     const std::string& value,
                                                                     bool               isConstant = false,
                                                                     VariableType       type       = VariableType::UNKNOWN) {
                 return std::make_unique<VariableNode>(TokenType::IDENTIFIER, name, value, isConstant, type);
             }
+            
+            /**
+             * @brief Creates an operation node from a sequence of tokens
+             * @param tokens The tokens representing the operation
+             * @return std::unique_ptr<OperationNode> A unique pointer to the created operation node
+             */
             static std::unique_ptr<OperationNode> createOperationNode(const std::vector<Token>& tokens);
-            static std::unique_ptr<LoadNode>      createLoadNode(const std::string_view& path);
+            
+            /**
+             * @brief Creates a load node for importing modules
+             * @param path The path to the module to load
+             * @return std::unique_ptr<LoadNode> A unique pointer to the created load node
+             */
+            static std::unique_ptr<LoadNode> createLoadNode(const std::string_view& path);
     };
 
 }  // namespace opal

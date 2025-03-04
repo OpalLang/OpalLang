@@ -31,30 +31,89 @@
 
 namespace opal {
 
+    /**
+     * @class VariableNode
+     * @brief AST node representing a variable declaration or reference
+     * 
+     * Represents a variable in Opal, including its name, value, type,
+     * and whether it's a constant. Can also store an associated operation
+     * for variable initialization.
+     */
     class VariableNode : public NodeBase {
         private:
-            std::string _name;
-            std::string _value;
-            bool        _isConstant;
-            VariableType _type;
-            std::unique_ptr<OperationNode> _operation;
+            std::string _name;                        ///< The name of the variable
+            std::string _value;                       ///< The value of the variable (as a string)
+            bool        _isConstant;                  ///< Whether the variable is constant (cannot be reassigned)
+            VariableType _type;                       ///< The data type of the variable
+            std::unique_ptr<OperationNode> _operation; ///< Optional operation for variable initialization
 
         public:
+            /**
+             * @brief Constructs a new Variable Node object
+             * @param tokenType The token type associated with this node
+             * @param name The name of the variable
+             * @param value The initial value of the variable
+             * @param isConstant Whether the variable is constant (cannot be reassigned)
+             * @param type The data type of the variable
+             */
             VariableNode(TokenType          tokenType,
                         const std::string& name,
                         const std::string& value,
                         bool               isConstant = false,
                         VariableType       type       = VariableType::UNKNOWN);
 
-            void               setOperation(std::unique_ptr<OperationNode> op) { _operation = std::move(op); }
-            void               setValue(const std::string& newValue) { _value = newValue; }
-            void               setType(VariableType newType) { _type = newType; }
-            OperationNode*     getOperation() const { return _operation.get(); }
+            /**
+             * @brief Sets the operation for variable initialization
+             * @param op The operation node
+             */
+            void setOperation(std::unique_ptr<OperationNode> op) { _operation = std::move(op); }
+            
+            /**
+             * @brief Sets the value of the variable
+             * @param newValue The new value
+             */
+            void setValue(const std::string& newValue) { _value = newValue; }
+            
+            /**
+             * @brief Sets the type of the variable
+             * @param newType The new type
+             */
+            void setType(VariableType newType) { _type = newType; }
+            
+            /**
+             * @brief Gets the operation for variable initialization
+             * @return OperationNode* Pointer to the operation node, or nullptr if none
+             */
+            OperationNode* getOperation() const { return _operation.get(); }
+            
+            /**
+             * @brief Gets the name of the variable
+             * @return const std::string& The variable name
+             */
             const std::string& getName() const { return _name; }
+            
+            /**
+             * @brief Gets the value of the variable
+             * @return const std::string& The variable value
+             */
             const std::string& getValue() const { return _value; }
-            VariableType       getType() const { return _type; }
-            bool               getIsConstant() const { return _isConstant; }
+            
+            /**
+             * @brief Gets the type of the variable
+             * @return VariableType The variable type
+             */
+            VariableType getType() const { return _type; }
+            
+            /**
+             * @brief Checks if the variable is constant
+             * @return bool True if the variable is constant, false otherwise
+             */
+            bool getIsConstant() const { return _isConstant; }
 
+            /**
+             * @brief Prints the node to standard output
+             * @param indent The indentation level for pretty printing
+             */
             void print(size_t indent = 0) const override;
     };
 

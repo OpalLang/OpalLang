@@ -29,10 +29,33 @@
 
 namespace opal {
 
+    /**
+     * @class OperationAtomizer
+     * @brief Atomizer for handling mathematical and logical operations
+     * 
+     * Processes token sequences that represent operations such as arithmetic,
+     * logical comparisons, and other expressions in the Opal language.
+     */
     class OperationAtomizer : public AtomizerBase {
         public:
+            /**
+             * @brief Constructs a new Operation Atomizer object
+             * @param current Reference to the current token index
+             * @param tokens Reference to the token collection
+             */
             OperationAtomizer(size_t& current, std::vector<Token>& tokens);
-            bool                      canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Checks if this atomizer can handle the given token type
+             * @param type The token type to check
+             * @return bool True if this atomizer can handle the token type, false otherwise
+             */
+            bool canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Converts a sequence of tokens into an operation node
+             * @return std::unique_ptr<NodeBase> A unique pointer to the created operation node
+             */
             std::unique_ptr<NodeBase> atomize() override;
     };
 

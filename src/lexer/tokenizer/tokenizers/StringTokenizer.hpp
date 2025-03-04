@@ -25,11 +25,30 @@
 
 namespace opal {
 
+    /**
+     * @class StringTokenizer
+     * @brief Tokenizer for handling string literals
+     * 
+     * Processes character sequences that represent string literals in the Opal language,
+     * handling escape sequences and string delimiters.
+     */
     class StringTokenizer : public TokenizerBase {
         public:
+            /**
+             * @brief Inherits constructor from TokenizerBase
+             */
             using TokenizerBase::TokenizerBase;
 
+            /**
+             * @brief Checks if this tokenizer can handle the given character
+             * @param c The character to check
+             * @return bool True if this tokenizer can handle the character, false otherwise
+             */
             bool canHandle(char c) const override;
+            
+            /**
+             * @brief Processes a string literal and creates a corresponding token
+             */
             void tokenize() override;
     };
 

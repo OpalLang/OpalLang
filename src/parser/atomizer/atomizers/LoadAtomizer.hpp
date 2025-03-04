@@ -29,10 +29,33 @@
 
 namespace opal {
 
+    /**
+     * @class LoadAtomizer
+     * @brief Atomizer for handling file loading operations
+     * 
+     * Processes token sequences that represent file loading operations
+     * in the Opal language, allowing for inclusion of external code files.
+     */
     class LoadAtomizer : public AtomizerBase {
         public:
+            /**
+             * @brief Constructs a new Load Atomizer object
+             * @param current Reference to the current token index
+             * @param tokens Reference to the token collection
+             */
             LoadAtomizer(size_t& current, std::vector<Token>& tokens);
-            bool                      canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Checks if this atomizer can handle the given token type
+             * @param type The token type to check
+             * @return bool True if this atomizer can handle the token type, false otherwise
+             */
+            bool canHandle(TokenType type) const override;
+            
+            /**
+             * @brief Converts a sequence of tokens into a load node
+             * @return std::unique_ptr<NodeBase> A unique pointer to the created load node
+             */
             std::unique_ptr<NodeBase> atomize() override;
     };
 

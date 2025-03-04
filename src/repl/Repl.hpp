@@ -27,14 +27,35 @@
 
 namespace opal {
 
+    /**
+     * @class Repl
+     * @brief Read-Eval-Print Loop implementation for the Opal language
+     * 
+     * Provides an interactive shell for executing Opal code and getting immediate feedback.
+     */
     class Repl {
         private:
             ReplSignalManager _signalManager;
 
+            /**
+             * @brief Executes the provided source code
+             * @param source The Opal source code to execute
+             */
             void run(const std::string& source);
+            
+            /**
+             * @brief Runs the interactive prompt loop
+             * 
+             * Continuously prompts the user for input and executes the provided code.
+             */
             void runPrompt();
 
         public:
+            /**
+             * @brief Starts the REPL environment
+             * 
+             * Initializes the REPL and begins accepting user input.
+             */
             void start();
     };
 

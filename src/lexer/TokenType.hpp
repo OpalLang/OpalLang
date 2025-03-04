@@ -23,6 +23,13 @@
 
 namespace opal {
 
+    /**
+     * @enum TokenType
+     * @brief Enumerates all possible token types in the Opal language
+     * 
+     * This enum defines all the different types of tokens that can be recognized
+     * by the Opal lexer, including keywords, literals, operators, and delimiters.
+     */
     enum class TokenType {
         // Keywords
         CLASS,

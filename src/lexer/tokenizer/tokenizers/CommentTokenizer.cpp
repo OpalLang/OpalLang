@@ -53,7 +53,6 @@ void CommentTokenizer::handleSingleLineComment() {
 
 void CommentTokenizer::handleMultiLineComment() {
     int nesting   = 1;
-    int startLine = this->_line;
 
     while (nesting > 0 && !this->isAtEnd()) {
         if (this->peek() == '*' && this->peekNext() == '/') {

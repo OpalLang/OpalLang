@@ -28,14 +28,36 @@
 
 namespace opal {
 
+    /**
+     * @class OperatorTokenizer
+     * @brief Tokenizer for handling operators and symbols
+     * 
+     * Processes character sequences that represent operators (arithmetic, logical, etc.)
+     * and other special symbols in the Opal language.
+     */
     class OperatorTokenizer : public TokenizerBase {
         public:
+            /**
+             * @brief Inherits constructor from TokenizerBase
+             */
             using TokenizerBase::TokenizerBase;
 
+            /**
+             * @brief Checks if this tokenizer can handle the given character
+             * @param c The character to check
+             * @return bool True if this tokenizer can handle the character, false otherwise
+             */
             bool canHandle(char c) const override;
+            
+            /**
+             * @brief Processes an operator sequence and creates a corresponding token
+             */
             void tokenize() override;
 
         private:
+            /**
+             * @brief Map of operator strings to their corresponding token types
+             */
             static const std::unordered_map<std::string_view, TokenType> _operators;
     };
 
