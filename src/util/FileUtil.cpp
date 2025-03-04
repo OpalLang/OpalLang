@@ -61,4 +61,8 @@ bool FileUtil::hasGoodExtension(const std::string& filepath) {
     return extension == "opal" || extension == "op";
 }
 
+std::string FileUtil::errorMessage(const std::string& message, int line, int column) {
+    return message + " at line " + std::to_string(line) + ", column " + std::to_string(column);
+}
+
 }  // namespace opal

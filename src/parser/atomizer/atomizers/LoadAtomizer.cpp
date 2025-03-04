@@ -22,6 +22,7 @@
 #include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
 
 #include "opal/parser/node/NodeFactory.hpp"
+#include "opal/util/FileUtil.hpp"
 
 #include <spdlog/spdlog.h>
 
@@ -39,14 +40,17 @@ bool LoadAtomizer::canHandle(TokenType type) const {
 }
 
 std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
+    Token loadToken = tokens[current];
     advance();  // consume LOAD token
 
     if (current >= tokens.size()) {
-        throw std::runtime_error("Expected string after load keyword");
+        throw std::runtime_error(
+            FileUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column));
     }
 
     if (tokens[current].type != TokenType::STRING) {
-        throw std::runtime_error("Expected string after load keyword");
+        throw std::runtime_error(
+            FileUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column + 5));
     }
 
     std::string_view path = tokens[current].value;

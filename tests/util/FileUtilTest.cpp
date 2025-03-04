@@ -167,3 +167,8 @@ TEST_F(FileUtilTest, FileExistsWithSpecialCharacters) {
 
     EXPECT_TRUE(FileUtil::fileExists(testFilePath));
 }
+
+TEST_F(FileUtilTest, ErrorMessageFormatting) {
+    std::string message = FileUtil::errorMessage("Invalid token", 42, 10);
+    EXPECT_EQ(message, "Invalid token at line 42, column 10");
+}

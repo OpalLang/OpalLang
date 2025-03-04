@@ -21,6 +21,8 @@
 
 #include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
 
+#include "opal/util/FileUtil.hpp"
+
 #include <spdlog/spdlog.h>
 
 #include <stdexcept>
@@ -75,7 +77,7 @@ void CommentTokenizer::handleMultiLineComment() {
     }
 
     if (nesting > 0) {
-        throw std::runtime_error("Unterminated multi-line comment starting at line " + std::to_string(startLine));
+        throw std::runtime_error(FileUtil::errorMessage("Unterminated multi-line comment", startLine, 1));
     }
 
     addToken(TokenType::COMMENT);

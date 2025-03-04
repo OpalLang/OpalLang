@@ -49,8 +49,8 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
 
-            std::string sourceCode = opal::FileUtil::readFile(argv[1]);
-            opal::Lexer lexer(sourceCode);
+            std::string              sourceCode = opal::FileUtil::readFile(argv[1]);
+            opal::Lexer              lexer(sourceCode);
             std::vector<opal::Token> tokens = lexer.scanTokens();
 
             spdlog::info("Tokenizing file: {}", argv[1]);

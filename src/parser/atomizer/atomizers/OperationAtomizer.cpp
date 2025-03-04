@@ -22,6 +22,7 @@
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 
 #include "opal/parser/node/NodeFactory.hpp"
+#include "opal/util/FileUtil.hpp"
 
 #include <spdlog/spdlog.h>
 
@@ -54,7 +55,8 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
             break;
         }
 
-        operationTokens.push_back(tokens[current]);
+        Token operatorToken = tokens[current];
+        operationTokens.push_back(operatorToken);
         advance();
 
         if (current < tokens.size()
@@ -62,9 +64,12 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
             operationTokens.push_back(tokens[current]);
             advance();
         } else {
-            throw std::runtime_error("Invalid operation: expected a number or identifier after operator");
+            throw std::runtime_error(
+                FileUtil::errorMessage("Invalid operation: expected a number or identifier after operator",
+                                       operatorToken.line,
+                                       operatorToken.column));
         }
-        }
+    }
     return NodeFactory::createOperationNode(operationTokens);
 }
 
