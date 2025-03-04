@@ -27,7 +27,7 @@
 
 #include <vector>
 
-namespace opal {
+using namespace opal;
 
 Token Parser::peek() const {
     return tokens[current];
@@ -40,10 +40,10 @@ bool Parser::isAtEnd() const {
 Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
     atomizers = AtomizerFactory::createAtomizers(current, this->tokens);
 
-    while (!isAtEnd()) {
+    while (!this->isAtEnd()) {
         bool handled = false;
         for (const std::unique_ptr<AtomizerBase>& atomizer : atomizers) {
-            if (atomizer->canHandle(peek().type)) {
+            if (atomizer->canHandle(this->peek().type)) {
                 std::unique_ptr<NodeBase> node = atomizer->atomize();
                 if (node) {
                     nodes.push_back(std::move(node));
@@ -64,5 +64,3 @@ void Parser::printAST() const {
         node->print();
     }
 }
-
-}  // namespace opal

@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-namespace opal {
+using namespace opal;
 
 bool ClearCommand::canHandle(const std::string& commandName) const {
     return commandName == "clear";
@@ -32,5 +32,3 @@ bool ClearCommand::canHandle(const std::string& commandName) const {
 void ClearCommand::execute() {
     std::cout << "\033c";
 }
-
-}  // namespace opal

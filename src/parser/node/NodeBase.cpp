@@ -28,7 +28,7 @@
 #include <iostream>
 #include <string>
 
-namespace opal {
+using namespace opal;
 
 std::string nodeTypeToString(NodeType type) {
     switch (type) {
@@ -83,8 +83,6 @@ void NodeBase::printIndent(size_t indent) {
 }
 
 void NodeBase::print(size_t indent) const {
-    printIndent(indent);
-    spdlog::info("Node(type={}, token={})", nodeTypeToString(nodeType), tokenTypeToString(tokenType));
+    this->printIndent(indent);
+    spdlog::info("Node(type={}, token={})", nodeTypeToString(this->nodeType), tokenTypeToString(this->tokenType));
 }
-
-}  // namespace opal

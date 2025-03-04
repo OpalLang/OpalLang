@@ -26,25 +26,26 @@
 #include <iomanip>
 #include <iostream>
 
-namespace opal {
+using namespace opal;
 
 const std::unordered_map<std::string, std::string> HelpCommand::commandDescriptions = {
     {"help", "Display available commands"},
     {"clear", "Clear the screen"},
     {"exit", "Exit the REPL"}};
 
+bool HelpCommand::canHandle(const std::string& commandName) const {
+    return commandName == "help" || commandName == "?";
+}
+
 void HelpCommand::execute() {
-    std::cout << "Available commands:\n\n";
+    spdlog::info("Available commands:\n\n");
 
     size_t maxLength = 0;
-    for (const auto& [cmd, desc] : commandDescriptions) {
-        maxLength = std::max(maxLength, cmd.length());
+    for (const std::pair<const std::string, std::string>& cmd_desc : commandDescriptions) {
+        maxLength = std::max(maxLength, cmd_desc.first.length());
     }
-
     for (const std::pair<const std::string, std::string>& cmd_desc : commandDescriptions) {
         spdlog::info("  {} {}", cmd_desc.first, cmd_desc.second);
     }
     std::cout << std::endl;
 }
-
-}  // namespace opal

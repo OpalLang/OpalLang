@@ -23,9 +23,7 @@
 
 #include "opal/parser/node/NodeFactory.hpp"
 
-#include <stdexcept>
-
-namespace opal {
+using namespace opal;
 
 ConditionAtomizer::ConditionAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
@@ -36,5 +34,3 @@ bool ConditionAtomizer::canHandle(TokenType type) const {
 std::unique_ptr<NodeBase> ConditionAtomizer::atomize() {
     return nullptr;
 }
-
-}  // namespace opal

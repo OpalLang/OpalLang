@@ -20,7 +20,6 @@
  */
 
 #include "opal/lexer/tokenizer/TokenizerFactory.hpp"
-
 #include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
 #include "opal/lexer/tokenizer/tokenizers/IdentifierTokenizer.hpp"
 #include "opal/lexer/tokenizer/tokenizers/NumberTokenizer.hpp"

@@ -20,33 +20,34 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
+
 #include "opal/util/ErrorUtil.hpp"
 
 #include <stdexcept>
 
-namespace opal {
+using namespace opal;
 
 bool StringTokenizer::canHandle(char c) const {
     return c == '"';
 }
 
 void StringTokenizer::tokenize() {
-    advance();
+    this->advance();
 
-    while (peek() != '"' && !isAtEnd()) {
-        if (peek() == '\n') {
-            line++;
-            column = 1;
+    while (this->peek() != '"' && !this->isAtEnd()) {
+        if (this->peek() == '\n') {
+            this->line++;
+            this->column = 1;
         }
-        advance();
+        this->advance();
     }
 
-    if (isAtEnd()) {
+    if (this->isAtEnd()) {
         throw std::runtime_error(ErrorUtil::errorMessage("Unterminated string", line, 1));
     }
 
-    advance();
-    addToken(TokenType::STRING, std::string_view(source.data() + start + 1, current - start - 2));
-}
+    this->advance();
+    std::string_view text(this->source.data() + this->start + 1, this->current - this->start - 2);
 
-}  // namespace opal
+    this->addToken(TokenType::STRING, text);
+}

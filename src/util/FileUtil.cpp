@@ -28,7 +28,7 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace opal {
+using namespace opal;
 
 std::string FileUtil::readFile(const std::string& filepath) {
     if (!std::filesystem::is_regular_file(filepath)) {
@@ -58,7 +58,6 @@ bool FileUtil::fileExists(const std::string& filepath) {
 
 bool FileUtil::hasGoodExtension(const std::string& filepath) {
     std::string extension = filepath.substr(filepath.find_last_of(".") + 1);
+
     return extension == "opal" || extension == "op";
 }
-
-}  // namespace opal

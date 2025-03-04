@@ -36,10 +36,7 @@ public:
     HelpCommand()           = default;
     ~HelpCommand() override = default;
 
-    bool canHandle(const std::string& commandName) const override {
-        return commandName == "help" || commandName == "?";
-    }
-
+    bool canHandle(const std::string& commandName) const override;
     void execute() override;
 };
 

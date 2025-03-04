@@ -20,6 +20,7 @@
  */
 
 #include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
+
 #include "opal/parser/node/NodeFactory.hpp"
 #include "opal/util/ErrorUtil.hpp"
 
@@ -28,7 +29,7 @@
 #include <string>
 #include <vector>
 
-namespace opal {
+using namespace opal;
 
 LoadAtomizer::LoadAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
@@ -37,21 +38,20 @@ bool LoadAtomizer::canHandle(TokenType type) const {
 }
 
 std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
-    Token loadToken = tokens[current];
-    advance();  // consume LOAD token
+    Token loadToken = this->tokens[this->current];
+    this->advance();
 
-    if (current >= tokens.size()) {
-        throw std::runtime_error(ErrorUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column));
+    if (this->current >= this->tokens.size()) {
+        throw std::runtime_error(
+            ErrorUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column));
     }
 
-    if (tokens[current].type != TokenType::STRING) {
-        throw std::runtime_error(ErrorUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column + 5));
+    if (this->tokens[this->current].type != TokenType::STRING) {
+        throw std::runtime_error(
+            ErrorUtil::errorMessage("Expected string after load keyword", loadToken.line, loadToken.column + 5));
     }
 
-    std::string_view path = tokens[current].value;
-    advance();
-
+    std::string_view path = this->tokens[this->current].value;
+    this->advance();
     return std::unique_ptr<NodeBase>(NodeFactory::createLoadNode(path).release());
 }
-
-}  // namespace opal

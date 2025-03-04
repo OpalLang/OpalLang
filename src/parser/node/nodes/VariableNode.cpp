@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-namespace opal {
+using namespace opal;
 
 VariableNode::VariableNode(TokenType          tokenType,
                            const std::string& name,
@@ -36,7 +36,7 @@ VariableNode::VariableNode(TokenType          tokenType,
 
 void VariableNode::print(size_t indent) const {
     std::string typeStr;
-    switch (type) {
+    switch (this->type) {
         case VariableType::INT:
             typeStr = "INT";
             break;
@@ -53,16 +53,15 @@ void VariableNode::print(size_t indent) const {
             typeStr = "UNKNOWN";
             break;
     }
-    spdlog::info("Variable(name={})", name);
 
-    if (operation) {
+    this->printIndent(indent);
+    spdlog::info("Variable(name={})", this->name);
+    if (this->operation) {
         std::cout << ", operation=";
-        operation->print(0);
-    } else if (!value.empty()) {
-        std::cout << ", value=" << value;
+        this->operation->print(0);
+    } else if (!this->value.empty()) {
+        std::cout << ", value=" << this->value;
     }
 
-    std::cout << ", type=" << typeStr << ", const=" << (isConstant ? "true" : "false") << ")" << std::endl;
+    std::cout << ", type=" << typeStr << ", const=" << (this->isConstant ? "true" : "false") << ")" << std::endl;
 }
-
-}  // namespace opal

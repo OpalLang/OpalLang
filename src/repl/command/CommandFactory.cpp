@@ -25,7 +25,7 @@
 #include "opal/repl/command/commands/ExitCommand.hpp"
 #include "opal/repl/command/commands/HelpCommand.hpp"
 
-namespace opal {
+using namespace opal;
 
 std::vector<std::unique_ptr<CommandBase>> CommandFactory::createCommands() {
     std::vector<std::unique_ptr<CommandBase>> commands;
@@ -36,5 +36,3 @@ std::vector<std::unique_ptr<CommandBase>> CommandFactory::createCommands() {
 
     return commands;
 }
-
-}  // namespace opal

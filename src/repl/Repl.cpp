@@ -31,11 +31,11 @@
 #include <sstream>
 #include <string>
 
-namespace opal {
+using namespace opal;
 
 void Repl::start() {
     signalManager.setupSignalHandlers();
-    runPrompt();
+    this->runPrompt();
 }
 
 void Repl::run(const std::string& source) {
@@ -98,8 +98,6 @@ void Repl::runPrompt() {
             continue;
         }
 
-        run(line);
+        this->run(line);
     }
 }
-
-}  // namespace opal

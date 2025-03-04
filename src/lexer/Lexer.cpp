@@ -20,60 +20,68 @@
  */
 
 #include "opal/lexer/Lexer.hpp"
+
 #include "opal/util/ErrorUtil.hpp"
 
 #include <spdlog/spdlog.h>
+
 #include <iostream>
 #include <stdexcept>
 
-namespace opal {
+using namespace opal;
 
 Lexer::Lexer(std::string source) : source(std::move(source)) {
-    tokenizers = TokenizerFactory::createTokenizers(this->source, current, line, column, start, tokens);
+    tokenizers = TokenizerFactory::createTokenizers(this->source,
+                                                    this->current,
+                                                    this->line,
+                                                    this->column,
+                                                    this->start,
+                                                    this->tokens);
 }
 
 std::vector<Token> Lexer::scanTokens() {
-    while (!isAtEnd()) {
-        start = current;
-        scanToken();
+    while (!this->isAtEnd()) {
+        this->start = this->current;
+        this->scanToken();
     }
 
-    tokens.emplace_back(TokenType::EOF_TOKEN, "EOF", line, column);
-    return tokens;
+    this->tokens.emplace_back(TokenType::EOF_TOKEN, "EOF", this->line, this->column);
+    return this->tokens;
 }
 
 void Lexer::scanToken() {
-    char c = source[current];
+    char c = this->source[this->current];
 
     if (c == ' ' || c == '\r' || c == '\t') {
-        current++;
-        column++;
+        this->current++;
+        this->column++;
         return;
     }
 
     if (c == '\n') {
-        current++;
-        line++;
-        column = 1;
+        this->current++;
+        this->line++;
+        this->column = 1;
         return;
     }
 
-    for (const std::unique_ptr<TokenizerBase>& tokenizer : tokenizers) {
+    for (const std::unique_ptr<TokenizerBase>& tokenizer : this->tokenizers) {
         if (tokenizer->canHandle(c)) {
             tokenizer->tokenize();
             return;
         }
     }
 
-    throw std::runtime_error(ErrorUtil::errorMessage("Invalid character '" + std::string(1, c) + "'", line, column));
+    throw std::runtime_error(
+        ErrorUtil::errorMessage("Invalid character '" + std::string(1, c) + "'", this->line, this->column));
 }
 
 bool Lexer::isAtEnd() const {
-    return current >= static_cast<int>(source.length());
+    return this->current >= static_cast<int>(this->source.length());
 }
 
 void Lexer::printTokens() const {
-    for (const Token& token : tokens) {
+    for (const Token& token : this->tokens) {
         spdlog::info("Type: {}, Value: '{}', Line: {}, Column: {}",
                      static_cast<int>(token.type),
                      token.value,
@@ -81,5 +89,3 @@ void Lexer::printTokens() const {
                      token.column);
     }
 }
-
-}  // namespace opal

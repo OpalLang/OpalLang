@@ -21,17 +21,17 @@
 
 #include "opal/repl/command/commands/ExitCommand.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <iostream>
 
-namespace opal {
+using namespace opal;
 
 bool ExitCommand::canHandle(const std::string& commandName) const {
     return commandName == "exit";
 }
 
 void ExitCommand::execute() {
-    std::cout << "Exiting the REPL" << std::endl;
+    spdlog::info("Exiting the REPL");
     exit(0);
 }
-
-}  // namespace opal

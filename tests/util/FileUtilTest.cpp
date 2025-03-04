@@ -19,8 +19,8 @@
  * needed for experienced developers.
  */
 
-#include "opal/util/FileUtil.hpp"
 #include "opal/util/ErrorUtil.hpp"
+#include "opal/util/FileUtil.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

@@ -29,7 +29,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace opal {
+using namespace opal;
 
 OperationAtomizer::OperationAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
@@ -45,29 +45,29 @@ bool isnumber(TokenType type) {
 std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
     std::vector<Token> operationTokens;
 
-    operationTokens.push_back(tokens[current]);
-    advance();
+    operationTokens.push_back(this->tokens[this->current]);
+    this->advance();
 
-    while (current < tokens.size()) {
-        if (!canHandle(tokens[current].type)) {
+    while (this->current < this->tokens.size()) {
+        if (!this->canHandle(this->tokens[this->current].type)) {
             break;
         }
 
-        Token operatorToken = tokens[current];
+        Token operatorToken = this->tokens[this->current];
         operationTokens.push_back(operatorToken);
-        advance();
+        this->advance();
 
-        if (current < tokens.size()
-            && (tokens[current].type == TokenType::NUMBER || tokens[current].type == TokenType::IDENTIFIER)) {
-            operationTokens.push_back(tokens[current]);
-            advance();
+        if (this->current < this->tokens.size()
+            && (this->tokens[this->current].type == TokenType::NUMBER
+                || this->tokens[this->current].type == TokenType::IDENTIFIER)) {
+            operationTokens.push_back(this->tokens[this->current]);
+            this->advance();
         } else {
-            throw std::runtime_error(ErrorUtil::errorMessage("Invalid operation: expected a number or identifier after operator",
-                                       operatorToken.line,
-                                       operatorToken.column));
+            throw std::runtime_error(
+                ErrorUtil::errorMessage("Invalid operation: expected a number or identifier after operator",
+                                        operatorToken.line,
+                                        operatorToken.column));
         }
     }
     return NodeFactory::createOperationNode(operationTokens);
 }
-
-}  // namespace opal

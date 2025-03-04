@@ -25,21 +25,19 @@
 
 #include <iostream>
 
-namespace opal {
+using namespace opal;
 
 OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& tokens)
     : NodeBase(tokenType, NodeType::OPERATION), tokens(tokens) {}
 
 void OperationNode::print(size_t indent) const {
-    printIndent(indent);
+    this->printIndent(indent);
     spdlog::info("Operation(");
-    for (size_t i = 0; i < tokens.size(); ++i) {
+    for (size_t i = 0; i < this->tokens.size(); ++i) {
         if (i > 0) {
             std::cout << " ";
         }
-        std::cout << "type: " << static_cast<int>(tokens[i].type) << ", value: '" << tokens[i].value << "'";
+        std::cout << "type: " << static_cast<int>(this->tokens[i].type) << ", value: '" << this->tokens[i].value << "'";
     }
     std::cout << ")" << std::endl;
 }
-
-}  // namespace opal

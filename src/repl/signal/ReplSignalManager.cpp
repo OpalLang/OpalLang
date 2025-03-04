@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-namespace opal {
+using namespace opal;
 
 static ReplSignalManager* activeManager = nullptr;
 
@@ -83,5 +83,3 @@ void ReplSignalManager::handleInterrupt(int /*signal*/) {
 void ReplSignalManager::handleTerminate(int /*signal*/) {
     exitRequested.store(true);
 }
-
-}  // namespace opal

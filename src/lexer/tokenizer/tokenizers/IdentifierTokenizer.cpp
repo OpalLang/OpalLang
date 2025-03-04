@@ -21,7 +21,7 @@
 
 #include "opal/lexer/tokenizer/tokenizers/IdentifierTokenizer.hpp"
 
-namespace opal {
+using namespace opal;
 
 const std::unordered_map<std::string_view, TokenType> IdentifierTokenizer::keywords = {
     {"class", TokenType::CLASS},     {"fn", TokenType::FN},           {"if", TokenType::IF},
@@ -36,18 +36,16 @@ const std::unordered_map<std::string_view, TokenType> IdentifierTokenizer::keywo
     {"load", TokenType::LOAD}};
 
 bool IdentifierTokenizer::canHandle(char c) const {
-    return isAlpha(c);
+    return this->isAlpha(c);
 }
 
 void IdentifierTokenizer::tokenize() {
-    while (isAlphaNumeric(peek())) {
-        advance();
+    while (this->isAlphaNumeric(this->peek())) {
+        this->advance();
     }
 
-    std::string_view                                                text(source.data() + start, current - start);
-    std::unordered_map<std::string_view, TokenType>::const_iterator it = keywords.find(text);
-    TokenType type = it != keywords.end() ? it->second : TokenType::IDENTIFIER;
-    addToken(type, text);
+    std::string_view text(this->source.data() + this->start, this->current - this->start);
+    std::unordered_map<std::string_view, TokenType>::const_iterator it = this->keywords.find(text);
+    TokenType type = it != this->keywords.end() ? it->second : TokenType::IDENTIFIER;
+    this->addToken(type, text);
 }
-
-}  // namespace opal

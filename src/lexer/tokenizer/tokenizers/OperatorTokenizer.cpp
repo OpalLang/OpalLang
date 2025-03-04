@@ -21,10 +21,9 @@
 
 #include "opal/lexer/tokenizer/tokenizers/OperatorTokenizer.hpp"
 
-namespace opal {
+using namespace opal;
 
 const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operators = {
-    // Delimiters
     {"(", TokenType::LEFT_PAREN},
     {")", TokenType::RIGHT_PAREN},
     {"{", TokenType::LEFT_BRACE},
@@ -36,7 +35,6 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
     {":", TokenType::COLON},
     {";", TokenType::SEMICOLON},
 
-    // Arithmetic Operators
     {"+", TokenType::PLUS},
     {"-", TokenType::MINUS},
     {"*", TokenType::MULTIPLY},
@@ -44,7 +42,6 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
     {"%", TokenType::MODULO},
     {"^", TokenType::POWER},
 
-    // Comparison Operators
     {"=", TokenType::EQUAL},
     {"!", TokenType::NOT},
     {"<", TokenType::LESS},
@@ -54,18 +51,14 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
     {"<=", TokenType::LESS_EQUAL},
     {">=", TokenType::GREATER_EQUAL},
 
-    // Logical Operators
     {"&&", TokenType::AND},
     {"||", TokenType::OR},
 
-    // Increment/Decrement
     {"++", TokenType::INCREMENT},
     {"--", TokenType::DECREMENT},
 
-    // Range Operator
     {"..", TokenType::RANGE},
 
-    // Bitwise Operators
     {"&", TokenType::BITWISE_AND},
     {"|", TokenType::BITWISE_OR},
     {"~", TokenType::BITWISE_NOT},
@@ -73,7 +66,6 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
     {"<<", TokenType::SHIFT_LEFT},
     {">>", TokenType::SHIFT_RIGHT},
 
-    // Compound Assignment Operators
     {"+=", TokenType::PLUS_EQUAL},
     {"-=", TokenType::MINUS_EQUAL},
     {"*=", TokenType::MULTIPLY_EQUAL},
@@ -89,44 +81,40 @@ const std::unordered_map<std::string_view, TokenType> OperatorTokenizer::operato
 
 bool OperatorTokenizer::canHandle(char c) const {
     std::string str(1, c);
-    std::string potential2 = str + peek();
-    std::string potential3 = potential2 + peekNext();
+    std::string potential2 = str + this->peek();
+    std::string potential3 = potential2 + this->peekNext();
     return operators.find(str) != operators.end() || operators.find(potential2) != operators.end()
            || operators.find(potential3) != operators.end();
 }
 
 void OperatorTokenizer::tokenize() {
-    std::string first(1, advance());
+    std::string first(1, this->advance());
 
-    if (!isAtEnd()) {
-        // 3 char op
-        std::string                                                     potential3 = first + peek() + peekNext();
-        std::unordered_map<std::string_view, TokenType>::const_iterator it3        = operators.find(potential3);
+    if (!this->isAtEnd()) {
+        std::string potential3                                              = first + this->peek() + this->peekNext();
+        std::unordered_map<std::string_view, TokenType>::const_iterator it3 = operators.find(potential3);
         if (it3 != operators.end()) {
-            advance();
-            advance();
-            std::string_view text(source.data() + start, current - start);
-            addToken(it3->second, text);
+            this->advance();
+            this->advance();
+            std::string_view text(this->source.data() + this->start, this->current - this->start);
+            this->addToken(it3->second, text);
             return;
         }
 
-        // 2 char op
-        std::string                                                     potential2 = first + peek();
+        std::string                                                     potential2 = first + this->peek();
         std::unordered_map<std::string_view, TokenType>::const_iterator it2        = operators.find(potential2);
         if (it2 != operators.end()) {
-            advance();
-            std::string_view text(source.data() + start, current - start);
-            addToken(it2->second, text);
+            this->advance();
+            std::string_view text(this->source.data() + this->start, this->current - this->start);
+            this->addToken(it2->second, text);
             return;
         }
     }
 
-    // 1 char op
     std::unordered_map<std::string_view, TokenType>::const_iterator it = operators.find(first);
     if (it != operators.end()) {
-        std::string_view text(source.data() + start, current - start);
-        addToken(it->second, text);
+        std::string_view text(this->source.data() + this->start, this->current - this->start);
+
+        this->addToken(it->second, text);
     }
 }
-
-}  // namespace opal

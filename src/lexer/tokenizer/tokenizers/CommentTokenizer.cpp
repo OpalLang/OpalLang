@@ -20,6 +20,7 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
+
 #include "opal/util/ErrorUtil.hpp"
 
 #include <stdexcept>
@@ -29,55 +30,55 @@ namespace opal {
 bool CommentTokenizer::canHandle(char c) const {
     if (c != '/')
         return false;
-    char next = peekNext();
+    char next = this->peekNext();
     return next == '/' || next == '*';
 }
 
 void CommentTokenizer::tokenize() {
-    advance();
-    if (peek() == '/') {
-        advance();
-        handleSingleLineComment();
-    } else if (peek() == '*') {
-        advance();
-        handleMultiLineComment();
+    this->advance();
+    if (this->peek() == '/') {
+        this->advance();
+        this->handleSingleLineComment();
+    } else if (this->peek() == '*') {
+        this->advance();
+        this->handleMultiLineComment();
     }
 }
 
 void CommentTokenizer::handleSingleLineComment() {
-    while (peek() != '\n' && !isAtEnd()) {
-        advance();
+    while (this->peek() != '\n' && !this->isAtEnd()) {
+        this->advance();
     }
-    addToken(TokenType::COMMENT);
+    this->addToken(TokenType::COMMENT);
 }
 
 void CommentTokenizer::handleMultiLineComment() {
     int nesting   = 1;
-    int startLine = line;
+    int startLine = this->line;
 
-    while (nesting > 0 && !isAtEnd()) {
-        if (peek() == '*' && peekNext() == '/') {
-            advance();
-            advance();
+    while (nesting > 0 && !this->isAtEnd()) {
+        if (this->peek() == '*' && this->peekNext() == '/') {
+            this->advance();
+            this->advance();
             nesting--;
-        } else if (peek() == '/' && peekNext() == '*') {
-            advance();
-            advance();
+        } else if (this->peek() == '/' && this->peekNext() == '*') {
+            this->advance();
+            this->advance();
             nesting++;
         } else {
-            if (peek() == '\n') {
-                line++;
-                column = 1;
+            if (this->peek() == '\n') {
+                this->line++;
+                this->column = 1;
             }
-            advance();
+            this->advance();
         }
     }
 
     if (nesting > 0) {
-        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated multi-line comment", startLine, 1));
+        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated multi-line comment", this->line, 1));
     }
 
-    addToken(TokenType::COMMENT);
+    this->addToken(TokenType::COMMENT);
 }
 
 }  // namespace opal

@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-namespace opal {
+using namespace opal;
 
 std::unordered_map<int, SignalHandler::SignalCallback> SignalHandler::callbacks;
 
@@ -56,5 +56,3 @@ void SignalHandler::handleSignal(int signalType) {
         it->second(signalType);
     }
 }
-
-}  // namespace opal

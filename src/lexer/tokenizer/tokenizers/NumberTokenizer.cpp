@@ -21,24 +21,22 @@
 
 #include "opal/lexer/tokenizer/tokenizers/NumberTokenizer.hpp"
 
-namespace opal {
+using namespace opal;
 
 bool NumberTokenizer::canHandle(char c) const {
-    return isDigit(c);
+    return this->isDigit(c);
 }
 
 void NumberTokenizer::tokenize() {
-    while (isDigit(peek()))
-        advance();
+    while (this->isDigit(this->peek()))
+        this->advance();
 
-    if (peek() == '.' && isDigit(peekNext())) {
-        advance();
+    if (this->peek() == '.' && this->isDigit(this->peekNext())) {
+        this->advance();
 
-        while (isDigit(peek()))
-            advance();
+        while (this->isDigit(this->peek()))
+            this->advance();
     }
 
-    addToken(TokenType::NUMBER);
+    this->addToken(TokenType::NUMBER);
 }
-
-}  // namespace opal

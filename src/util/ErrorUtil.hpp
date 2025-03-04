@@ -32,8 +32,8 @@ public:
     }
 
 private:
-    ErrorUtil()                           = delete;
-    ~ErrorUtil()                          = delete;
+    ErrorUtil()                            = delete;
+    ~ErrorUtil()                           = delete;
     ErrorUtil(const ErrorUtil&)            = delete;
     ErrorUtil& operator=(const ErrorUtil&) = delete;
 };
