@@ -20,11 +20,9 @@
  */
 
 #include "opal/lexer/Lexer.hpp"
-
 #include "opal/util/ErrorUtil.hpp"
 
 #include <spdlog/spdlog.h>
-
 #include <iostream>
 #include <stdexcept>
 
