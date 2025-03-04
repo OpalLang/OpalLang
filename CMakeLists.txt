@@ -7,25 +7,34 @@ project(
     LANGUAGES CXX
 )
 
+# 📂 Création des répertoires nécessaires
 file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build)
 
+# ⚙️ Configuration du compilateur
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# 📌 Définition du type de build (Release par défaut)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose build type" FORCE)
 endif()
 
+# 🚨 Ajout des flags de compilation
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
+# 📂 Gestion des répertoires de sortie
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+
+# 🛠 Dépendances externes
+find_package(spdlog REQUIRED)  # 🔥 Ajout de spdlog
+find_package(fmt REQUIRED)      # 🔥 Ajout de fmt (nécessaire pour spdlog)
 
 enable_testing()
 
@@ -39,18 +48,21 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+# 🔍 Recherche des fichiers source
 file(GLOB_RECURSE SOURCES
     ${PROJECT_SOURCE_DIR}/src/*.cpp
     ${PROJECT_SOURCE_DIR}/src/*.hpp
     ${PROJECT_SOURCE_DIR}/src/*.h
 )
 
+# 🔍 Exclure Main.cpp des fichiers compilés en tant que librairie
 list(FILTER SOURCES EXCLUDE REGEX ".*Main\\.cpp$")
 
 if(NOT SOURCES)
     message(FATAL_ERROR "No source files found in ${PROJECT_SOURCE_DIR}/src/")
 endif()
 
+# 📂 Gestion des fichiers d'interface
 set(INTERFACE_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include")
 file(MAKE_DIRECTORY ${INTERFACE_INCLUDE_DIR})
 file(MAKE_DIRECTORY "${INTERFACE_INCLUDE_DIR}/opal")
@@ -62,6 +74,7 @@ foreach(SUBDIR ${SRC_SUBDIRS})
     endif()
 endforeach()
 
+# 📌 Ajout des bibliothèques et dépendances
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${INTERFACE_INCLUDE_DIR})
 
@@ -71,9 +84,14 @@ target_include_directories(opal_lib PUBLIC
     ${INTERFACE_INCLUDE_DIR}
 )
 
+# 🔥 Lien avec spdlog et fmt
+target_link_libraries(opal_lib PUBLIC spdlog::spdlog fmt::fmt)
+
+# 🔥 Ajout de l'exécutable principal
 add_executable(opal ${PROJECT_SOURCE_DIR}/src/Main.cpp)
 target_link_libraries(opal PRIVATE opal_lib)
 
+# 🔥 Ajout des tests
 file(GLOB_RECURSE TEST_SOURCES
     ${PROJECT_SOURCE_DIR}/tests/*.cpp
     ${PROJECT_SOURCE_DIR}/tests/*.hpp
@@ -92,10 +110,12 @@ target_include_directories(tests PRIVATE
 include(GoogleTest)
 gtest_discover_tests(tests)
 
+# 📦 Installation
 install(TARGETS opal DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/include)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/src)
 
+# ℹ️ Informations sur la compilation
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "Sources found: ${SOURCES}")

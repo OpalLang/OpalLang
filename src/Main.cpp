@@ -26,9 +26,12 @@
 
 #include <iostream>
 #include <string>
+#include <spdlog/spdlog.h>
 
 int main(int argc, char* argv[]) {
-    std::cout << "Opal Language" << std::endl;
+    spdlog::set_pattern("[%H:%M:%S] [%^%L%$] %v");
+    spdlog::set_level(spdlog::level::debug);
+    spdlog::info("Opal Language");
 
     if (argc < 2) {
         opal::Repl repl;

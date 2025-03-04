@@ -20,9 +20,9 @@
  */
 
 #include "opal/lexer/Lexer.hpp"
-#include "opal/error/Error.hpp"
 
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -63,7 +63,7 @@ void Lexer::scanToken() {
         }
     }
 
-    Error::lexerError(line, column, "Unexpected character '" + std::string(1, c) + "'");
+    spdlog::error("Unexpected character '{}'", c);
     current++;
     column++;
 }
