@@ -75,8 +75,7 @@ void CommentTokenizer::handleMultiLineComment() {
     }
 
     if (nesting > 0) {
-        spdlog::error("Unterminated multi-line comment starting at line {}", startLine);
-        throw std::runtime_error("Unterminated multi-line comment");
+        throw std::runtime_error("Unterminated multi-line comment starting at line " + std::to_string(startLine));
     }
 
     addToken(TokenType::COMMENT);

@@ -65,8 +65,10 @@ void Lexer::scanToken() {
         }
     }
 
-    spdlog::error("Invalid character '{}' at line {}, column {}", c, line, column);
-    throw std::runtime_error("Invalid character encountered");
+    throw std::runtime_error(
+        "Invalid character '" + std::string(1, c) + "' at line " + 
+        std::to_string(line) + ", column " + std::to_string(column)
+    );
 }
 
 bool Lexer::isAtEnd() const {

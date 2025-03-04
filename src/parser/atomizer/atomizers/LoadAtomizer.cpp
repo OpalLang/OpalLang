@@ -42,12 +42,10 @@ std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
     advance();  // consume LOAD token
 
     if (current >= tokens.size()) {
-        spdlog::error("Unexpected end of input after load keyword");
         throw std::runtime_error("Expected string after load keyword");
     }
 
     if (tokens[current].type != TokenType::STRING) {
-        spdlog::error("Expected string after load keyword, got {}", static_cast<int>(tokens[current].type));
         throw std::runtime_error("Expected string after load keyword");
     }
 
