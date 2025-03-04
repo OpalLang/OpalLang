@@ -14,7 +14,12 @@ $ git checkout -b my-feature-branch
 
 ## Making Changes
 
-1. Ensure your code follows the project's coding style and conventions.
+1. Ensure your code follows the project's coding style and conventions. You can format your code using the provided script:
+
+```sh
+$ ./scripts/format_code.sh -f
+```
+
 2. Write tests for your changes to ensure they are working correctly.
 3. Run the existing tests to make sure your changes do not break any existing functionality.
 
