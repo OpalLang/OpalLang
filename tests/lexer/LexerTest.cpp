@@ -19,9 +19,9 @@
  * needed for experienced developers.
  */
 
-#include "lexer/Lexer.hpp"
-#include "lexer/Token.hpp"
-#include "lexer/TokenType.hpp"
+#include "opal/lexer/Lexer.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/lexer/TokenType.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

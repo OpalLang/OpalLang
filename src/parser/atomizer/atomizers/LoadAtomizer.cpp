@@ -26,6 +26,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -37,7 +38,8 @@ bool LoadAtomizer::canHandle(TokenType type) const {
 
 std::unique_ptr<NodeBase> LoadAtomizer::atomize() {
     if (peekNext().type != TokenType::STRING) {
-        throw std::runtime_error("Expected a value after load definition");
+        spdlog::error("Expected a value after load definition");
+        exit(1);
     }
     std::string_view path = peekNext().value;
     advance();

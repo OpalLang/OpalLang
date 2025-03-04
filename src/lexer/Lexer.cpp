@@ -20,9 +20,9 @@
  */
 
 #include "opal/lexer/Lexer.hpp"
-#include "opal/error/Error.hpp"
 
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -63,7 +63,7 @@ void Lexer::scanToken() {
         }
     }
 
-    Error::lexerError(line, column, "Unexpected character '" + std::string(1, c) + "'");
+    spdlog::error("Unexpected character '{}'", c);
     current++;
     column++;
 }
@@ -74,8 +74,7 @@ bool Lexer::isAtEnd() const {
 
 void Lexer::printTokens() const {
     for (const Token& token : tokens) {
-        std::cout << "Type: " << static_cast<int>(token.type) << " Value: '" << token.value << "' Line: " << token.line
-                  << " Column: " << token.column << std::endl;
+        spdlog::info("Type: {}, Value: '{}', Line: {}, Column: {}", static_cast<int>(token.type), token.value, token.line, token.column);
     }
 }
 

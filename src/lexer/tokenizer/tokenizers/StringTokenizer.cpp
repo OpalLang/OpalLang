@@ -20,7 +20,8 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
-#include "opal/error/Error.hpp"
+
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -40,12 +41,11 @@ void StringTokenizer::tokenize() {
     }
 
     if (isAtEnd()) {
-        Error::lexerError(line, column, "Unterminated string");
-        return;
+        spdlog::error("Unterminated string");
+        exit(1);
     }
 
     advance();
-
     addToken(TokenType::STRING, std::string_view(source.data() + start + 1, current - start - 2));
 }
 

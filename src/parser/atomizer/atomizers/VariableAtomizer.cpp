@@ -28,6 +28,7 @@
 #include <memory>
 #include <stdexcept>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -52,7 +53,8 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
         advance();
 
         if (current >= tokens.size()) {
-            throw std::runtime_error("Expected value after assignment operator");
+            spdlog::error("Expected value after assignment operator");
+            exit(1);
         }
 
         bool isConst = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
@@ -98,7 +100,8 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
         variableNode->setValue(variableValue);
         variableNode->setType(VariableType::UNKNOWN);
     } else {
-        throw std::runtime_error("Expected a value or identifier after assignment operator");
+        spdlog::error("Expected a value or identifier after assignment operator");
+        exit(1);
     }
 
     advance();

@@ -26,6 +26,7 @@
 #include <memory>
 #include <stdexcept>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -59,7 +60,8 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
             operationTokens.push_back(tokens[current]);
             advance();
         } else {
-            throw std::runtime_error("Expected a number or identifier after operator");
+            spdlog::error("Expected a number or identifier after operator");
+            exit(1);
         }
     }
     return NodeFactory::createOperationNode(operationTokens);

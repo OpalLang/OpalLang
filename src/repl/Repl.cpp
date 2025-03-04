@@ -28,6 +28,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -63,13 +64,13 @@ void Repl::run(const std::string& source) {
     Lexer lexer(source);
     std::vector<Token> tokens = lexer.scanTokens();
 
-    std::cout << "Tokenizing source code" << std::endl;
-    std::cout << "----------------------------------------" << std::endl;
+    spdlog::info("Tokenizing source code");
+    spdlog::info("----------------------------------------");
     lexer.printTokens();
-    std::cout << "----------------------------------------" << std::endl;
+    spdlog::info("----------------------------------------");
     Parser parser(tokens);
     parser.printAST();
-    std::cout << "----------------------------------------" << std::endl;
+    spdlog::info("----------------------------------------");
 }
 
 void Repl::runPrompt() {
@@ -86,13 +87,13 @@ void Repl::runPrompt() {
         std::getline(std::cin, line);
 
         if (std::cin.eof()) {
-            std::cout << "\nExiting REPL" << std::endl;
+            spdlog::info("Exiting REPL");
             break;
         }
 
         if (std::cin.fail()) {
             std::cin.clear();
-            std::cout << "Input error. Please try again." << std::endl;
+            spdlog::error("Input error. Please try again.");
             continue;
         }
 
