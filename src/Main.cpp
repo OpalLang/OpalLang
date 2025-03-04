@@ -41,19 +41,19 @@ int main(int argc, char* argv[]) {
             repl.start();
         } catch (const std::exception& e) {
             spdlog::error("Error: {}", e.what());
-            throw;
+            return 1;
         }
     } else {
         if (!opal::FileUtil::fileExists(argv[1])) {
             std::string error = "File does not exist: " + std::string(argv[1]);
             spdlog::error(error);
-            throw std::runtime_error(error);
+            return 1;
         }
 
         if (!opal::FileUtil::hasGoodExtension(argv[1])) {
             std::string error = "File has an invalid extension: " + std::string(argv[1]);
             spdlog::error(error);
-            throw std::runtime_error(error);
+            return 1;
         }
 
         try {
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
             spdlog::info("----------------------------------------");
         } catch (const std::exception& e) {
             spdlog::error("Error: {}", e.what());
-            throw std::runtime_error(e.what());
+            return 1;
         }
     }
 

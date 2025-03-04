@@ -43,8 +43,7 @@ void StringTokenizer::tokenize() {
     }
 
     if (isAtEnd()) {
-        spdlog::error("Unterminated string at line {}", line);
-        throw std::runtime_error("Unterminated string");
+        throw std::runtime_error("Unterminated string at line " + std::to_string(line));
     }
 
     advance();

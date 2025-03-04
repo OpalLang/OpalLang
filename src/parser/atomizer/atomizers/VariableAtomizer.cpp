@@ -55,7 +55,6 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
         advance();
 
         if (current >= tokens.size()) {
-            spdlog::error("Expected value after assignment operator");
             throw std::runtime_error("No value provided after assignment operator");
         }
 
@@ -104,8 +103,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
         variableNode->setValue(variableValue);
         variableNode->setType(VariableType::UNKNOWN);
     } else {
-        spdlog::error("Expected a value or identifier after assignment operator");
-        throw std::runtime_error("Invalid value type after assignment operator");
+        throw std::runtime_error("Expected a value or identifier after assignment operator");
     }
     advance();
     return std::unique_ptr<NodeBase>(variableNode.release());
