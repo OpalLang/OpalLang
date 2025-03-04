@@ -1,0 +1,221 @@
+// Simple Text Adventure Game in Opal
+// A basic adventure game with rooms, items, and commands
+
+// Define the game map as a collection of rooms
+fn create_game_map() {
+    rooms = {
+        "entrance": {
+            "name": "Entrance Hall",
+            "description": "You are in a grand entrance hall. Dusty chandeliers hang from the ceiling.",
+            "exits": {"north": "corridor", "east": "library"},
+            "items": ["key"]
+        },
+        "corridor": {
+            "name": "Dark Corridor",
+            "description": "A long, dark corridor stretches before you. You hear strange noises.",
+            "exits": {"south": "entrance", "north": "dungeon"},
+            "items": ["torch"]
+        },
+        "library": {
+            "name": "Ancient Library",
+            "description": "Bookshelves line the walls of this ancient library. The air smells of old paper.",
+            "exits": {"west": "entrance", "north": "laboratory"},
+            "items": ["book"]
+        },
+        "laboratory": {
+            "name": "Alchemist's Laboratory",
+            "description": "Strange equipment and bubbling potions fill this room.",
+            "exits": {"south": "library"},
+            "items": ["potion"]
+        },
+        "dungeon": {
+            "name": "Dungeon",
+            "description": "A cold, damp dungeon with stone walls. A treasure chest sits in the corner.",
+            "exits": {"south": "corridor"},
+            "items": ["treasure"],
+            "locked": true
+        }
+    }
+    
+    ret rooms
+}
+
+// Define item descriptions
+fn create_items() {
+    items = {
+        "key": "A rusty old key. It might unlock something.",
+        "torch": "A wooden torch that provides light in dark places.",
+        "book": "An ancient tome with strange symbols on its cover.",
+        "potion": "A glowing blue potion in a glass vial.",
+        "treasure": "A chest filled with gold coins and precious gems!"
+    }
+    
+    ret items
+}
+
+// Display the current room
+fn display_room(rooms, current_room, inventory) {
+    room = rooms[current_room]
+    
+    print("\n=== ${room['name']} ===")
+    print(room["description"])
+    
+    // Display exits
+    exits = room["exits"]
+    if exits.size() > 0 {
+        print("\nExits: ", end: "")
+        exit_list = []
+        foreach direction, _ in exits {
+            exit_list.add(direction)
+        }
+        print(exit_list.join(", "))
+    } else {
+        print("\nThere are no visible exits.")
+    }
+    
+    // Display items in the room
+    items = room["items"]
+    if items.size() > 0 {
+        print("\nYou see: ", end: "")
+        print(items.join(", "))
+    }
+}
+
+// Process player commands
+fn process_command(command, rooms, items, current_room, inventory) {
+    words = command.split(" ")
+    action = words[0].lower()
+    
+    // Movement commands
+    if action == "go" and words.size() > 1 {
+        direction = words[1].lower()
+        room = rooms[current_room]
+        
+        if room["exits"].has_key(direction) {
+            next_room = room["exits"][direction]
+            
+            // Check if the room is locked
+            if next_room == "dungeon" and rooms["dungeon"]["locked"] and not inventory.contains("key") {
+                print("The door is locked. You need a key to enter.")
+                ret current_room
+            }
+            
+            // Unlock the dungeon if player has the key
+            if next_room == "dungeon" and rooms["dungeon"]["locked"] and inventory.contains("key") {
+                print("You use the key to unlock the door.")
+                rooms["dungeon"]["locked"] = false
+            }
+            
+            print("You go ${direction}.")
+            ret room["exits"][direction]
+        } else {
+            print("You can't go that way.")
+        }
+    }
+    
+    // Take item command
+    elif action == "take" and words.size() > 1 {
+        item = words[1].lower()
+        room = rooms[current_room]
+        
+        if room["items"].contains(item) {
+            print("You take the ${item}.")
+            inventory.add(item)
+            room["items"].remove(item)
+        } else {
+            print("There is no ${item} here.")
+        }
+    }
+    
+    // Drop item command
+    elif action == "drop" and words.size() > 1 {
+        item = words[1].lower()
+        room = rooms[current_room]
+        
+        if inventory.contains(item) {
+            print("You drop the ${item}.")
+            inventory.remove(item)
+            room["items"].add(item)
+        } else {
+            print("You don't have a ${item}.")
+        }
+    }
+    
+    // Inventory command
+    elif action == "inventory" or action == "i" {
+        if inventory.size() > 0 {
+            print("You are carrying: ${inventory.join(', ')}")
+        } else {
+            print("Your inventory is empty.")
+        }
+    }
+    
+    // Look command
+    elif action == "look" or action == "l" {
+        // Just redisplay the room
+    }
+    
+    // Examine command
+    elif (action == "examine" or action == "x") and words.size() > 1 {
+        item = words[1].lower()
+        
+        if inventory.contains(item) or rooms[current_room]["items"].contains(item) {
+            print(items[item])
+        } else {
+            print("You don't see a ${item} here.")
+        }
+    }
+    
+    // Help command
+    elif action == "help" or action == "h" {
+        print("\nAvailable commands:")
+        print("  go [direction] - Move in a direction (north, south, east, west)")
+        print("  take [item]    - Pick up an item")
+        print("  drop [item]    - Drop an item from your inventory")
+        print("  inventory (i)  - Show your inventory")
+        print("  look (l)       - Look around")
+        print("  examine [item] - Examine an item closely")
+        print("  help (h)       - Show this help message")
+        print("  quit (q)       - Quit the game")
+    }
+    
+    // Unknown command
+    else {
+        print("I don't understand that command. Type 'help' for a list of commands.")
+    }
+    
+    ret current_room
+}
+
+fn main() {
+    print("=== The Mysterious Mansion ===")
+    print("A text adventure game in Opal")
+    print("Type 'help' for a list of commands.")
+    
+    // Initialize game state
+    rooms = create_game_map()
+    items = create_items()
+    current_room = "entrance"
+    inventory = []
+    
+    // Main game loop
+    while true {
+        display_room(rooms, current_room, inventory)
+        
+        command = input("\n> ")
+        
+        if command.lower() == "quit" or command.lower() == "q" {
+            print("Thanks for playing!")
+            break
+        }
+        
+        current_room = process_command(command, rooms, items, current_room, inventory)
+        
+        // Win condition
+        if current_room == "dungeon" and rooms["dungeon"]["items"].contains("treasure") {
+            print("\nCongratulations! You've found the treasure!")
+            print("You win the game!")
+            break
+        }
+    }
+} 

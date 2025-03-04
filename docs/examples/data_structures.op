@@ -1,0 +1,368 @@
+// Data Structures and Algorithms in Opal
+// This example demonstrates various data structures and their operations
+
+// Stack implementation
+class Stack {
+    fn init() {
+        this.items = []
+    }
+    
+    fn push(item) {
+        this.items.add(item)
+    }
+    
+    fn pop() {
+        if this.is_empty() {
+            ret nil
+        }
+        ret this.items.pop()
+    }
+    
+    fn peek() {
+        if this.is_empty() {
+            ret nil
+        }
+        ret this.items[this.items.size() - 1]
+    }
+    
+    fn is_empty() {
+        ret this.items.size() == 0
+    }
+    
+    fn size() {
+        ret this.items.size()
+    }
+    
+    fn to_string() {
+        ret "Stack: " + this.items.to_string()
+    }
+}
+
+// Queue implementation
+class Queue {
+    fn init() {
+        this.items = []
+    }
+    
+    fn enqueue(item) {
+        this.items.add(item)
+    }
+    
+    fn dequeue() {
+        if this.is_empty() {
+            ret nil
+        }
+        ret this.items.remove_at(0)
+    }
+    
+    fn front() {
+        if this.is_empty() {
+            ret nil
+        }
+        ret this.items[0]
+    }
+    
+    fn is_empty() {
+        ret this.items.size() == 0
+    }
+    
+    fn size() {
+        ret this.items.size()
+    }
+    
+    fn to_string() {
+        ret "Queue: " + this.items.to_string()
+    }
+}
+
+// LinkedList Node
+class Node {
+    fn init(data) {
+        this.data = data
+        this.next = nil
+    }
+}
+
+// LinkedList implementation
+class LinkedList {
+    fn init() {
+        this.head = nil
+        this.size = 0
+    }
+    
+    fn append(data) {
+        new_node = Node(data)
+        
+        if this.head == nil {
+            this.head = new_node
+            this.size++
+            ret
+        }
+        
+        current = this.head
+        while current.next != nil {
+            current = current.next
+        }
+        
+        current.next = new_node
+        this.size++
+    }
+    
+    fn prepend(data) {
+        new_node = Node(data)
+        new_node.next = this.head
+        this.head = new_node
+        this.size++
+    }
+    
+    fn delete(data) {
+        if this.head == nil {
+            ret false
+        }
+        
+        if this.head.data == data {
+            this.head = this.head.next
+            this.size--
+            ret true
+        }
+        
+        current = this.head
+        while current.next != nil and current.next.data != data {
+            current = current.next
+        }
+        
+        if current.next != nil {
+            current.next = current.next.next
+            this.size--
+            ret true
+        }
+        
+        ret false
+    }
+    
+    fn search(data) {
+        current = this.head
+        position = 0
+        
+        while current != nil {
+            if current.data == data {
+                ret position
+            }
+            current = current.next
+            position++
+        }
+        
+        ret -1
+    }
+    
+    fn get_size() {
+        ret this.size
+    }
+    
+    fn to_string() {
+        if this.head == nil {
+            ret "LinkedList: []"
+        }
+        
+        result = "LinkedList: ["
+        current = this.head
+        
+        while current != nil {
+            result += current.data.to_string()
+            if current.next != nil {
+                result += ", "
+            }
+            current = current.next
+        }
+        
+        result += "]"
+        ret result
+    }
+}
+
+// Binary Search Tree Node
+class TreeNode {
+    fn init(value) {
+        this.value = value
+        this.left = nil
+        this.right = nil
+    }
+}
+
+// Binary Search Tree implementation
+class BinarySearchTree {
+    fn init() {
+        this.root = nil
+    }
+    
+    fn insert(value) {
+        this.root = this._insert_recursive(this.root, value)
+    }
+    
+    fn _insert_recursive(node, value) {
+        if node == nil {
+            ret TreeNode(value)
+        }
+        
+        if value < node.value {
+            node.left = this._insert_recursive(node.left, value)
+        } elif value > node.value {
+            node.right = this._insert_recursive(node.right, value)
+        }
+        
+        ret node
+    }
+    
+    fn search(value) {
+        ret this._search_recursive(this.root, value)
+    }
+    
+    fn _search_recursive(node, value) {
+        if node == nil or node.value == value {
+            ret node
+        }
+        
+        if value < node.value {
+            ret this._search_recursive(node.left, value)
+        }
+        
+        ret this._search_recursive(node.right, value)
+    }
+    
+    fn in_order_traversal() {
+        result = []
+        this._in_order_recursive(this.root, result)
+        ret result
+    }
+    
+    fn _in_order_recursive(node, result) {
+        if node != nil {
+            this._in_order_recursive(node.left, result)
+            result.add(node.value)
+            this._in_order_recursive(node.right, result)
+        }
+    }
+    
+    fn pre_order_traversal() {
+        result = []
+        this._pre_order_recursive(this.root, result)
+        ret result
+    }
+    
+    fn _pre_order_recursive(node, result) {
+        if node != nil {
+            result.add(node.value)
+            this._pre_order_recursive(node.left, result)
+            this._pre_order_recursive(node.right, result)
+        }
+    }
+    
+    fn post_order_traversal() {
+        result = []
+        this._post_order_recursive(this.root, result)
+        ret result
+    }
+    
+    fn _post_order_recursive(node, result) {
+        if node != nil {
+            this._post_order_recursive(node.left, result)
+            this._post_order_recursive(node.right, result)
+            result.add(node.value)
+        }
+    }
+}
+
+// Demonstrate the data structures
+fn main() {
+    print("Data Structures and Algorithms in Opal")
+    print("======================================")
+    
+    // Stack demonstration
+    print("\n=== Stack Demonstration ===")
+    stack = Stack()
+    print("Created a new stack: ${stack.to_string()}")
+    
+    print("Pushing elements: 10, 20, 30, 40")
+    stack.push(10)
+    stack.push(20)
+    stack.push(30)
+    stack.push(40)
+    print("Stack after pushes: ${stack.to_string()}")
+    
+    print("Peek at top element: ${stack.peek()}")
+    print("Pop top element: ${stack.pop()}")
+    print("Stack after pop: ${stack.to_string()}")
+    print("Stack size: ${stack.size()}")
+    
+    // Queue demonstration
+    print("\n=== Queue Demonstration ===")
+    queue = Queue()
+    print("Created a new queue: ${queue.to_string()}")
+    
+    print("Enqueuing elements: 10, 20, 30, 40")
+    queue.enqueue(10)
+    queue.enqueue(20)
+    queue.enqueue(30)
+    queue.enqueue(40)
+    print("Queue after enqueues: ${queue.to_string()}")
+    
+    print("Front element: ${queue.front()}")
+    print("Dequeue front element: ${queue.dequeue()}")
+    print("Queue after dequeue: ${queue.to_string()}")
+    print("Queue size: ${queue.size()}")
+    
+    // LinkedList demonstration
+    print("\n=== LinkedList Demonstration ===")
+    linked_list = LinkedList()
+    print("Created a new linked list")
+    
+    print("Appending elements: 10, 20, 30")
+    linked_list.append(10)
+    linked_list.append(20)
+    linked_list.append(30)
+    print("Prepending element: 5")
+    linked_list.prepend(5)
+    print("LinkedList: ${linked_list.to_string()}")
+    
+    print("Searching for element 20: found at position ${linked_list.search(20)}")
+    print("Searching for element 100: ${linked_list.search(100)}")
+    
+    print("Deleting element 20")
+    linked_list.delete(20)
+    print("LinkedList after deletion: ${linked_list.to_string()}")
+    print("LinkedList size: ${linked_list.get_size()}")
+    
+    // Binary Search Tree demonstration
+    print("\n=== Binary Search Tree Demonstration ===")
+    bst = BinarySearchTree()
+    print("Created a new binary search tree")
+    
+    print("Inserting elements: 50, 30, 70, 20, 40, 60, 80")
+    bst.insert(50)
+    bst.insert(30)
+    bst.insert(70)
+    bst.insert(20)
+    bst.insert(40)
+    bst.insert(60)
+    bst.insert(80)
+    
+    print("In-order traversal: ${bst.in_order_traversal()}")
+    print("Pre-order traversal: ${bst.pre_order_traversal()}")
+    print("Post-order traversal: ${bst.post_order_traversal()}")
+    
+    search_value = 40
+    result = bst.search(search_value)
+    if result != nil {
+        print("Found ${search_value} in the tree")
+    } else {
+        print("${search_value} not found in the tree")
+    }
+    
+    search_value = 100
+    result = bst.search(search_value)
+    if result != nil {
+        print("Found ${search_value} in the tree")
+    } else {
+        print("${search_value} not found in the tree")
+    }
+} 

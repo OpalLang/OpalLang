@@ -1,0 +1,123 @@
+// Sorting Algorithms in Opal
+// This example demonstrates several common sorting algorithms
+
+// Bubble Sort implementation
+fn bubble_sort(arr) {
+    n = arr.size()
+    for i = 0; i < n; i++ {
+        for j = 0; j < n - i - 1; j++ {
+            if arr[j] > arr[j + 1] {
+                // Swap elements
+                temp = arr[j]
+                arr[j] = arr[j + 1]
+                arr[j + 1] = temp
+            }
+        }
+    }
+    ret arr
+}
+
+// Selection Sort implementation
+fn selection_sort(arr) {
+    n = arr.size()
+    for i = 0; i < n; i++ {
+        min_idx = i
+        for j = i + 1; j < n; j++ {
+            if arr[j] < arr[min_idx] {
+                min_idx = j
+            }
+        }
+        // Swap the found minimum element with the first element
+        temp = arr[min_idx]
+        arr[min_idx] = arr[i]
+        arr[i] = temp
+    }
+    ret arr
+}
+
+// Insertion Sort implementation
+fn insertion_sort(arr) {
+    n = arr.size()
+    for i = 1; i < n; i++ {
+        key = arr[i]
+        j = i - 1
+        
+        // Move elements greater than key to one position ahead
+        while j >= 0 and arr[j] > key {
+            arr[j + 1] = arr[j]
+            j = j - 1
+        }
+        arr[j + 1] = key
+    }
+    ret arr
+}
+
+// Helper function to print arrays
+fn print_array(arr, label) {
+    print("${label}: [", end: "")
+    for i = 0; i < arr.size(); i++ {
+        if i > 0 {
+            print(", ", end: "")
+        }
+        print(arr[i], end: "")
+    }
+    print("]")
+}
+
+// Generate a random array for testing
+fn generate_random_array(size, max_value) {
+    arr = []
+    for i = 0; i < size; i++ {
+        arr.add(random(max_value))
+    }
+    ret arr
+}
+
+fn main() {
+    print("Sorting Algorithms Demonstration")
+    print("--------------------------------")
+    
+    // Create test arrays
+    test_array1 = [64, 34, 25, 12, 22, 11, 90]
+    test_array2 = test_array1.copy()
+    test_array3 = test_array1.copy()
+    
+    // Print original array
+    print_array(test_array1, "Original array")
+    
+    // Apply different sorting algorithms
+    print("\nSorting Results:")
+    print_array(bubble_sort(test_array1), "Bubble Sort   ")
+    print_array(selection_sort(test_array2), "Selection Sort")
+    print_array(insertion_sort(test_array3), "Insertion Sort")
+    
+    // Performance comparison
+    print("\nPerformance Comparison:")
+    print("Generating larger random arrays for testing...")
+    
+    array_sizes = [100, 1000, 5000]
+    
+    foreach size in array_sizes {
+        print("\nTesting with array size: ${size}")
+        
+        test_data = generate_random_array(size, 10000)
+        
+        // Measure bubble sort time
+        start_time = time()
+        bubble_sort(test_data.copy())
+        bubble_time = time() - start_time
+        print("Bubble Sort time: ${bubble_time} seconds")
+        
+        // Measure selection sort time
+        start_time = time()
+        selection_sort(test_data.copy())
+        selection_time = time() - start_time
+        print("Selection Sort time: ${selection_time} seconds")
+        
+        // Measure insertion sort time
+        start_time = time()
+        insertion_sort(test_data.copy())
+        insertion_time = time() - start_time
+        print("Insertion Sort time: ${insertion_time} seconds")
+    }
+} 

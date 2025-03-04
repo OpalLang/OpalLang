@@ -1,0 +1,171 @@
+// File Manager Example in Opal
+// Demonstrates file operations and directory management
+
+fn display_menu() {
+    print("\n=== File Manager ===")
+    print("1. List files in directory")
+    print("2. Create a new file")
+    print("3. Read file contents")
+    print("4. Write to a file")
+    print("5. Delete a file")
+    print("6. Create a directory")
+    print("7. Delete a directory")
+    print("8. Exit")
+    print("====================")
+}
+
+// List all files in a directory
+fn list_files(path) {
+    print("\nListing files in: ${path}")
+    
+    try {
+        files = dir_list(path)
+        
+        if files.size() == 0 {
+            print("Directory is empty.")
+            ret
+        }
+        
+        print("Files and directories:")
+        for i = 0; i < files.size(); i++ {
+            file_info = file_stat("${path}/${files[i]}")
+            if file_info.is_dir {
+                print("${i+1}. [DIR] ${files[i]}")
+            } else {
+                print("${i+1}. [FILE] ${files[i]} (${file_info.size} bytes)")
+            }
+        }
+    } catch (error) {
+        print("Error listing files: ${error}")
+    }
+}
+
+// Create a new file
+fn create_file(path, content) {
+    try {
+        file = file_open(path, "w")
+        file_write(file, content)
+        file_close(file)
+        print("File created successfully: ${path}")
+    } catch (error) {
+        print("Error creating file: ${error}")
+    }
+}
+
+// Read file contents
+fn read_file(path) {
+    try {
+        file = file_open(path, "r")
+        content = file_read(file)
+        file_close(file)
+        
+        print("\nContents of ${path}:")
+        print("----------------------------")
+        print(content)
+        print("----------------------------")
+    } catch (error) {
+        print("Error reading file: ${error}")
+    }
+}
+
+// Write to a file
+fn write_to_file(path, content, append = false) {
+    try {
+        mode = append ? "a" : "w"
+        file = file_open(path, mode)
+        file_write(file, content)
+        file_close(file)
+        
+        action = append ? "appended to" : "written to"
+        print("Content ${action} file successfully: ${path}")
+    } catch (error) {
+        print("Error writing to file: ${error}")
+    }
+}
+
+// Delete a file
+fn delete_file(path) {
+    try {
+        file_delete(path)
+        print("File deleted successfully: ${path}")
+    } catch (error) {
+        print("Error deleting file: ${error}")
+    }
+}
+
+// Create a directory
+fn create_directory(path) {
+    try {
+        dir_create(path)
+        print("Directory created successfully: ${path}")
+    } catch (error) {
+        print("Error creating directory: ${error}")
+    }
+}
+
+// Delete a directory
+fn delete_directory(path) {
+    try {
+        dir_delete(path)
+        print("Directory deleted successfully: ${path}")
+    } catch (error) {
+        print("Error deleting directory: ${error}")
+    }
+}
+
+fn main() {
+    current_dir = dir_current()
+    choice = 0
+    
+    print("Welcome to File Manager!")
+    print("Current working directory: ${current_dir}")
+    
+    while choice != 8 {
+        display_menu()
+        choice = input("Choose an option (1-8): ")
+        
+        if choice == 1 {
+            path = input("Enter directory path (or press Enter for current directory): ")
+            if path == "" {
+                path = current_dir
+            }
+            list_files(path)
+            
+        } elif choice == 2 {
+            path = input("Enter file path: ")
+            content = input("Enter file content: ")
+            create_file(path, content)
+            
+        } elif choice == 3 {
+            path = input("Enter file path: ")
+            read_file(path)
+            
+        } elif choice == 4 {
+            path = input("Enter file path: ")
+            append = input("Append to file? (y/n): ") == "y"
+            content = input("Enter content: ")
+            write_to_file(path, content, append)
+            
+        } elif choice == 5 {
+            path = input("Enter file path to delete: ")
+            confirm = input("Are you sure you want to delete ${path}? (y/n): ")
+            if confirm == "y" {
+                delete_file(path)
+            }
+            
+        } elif choice == 6 {
+            path = input("Enter directory path to create: ")
+            create_directory(path)
+            
+        } elif choice == 7 {
+            path = input("Enter directory path to delete: ")
+            confirm = input("Are you sure you want to delete directory ${path}? (y/n): ")
+            if confirm == "y" {
+                delete_directory(path)
+            }
+        }
+    }
+    
+    print("\nThank you for using File Manager!")
+    print("Goodbye!")
+} 
