@@ -101,7 +101,7 @@ void OperatorTokenizer::tokenize() {
     if (!isAtEnd()) {
         // 3 char op
         std::string potential3 = first + peek() + peekNext();
-        auto        it3        = operators.find(potential3);
+        std::unordered_map<std::string_view, TokenType>::const_iterator it3 = operators.find(potential3);
         if (it3 != operators.end()) {
             advance();
             advance();
@@ -112,7 +112,7 @@ void OperatorTokenizer::tokenize() {
 
         // 2 char op
         std::string potential2 = first + peek();
-        auto        it2        = operators.find(potential2);
+        std::unordered_map<std::string_view, TokenType>::const_iterator it2 = operators.find(potential2);
         if (it2 != operators.end()) {
             advance();
             std::string_view text(source.data() + start, current - start);
@@ -122,7 +122,7 @@ void OperatorTokenizer::tokenize() {
     }
 
     // 1 char op
-    auto it = operators.find(first);
+    std::unordered_map<std::string_view, TokenType>::const_iterator it = operators.find(first);
     if (it != operators.end()) {
         std::string_view text(source.data() + start, current - start);
         addToken(it->second, text);

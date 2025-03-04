@@ -20,7 +20,8 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
-#include "opal/error/Error.hpp"
+
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -71,7 +72,7 @@ void CommentTokenizer::handleMultiLineComment() {
     }
 
     if (nesting > 0) {
-        Error::lexerError(line, column, "Unterminated multi-line comment");
+        spdlog::error("Unterminated multi-line comment");
         return;
     }
 

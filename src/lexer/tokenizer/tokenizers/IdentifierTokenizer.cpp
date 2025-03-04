@@ -45,8 +45,8 @@ void IdentifierTokenizer::tokenize() {
     }
 
     std::string_view text(source.data() + start, current - start);
-    auto             it   = keywords.find(text);
-    TokenType        type = it != keywords.end() ? it->second : TokenType::IDENTIFIER;
+    std::unordered_map<std::string_view, TokenType>::const_iterator it = keywords.find(text);
+    TokenType type = it != keywords.end() ? it->second : TokenType::IDENTIFIER;
     addToken(type, text);
 }
 

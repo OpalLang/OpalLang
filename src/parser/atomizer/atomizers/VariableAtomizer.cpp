@@ -28,6 +28,7 @@
 #include <memory>
 #include <stdexcept>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -52,15 +53,16 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
         advance();
 
         if (current >= tokens.size()) {
-            throw std::runtime_error("Expected value after assignment operator");
+            spdlog::error("Expected value after assignment operator");
+            exit(1);
         }
 
         bool isConst = (current >= 3 && tokens[current - 3].type == TokenType::CONST);
-        auto variableNode = NodeFactory::createVariableNode(variableName, "", isConst, VariableType::UNKNOWN);
+        std::unique_ptr<VariableNode> variableNode = NodeFactory::createVariableNode(variableName, "", isConst, VariableType::UNKNOWN);
 
         return std::unique_ptr<NodeBase>(handleAssignment(variableNode).release());
     } else {
-        auto variableNode = NodeFactory::createVariableNode(variableName, "", false, VariableType::UNKNOWN);
+        std::unique_ptr<VariableNode> variableNode = NodeFactory::createVariableNode(variableName, "", false, VariableType::UNKNOWN);
         return std::unique_ptr<NodeBase>(variableNode.release());
     }
 }
@@ -98,7 +100,8 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<Var
         variableNode->setValue(variableValue);
         variableNode->setType(VariableType::UNKNOWN);
     } else {
-        throw std::runtime_error("Expected a value or identifier after assignment operator");
+        spdlog::error("Expected a value or identifier after assignment operator");
+        exit(1);
     }
 
     advance();
@@ -110,7 +113,7 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleOperation(std::unique_ptr<Vari
     if (nextIndex < tokens.size()) {
         OperationAtomizer opAtomizer(current, tokens);
         if (tokens[current].type == TokenType::NUMBER || (nextIndex < tokens.size() && opAtomizer.canHandle(tokens[nextIndex].type))) {
-            auto opNode = std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
+            std::unique_ptr<OperationNode> opNode = std::unique_ptr<OperationNode>(dynamic_cast<OperationNode*>(opAtomizer.atomize().release()));
             if (opNode) {
                 variableNode->setOperation(std::move(opNode));
                 variableNode->setType(VariableType::INT);

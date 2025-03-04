@@ -28,6 +28,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <spdlog/spdlog.h>
 
 namespace opal {
 
@@ -51,8 +52,8 @@ void Repl::run(const std::string& source) {
         args.push_back(arg);
     }
 
-    auto commands = CommandFactory::createCommands();
-    for (const auto& command : commands) {
+    std::vector<std::unique_ptr<CommandBase>> commands = CommandFactory::createCommands();
+    for (const std::unique_ptr<CommandBase>& command : commands) {
         if (command->canHandle(commandName)) {
             command->setArguments(args);
             command->execute();
@@ -61,15 +62,15 @@ void Repl::run(const std::string& source) {
     }
 
     Lexer lexer(source);
-    auto  tokens = lexer.scanTokens();
+    std::vector<Token> tokens = lexer.scanTokens();
 
-    std::cout << "Tokenizing source code" << std::endl;
-    std::cout << "----------------------------------------" << std::endl;
+    spdlog::info("Tokenizing source code");
+    spdlog::info("----------------------------------------");
     lexer.printTokens();
-    std::cout << "----------------------------------------" << std::endl;
+    spdlog::info("----------------------------------------");
     Parser parser(tokens);
     parser.printAST();
-    std::cout << "----------------------------------------" << std::endl;
+    spdlog::info("----------------------------------------");
 }
 
 void Repl::runPrompt() {
@@ -86,13 +87,13 @@ void Repl::runPrompt() {
         std::getline(std::cin, line);
 
         if (std::cin.eof()) {
-            std::cout << "\nExiting REPL" << std::endl;
+            spdlog::info("Exiting REPL");
             break;
         }
 
         if (std::cin.fail()) {
             std::cin.clear();
-            std::cout << "Input error. Please try again." << std::endl;
+            spdlog::error("Input error. Please try again.");
             continue;
         }
 

@@ -44,7 +44,7 @@ Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {
         bool handled = false;
         for (const std::unique_ptr<AtomizerBase>& atomizer : atomizers) {
             if (atomizer->canHandle(peek().type)) {
-                auto node = atomizer->atomize();
+                std::unique_ptr<NodeBase> node = atomizer->atomize();
                 if (node) {
                     nodes.push_back(std::move(node));
                 }
