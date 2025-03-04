@@ -41,8 +41,8 @@ void HelpCommand::execute() {
         maxLength = std::max(maxLength, cmd.length());
     }
 
-    for (const auto& [cmd, desc] : commandDescriptions) {
-        std::cout << "  " << cmd << " " << desc << std::endl;
+    for (const std::pair<const std::string, std::string>& cmd_desc : commandDescriptions) {
+        spdlog::info("  {} {}", cmd_desc.first, cmd_desc.second);
     }
     std::cout << std::endl;
 }

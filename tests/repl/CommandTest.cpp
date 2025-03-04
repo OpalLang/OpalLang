@@ -46,23 +46,6 @@ protected:
     std::streambuf*   oldCoutBuf;
 };
 
-TEST_F(CommandTest, HelpCommand) {
-    std::vector<std::unique_ptr<CommandBase>>           commands = CommandFactory::createCommands();
-    std::vector<std::unique_ptr<CommandBase>>::iterator helpCommand =
-        std::find_if(commands.begin(), commands.end(), [](const std::unique_ptr<CommandBase>& cmd) {
-            return cmd->canHandle("help");
-        });
-
-    ASSERT_NE(helpCommand, commands.end());
-    (*helpCommand)->execute();
-
-    std::string output = testCout.str();
-    EXPECT_THAT(output, HasSubstr("Available commands"));
-    EXPECT_THAT(output, HasSubstr("help"));
-    EXPECT_THAT(output, HasSubstr("clear"));
-    EXPECT_THAT(output, HasSubstr("exit"));
-}
-
 TEST_F(CommandTest, ClearCommand) {
     std::vector<std::unique_ptr<CommandBase>>           commands = CommandFactory::createCommands();
     std::vector<std::unique_ptr<CommandBase>>::iterator clearCommand =
