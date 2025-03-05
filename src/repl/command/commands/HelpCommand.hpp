@@ -28,16 +28,16 @@
 
 namespace opal {
 
-    class HelpCommand : public CommandBase {
-        private:
-            static const std::unordered_map<std::string, std::string> _commandDescriptions;
+class HelpCommand : public CommandBase {
+private:
+    static const std::unordered_map<std::string, std::string> _commandDescriptions;
 
-        public:
-            HelpCommand()           = default;
-            ~HelpCommand() override = default;
+public:
+    HelpCommand()           = default;
+    ~HelpCommand() override = default;
 
-            bool canHandle(const std::string& commandName) const override;
-            void execute() override;
-    };
+    bool canHandle(const std::string& commandName) const override;
+    void execute() override;
+};
 
 }  // namespace opal

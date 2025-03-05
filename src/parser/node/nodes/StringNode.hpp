@@ -21,17 +21,39 @@
 
 #pragma once
 
-#include "opal/repl/command/CommandBase.hpp"
+#include "opal/lexer/Token.hpp"
+#include "opal/parser/node/NodeBase.hpp"
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace opal {
 
-class ExitCommand : public CommandBase {
-public:
-    ExitCommand()           = default;
-    ~ExitCommand() override = default;
+enum class StringSegmentType { TEXT, VARIABLE };
 
-    bool canHandle(const std::string& commandName) const override;
-    void execute() override;
+struct StringSegment {
+    StringSegmentType type;
+    std::string       content;
+};
+
+/**
+ * @class StringNode
+ * @brief AST node representing a string literal, which may contain interpolation
+ *
+ * Represents a string in Opal, which can be either a simple string or
+ * an interpolated string containing variables or expressions.
+ */
+class StringNode : public NodeBase {
+public:
+    explicit StringNode(TokenType tokenType = TokenType::STRING);
+    void                              addTextSegment(const std::string& text);
+    void                              addVariableSegment(const std::string& variableName);
+    void                              print(size_t indent) const override;
+    const std::vector<StringSegment>& getSegments() const { return _segments; }
+
+private:
+    std::vector<StringSegment> _segments;
 };
 
 }  // namespace opal

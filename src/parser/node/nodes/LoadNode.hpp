@@ -28,35 +28,35 @@
 
 namespace opal {
 
+/**
+ * @class LoadNode
+ * @brief AST node representing a module/file import statement
+ *
+ * Represents a 'load' statement in Opal, which imports code from another file.
+ */
+class LoadNode : public NodeBase {
+private:
+    std::string_view _path;
+
+public:
     /**
-     * @class LoadNode
-     * @brief AST node representing a module/file import statement
-     * 
-     * Represents a 'load' statement in Opal, which imports code from another file.
+     * @brief Constructs a new Load Node object
+     * @param type The token type associated with this node
+     * @param path The path to the file being loaded
      */
-    class LoadNode : public NodeBase {
-        private:
-            std::string_view _path;
+    LoadNode(TokenType type, const std::string_view& path);
 
-        public:
-            /**
-             * @brief Constructs a new Load Node object
-             * @param type The token type associated with this node
-             * @param path The path to the file being loaded
-             */
-            LoadNode(TokenType type, const std::string_view& path);
+    /**
+     * @brief Gets the path of the file being loaded
+     * @return const std::string_view& The file path
+     */
+    const std::string_view& getPath() const { return _path; }
 
-            /**
-             * @brief Gets the path of the file being loaded
-             * @return const std::string_view& The file path
-             */
-            const std::string_view& getPath() const { return _path; }
-
-            /**
-             * @brief Prints the node to standard output
-             * @param indent The indentation level for pretty printing
-             */
-            void print(size_t indent = 0) const override;
-    };
+    /**
+     * @brief Prints the node to standard output
+     * @param indent The indentation level for pretty printing
+     */
+    void print(size_t indent = 0) const override;
+};
 
 }  // namespace opal

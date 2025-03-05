@@ -20,6 +20,7 @@
  */
 
 #include "opal/lexer/tokenizer/tokenizers/CommentTokenizer.hpp"
+
 #include "opal/util/ErrorUtil.hpp"
 
 #include <stdexcept>
@@ -52,7 +53,7 @@ void CommentTokenizer::handleSingleLineComment() {
 }
 
 void CommentTokenizer::handleMultiLineComment() {
-    int nesting   = 1;
+    int nesting = 1;
 
     while (nesting > 0 && !this->isAtEnd()) {
         if (this->peek() == '*' && this->peekNext() == '/') {

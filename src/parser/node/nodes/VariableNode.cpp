@@ -56,7 +56,11 @@ void VariableNode::print(size_t indent) const {
 
     this->printIndent(indent);
     spdlog::info("Variable(name={})", this->_name);
-    if (this->_operation) {
+
+    if (this->_stringNode) {
+        std::cout << ", string=";
+        this->_stringNode->print(0);
+    } else if (this->_operation) {
         std::cout << ", operation=";
         this->_operation->print(0);
     } else if (!this->_value.empty()) {

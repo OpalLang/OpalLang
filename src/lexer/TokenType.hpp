@@ -23,106 +23,106 @@
 
 namespace opal {
 
-    /**
-     * @enum TokenType
-     * @brief Enumerates all possible token types in the Opal language
-     * 
-     * This enum defines all the different types of tokens that can be recognized
-     * by the Opal lexer, including keywords, literals, operators, and delimiters.
-     */
-    enum class TokenType {
-        // Keywords
-        CLASS,
-        FN,
-        IF,
-        ELIF,
-        ELSE,
-        WHILE,
-        FOR,
-        FOREACH,
-        IN,
-        TRY,
-        CATCH,
-        FINALLY,
-        RET,
-        THIS,
-        CONST,
-        ENUM,
-        SWITCH,
-        CASE,
-        DEFAULT,
-        BREAK,
-        CONTINUE,
-        LOAD,
+/**
+ * @enum TokenType
+ * @brief Enumerates all possible token types in the Opal language
+ *
+ * This enum defines all the different types of tokens that can be recognized
+ * by the Opal lexer, including keywords, literals, operators, and delimiters.
+ */
+enum class TokenType {
+    // Keywords
+    CLASS,
+    FN,
+    IF,
+    ELIF,
+    ELSE,
+    WHILE,
+    FOR,
+    FOREACH,
+    IN,
+    TRY,
+    CATCH,
+    FINALLY,
+    RET,
+    THIS,
+    CONST,
+    ENUM,
+    SWITCH,
+    CASE,
+    DEFAULT,
+    BREAK,
+    CONTINUE,
+    LOAD,
 
-        // Literals
-        NUMBER,
-        STRING,
-        TRUE,
-        FALSE,
-        NIL,
+    // Literals
+    NUMBER,
+    STRING,
+    TRUE,
+    FALSE,
+    NIL,
 
-        // Identifiers
-        IDENTIFIER,
+    // Identifiers
+    IDENTIFIER,
 
-        // Basic Operators
-        PLUS,
-        MINUS,
-        MULTIPLY,
-        DIVIDE,
-        MODULO,
-        POWER,
-        EQUAL,
-        EQUAL_EQUAL,
-        NOT,
-        NOT_EQUAL,
-        GREATER,
-        GREATER_EQUAL,
-        LESS,
-        LESS_EQUAL,
-        AND,
-        OR,
-        INCREMENT,
-        DECREMENT,
-        RANGE,
+    // Basic Operators
+    PLUS,
+    MINUS,
+    MULTIPLY,
+    DIVIDE,
+    MODULO,
+    POWER,
+    EQUAL,
+    EQUAL_EQUAL,
+    NOT,
+    NOT_EQUAL,
+    GREATER,
+    GREATER_EQUAL,
+    LESS,
+    LESS_EQUAL,
+    AND,
+    OR,
+    INCREMENT,
+    DECREMENT,
+    RANGE,
 
-        // Assignment Operators
-        PLUS_EQUAL,
-        MINUS_EQUAL,
-        MULTIPLY_EQUAL,
-        DIVIDE_EQUAL,
-        MODULO_EQUAL,
-        POWER_EQUAL,
-        AND_EQUAL,
-        OR_EQUAL,
-        XOR_EQUAL,
-        SHIFT_LEFT_EQUAL,
-        SHIFT_RIGHT_EQUAL,
+    // Assignment Operators
+    PLUS_EQUAL,
+    MINUS_EQUAL,
+    MULTIPLY_EQUAL,
+    DIVIDE_EQUAL,
+    MODULO_EQUAL,
+    POWER_EQUAL,
+    AND_EQUAL,
+    OR_EQUAL,
+    XOR_EQUAL,
+    SHIFT_LEFT_EQUAL,
+    SHIFT_RIGHT_EQUAL,
 
-        // Bitwise Operators
-        BITWISE_AND,
-        BITWISE_OR,
-        BITWISE_XOR,
-        BITWISE_NOT,
-        SHIFT_LEFT,
-        SHIFT_RIGHT,
+    // Bitwise Operators
+    BITWISE_AND,
+    BITWISE_OR,
+    BITWISE_XOR,
+    BITWISE_NOT,
+    SHIFT_LEFT,
+    SHIFT_RIGHT,
 
-        // Delimiters
-        LEFT_PAREN,
-        RIGHT_PAREN,
-        LEFT_BRACE,
-        RIGHT_BRACE,
-        LEFT_BRACKET,
-        RIGHT_BRACKET,
-        COMMA,
-        DOT,
-        COLON,
-        SEMICOLON,
+    // Delimiters
+    LEFT_PAREN,
+    RIGHT_PAREN,
+    LEFT_BRACE,
+    RIGHT_BRACE,
+    LEFT_BRACKET,
+    RIGHT_BRACKET,
+    COMMA,
+    DOT,
+    COLON,
+    SEMICOLON,
 
-        // Special Tokens
-        COMMENT,
-        EOF_TOKEN,
-        ERROR
-    };
+    // Special Tokens
+    COMMENT,
+    EOF_TOKEN,
+    ERROR
+};
 
 }  // namespace opal

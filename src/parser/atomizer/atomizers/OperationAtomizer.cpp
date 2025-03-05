@@ -20,6 +20,7 @@
  */
 
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
+
 #include "opal/parser/node/NodeFactory.hpp"
 #include "opal/util/ErrorUtil.hpp"
 
@@ -47,13 +48,12 @@ void OperationAtomizer::handleToken(std::vector<Token>& tokens, const Token& tok
 }
 
 void OperationAtomizer::handleParenthesizedExpression(std::vector<Token>& operationTokens) {
-    handleToken(operationTokens, this->_tokens[this->_current]); // Push LEFT_PAREN
+    handleToken(operationTokens, this->_tokens[this->_current]);  // Push LEFT_PAREN
 
     if (this->_current < this->_tokens.size() && this->_tokens[this->_current].type == TokenType::RIGHT_PAREN) {
-        throw std::runtime_error(
-            ErrorUtil::errorMessage("Invalid operation: empty parentheses",
-                                  this->_tokens[this->_current].line,
-                                  this->_tokens[this->_current].column));
+        throw std::runtime_error(ErrorUtil::errorMessage("Invalid operation: empty parentheses",
+                                                         this->_tokens[this->_current].line,
+                                                         this->_tokens[this->_current].column));
     }
 
     int parenCount = 1;
@@ -71,18 +71,16 @@ void OperationAtomizer::handleParenthesizedExpression(std::vector<Token>& operat
         handleToken(operationTokens, this->_tokens[this->_current]);
     }
 
-    throw std::runtime_error(
-        ErrorUtil::errorMessage("Unmatched left parenthesis",
-                              this->_tokens[this->_current - 1].line,
-                              this->_tokens[this->_current - 1].column));
+    throw std::runtime_error(ErrorUtil::errorMessage("Unmatched left parenthesis",
+                                                     this->_tokens[this->_current - 1].line,
+                                                     this->_tokens[this->_current - 1].column));
 }
 
 void OperationAtomizer::handleOperand(std::vector<Token>& operationTokens) {
     if (this->_current >= this->_tokens.size()) {
-        throw std::runtime_error(
-            ErrorUtil::errorMessage("Expected operand",
-                                  this->_tokens[this->_current - 1].line,
-                                  this->_tokens[this->_current - 1].column));
+        throw std::runtime_error(ErrorUtil::errorMessage("Expected operand",
+                                                         this->_tokens[this->_current - 1].line,
+                                                         this->_tokens[this->_current - 1].column));
     }
 
     Token currentToken = this->_tokens[this->_current];
@@ -92,14 +90,12 @@ void OperationAtomizer::handleOperand(std::vector<Token>& operationTokens) {
         handleToken(operationTokens, currentToken);
     } else if (currentToken.type == TokenType::RIGHT_PAREN) {
         throw std::runtime_error(
-            ErrorUtil::errorMessage("Unmatched right parenthesis",
-                                  currentToken.line,
-                                  currentToken.column));
+            ErrorUtil::errorMessage("Unmatched right parenthesis", currentToken.line, currentToken.column));
     } else {
         throw std::runtime_error(
             ErrorUtil::errorMessage("Invalid operation: expected a number, identifier, or parenthesized expression",
-                                  currentToken.line,
-                                  currentToken.column));
+                                    currentToken.line,
+                                    currentToken.column));
     }
 }
 
@@ -112,9 +108,7 @@ std::unique_ptr<NodeBase> OperationAtomizer::atomize() {
         if (!canHandle(currentToken.type)) {
             if (currentToken.type == TokenType::RIGHT_PAREN) {
                 throw std::runtime_error(
-                    ErrorUtil::errorMessage("Unmatched right parenthesis",
-                                          currentToken.line,
-                                          currentToken.column));
+                    ErrorUtil::errorMessage("Unmatched right parenthesis", currentToken.line, currentToken.column));
             }
             break;
         }

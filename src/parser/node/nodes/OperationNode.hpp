@@ -28,36 +28,36 @@
 
 namespace opal {
 
+/**
+ * @class OperationNode
+ * @brief AST node representing an operation (expression)
+ *
+ * Represents an operation or expression in Opal, such as arithmetic
+ * operations, function calls, or any other expression.
+ */
+class OperationNode : public NodeBase {
+private:
+    std::vector<Token> _tokens;  ///< The tokens that make up this operation
+
+public:
     /**
-     * @class OperationNode
-     * @brief AST node representing an operation (expression)
-     * 
-     * Represents an operation or expression in Opal, such as arithmetic
-     * operations, function calls, or any other expression.
+     * @brief Constructs a new Operation Node object
+     * @param tokenType The token type associated with this node
+     * @param tokens The tokens that make up this operation
      */
-    class OperationNode : public NodeBase {
-        private:
-            std::vector<Token> _tokens; ///< The tokens that make up this operation
+    OperationNode(TokenType tokenType, const std::vector<Token>& tokens);
 
-        public:
-            /**
-             * @brief Constructs a new Operation Node object
-             * @param tokenType The token type associated with this node
-             * @param tokens The tokens that make up this operation
-             */
-            OperationNode(TokenType tokenType, const std::vector<Token>& tokens);
+    /**
+     * @brief Gets the tokens that make up this operation
+     * @return const std::vector<Token>& The tokens
+     */
+    const std::vector<Token>& getTokens() const { return _tokens; }
 
-            /**
-             * @brief Gets the tokens that make up this operation
-             * @return const std::vector<Token>& The tokens
-             */
-            const std::vector<Token>& getTokens() const { return _tokens; }
-            
-            /**
-             * @brief Prints the node to standard output
-             * @param indent The indentation level for pretty printing
-             */
-            void print(size_t indent = 0) const override;
-    };
+    /**
+     * @brief Prints the node to standard output
+     * @param indent The indentation level for pretty printing
+     */
+    void print(size_t indent = 0) const override;
+};
 
 }  // namespace opal

@@ -29,62 +29,62 @@
 
 namespace opal {
 
+/**
+ * @class AtomizerBase
+ * @brief Base class for all atomizers in the Opal parser
+ *
+ * Atomizers are responsible for converting sequences of tokens into AST nodes.
+ * Each atomizer specializes in handling a specific language construct.
+ */
+class AtomizerBase {
+protected:
+    size_t&             _current;
+    std::vector<Token>& _tokens;
+
+public:
     /**
-     * @class AtomizerBase
-     * @brief Base class for all atomizers in the Opal parser
-     * 
-     * Atomizers are responsible for converting sequences of tokens into AST nodes.
-     * Each atomizer specializes in handling a specific language construct.
+     * @brief Constructs a new Atomizer Base object
+     * @param current Reference to the current token index
+     * @param tokens Reference to the token collection
      */
-    class AtomizerBase {
-        protected:
-            size_t&             _current;
-            std::vector<Token>& _tokens;
+    AtomizerBase(size_t& current, std::vector<Token>& tokens);
 
-        public:
-            /**
-             * @brief Constructs a new Atomizer Base object
-             * @param current Reference to the current token index
-             * @param tokens Reference to the token collection
-             */
-            AtomizerBase(size_t& current, std::vector<Token>& tokens);
-            
-            /**
-             * @brief Virtual destructor for proper inheritance
-             */
-            virtual ~AtomizerBase() = default;
+    /**
+     * @brief Virtual destructor for proper inheritance
+     */
+    virtual ~AtomizerBase() = default;
 
-            /**
-             * @brief Checks if this atomizer can handle the given token type
-             * @param type The token type to check
-             * @return bool True if this atomizer can handle the token type, false otherwise
-             */
-            virtual bool canHandle(TokenType type) const = 0;
-            
-            /**
-             * @brief Converts a sequence of tokens into an AST node
-             * @return std::unique_ptr<NodeBase> A unique pointer to the created AST node
-             */
-            virtual std::unique_ptr<NodeBase> atomize() = 0;
+    /**
+     * @brief Checks if this atomizer can handle the given token type
+     * @param type The token type to check
+     * @return bool True if this atomizer can handle the token type, false otherwise
+     */
+    virtual bool canHandle(TokenType type) const = 0;
 
-        protected:
-            /**
-             * @brief Returns the current token without consuming it
-             * @return Token The current token
-             */
-            Token peek() const;
-            
-            /**
-             * @brief Returns the next token without consuming it
-             * @return Token The next token
-             */
-            Token peekNext() const;
-            
-            /**
-             * @brief Consumes and returns the current token
-             * @return Token The current token
-             */
-            Token advance();
-    };
+    /**
+     * @brief Converts a sequence of tokens into an AST node
+     * @return std::unique_ptr<NodeBase> A unique pointer to the created AST node
+     */
+    virtual std::unique_ptr<NodeBase> atomize() = 0;
+
+protected:
+    /**
+     * @brief Returns the current token without consuming it
+     * @return Token The current token
+     */
+    Token peek() const;
+
+    /**
+     * @brief Returns the next token without consuming it
+     * @return Token The next token
+     */
+    Token peekNext() const;
+
+    /**
+     * @brief Consumes and returns the current token
+     * @return Token The current token
+     */
+    Token advance();
+};
 
 }  // namespace opal

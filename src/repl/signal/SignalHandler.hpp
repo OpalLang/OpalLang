@@ -27,60 +27,60 @@
 
 namespace opal {
 
+/**
+ * @class SignalHandler
+ * @brief Static utility class for handling system signals
+ *
+ * Provides a centralized mechanism for registering and managing
+ * signal handlers throughout the application.
+ */
+class SignalHandler {
+public:
     /**
-     * @class SignalHandler
-     * @brief Static utility class for handling system signals
-     * 
-     * Provides a centralized mechanism for registering and managing
-     * signal handlers throughout the application.
+     * @typedef SignalCallback
+     * @brief Function type for signal handler callbacks
      */
-    class SignalHandler {
-        public:
-            /**
-             * @typedef SignalCallback
-             * @brief Function type for signal handler callbacks
-             */
-            using SignalCallback = std::function<void(int)>;
+    using SignalCallback = std::function<void(int)>;
 
-            /**
-             * @brief Initializes the signal handling system
-             */
-            static void initialize();
-            
-            /**
-             * @brief Registers a handler for a specific signal
-             * @param signalType The signal type (e.g., SIGINT, SIGTERM)
-             * @param callback The function to call when the signal is received
-             */
-            static void registerHandler(int signalType, SignalCallback callback);
-            
-            /**
-             * @brief Restores the default handler for a specific signal
-             * @param signalType The signal type to restore
-             */
-            static void restoreDefaultHandler(int signalType);
-            
-            /**
-             * @brief Restores all signal handlers to their default behavior
-             */
-            static void restoreAllDefaults();
-            
-            /**
-             * @brief Internal function called when a signal is received
-             * @param signalType The type of signal that was received
-             */
-            static void handleSignal(int signalType);
+    /**
+     * @brief Initializes the signal handling system
+     */
+    static void initialize();
 
-        private:
-            /**
-             * @brief Map of signal types to their handler callbacks
-             */
-            static std::unordered_map<int, SignalCallback> _callbacks;
+    /**
+     * @brief Registers a handler for a specific signal
+     * @param signalType The signal type (e.g., SIGINT, SIGTERM)
+     * @param callback The function to call when the signal is received
+     */
+    static void registerHandler(int signalType, SignalCallback callback);
 
-            /**
-             * @brief Private constructor to prevent instantiation
-             */
-            SignalHandler() = delete;
-    };
+    /**
+     * @brief Restores the default handler for a specific signal
+     * @param signalType The signal type to restore
+     */
+    static void restoreDefaultHandler(int signalType);
+
+    /**
+     * @brief Restores all signal handlers to their default behavior
+     */
+    static void restoreAllDefaults();
+
+    /**
+     * @brief Internal function called when a signal is received
+     * @param signalType The type of signal that was received
+     */
+    static void handleSignal(int signalType);
+
+private:
+    /**
+     * @brief Map of signal types to their handler callbacks
+     */
+    static std::unordered_map<int, SignalCallback> _callbacks;
+
+    /**
+     * @brief Private constructor to prevent instantiation
+     */
+    SignalHandler() = delete;
+};
 
 }  // namespace opal

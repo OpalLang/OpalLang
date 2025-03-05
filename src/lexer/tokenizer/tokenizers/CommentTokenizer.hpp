@@ -25,42 +25,42 @@
 
 namespace opal {
 
+/**
+ * @class CommentTokenizer
+ * @brief Tokenizer for handling code comments
+ *
+ * Processes character sequences that represent comments in the Opal language,
+ * supporting both single-line and multi-line comment formats.
+ */
+class CommentTokenizer : public TokenizerBase {
+public:
     /**
-     * @class CommentTokenizer
-     * @brief Tokenizer for handling code comments
-     * 
-     * Processes character sequences that represent comments in the Opal language,
-     * supporting both single-line and multi-line comment formats.
+     * @brief Inherits constructor from TokenizerBase
      */
-    class CommentTokenizer : public TokenizerBase {
-        public:
-            /**
-             * @brief Inherits constructor from TokenizerBase
-             */
-            using TokenizerBase::TokenizerBase;
+    using TokenizerBase::TokenizerBase;
 
-            /**
-             * @brief Checks if this tokenizer can handle the given character
-             * @param c The character to check
-             * @return bool True if this tokenizer can handle the character, false otherwise
-             */
-            bool canHandle(char c) const override;
-            
-            /**
-             * @brief Processes a comment and creates a corresponding token if needed
-             */
-            void tokenize() override;
+    /**
+     * @brief Checks if this tokenizer can handle the given character
+     * @param c The character to check
+     * @return bool True if this tokenizer can handle the character, false otherwise
+     */
+    bool canHandle(char c) const override;
 
-        private:
-            /**
-             * @brief Processes a single-line comment (typically starting with //)
-             */
-            void handleSingleLineComment();
-            
-            /**
-             * @brief Processes a multi-line comment (typically enclosed in slash-star star-slash)
-             */
-            void handleMultiLineComment();
-    };
+    /**
+     * @brief Processes a comment and creates a corresponding token if needed
+     */
+    void tokenize() override;
+
+private:
+    /**
+     * @brief Processes a single-line comment (typically starting with //)
+     */
+    void handleSingleLineComment();
+
+    /**
+     * @brief Processes a multi-line comment (typically enclosed in slash-star star-slash)
+     */
+    void handleMultiLineComment();
+};
 
 }  // namespace opal

@@ -92,7 +92,12 @@ TEST_F(AtomizerTest, VariableAtomizerStringAssignment) {
     opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_EQ(varNode->getType(), VariableType::STRING);
-    EXPECT_EQ(varNode->getValue(), "hello");
+    const opal::StringNode* const& stringNode = varNode->getStringNode();
+    ASSERT_NE(stringNode, nullptr);
+    const std::vector<StringSegment>& segments = stringNode->getSegments();
+    ASSERT_EQ(segments.size(), 1);
+    EXPECT_EQ(segments[0].type, StringSegmentType::TEXT);
+    EXPECT_EQ(segments[0].content, "hello");
 }
 
 TEST_F(AtomizerTest, VariableAtomizerBoolAssignment) {
@@ -333,8 +338,13 @@ TEST_F(AtomizerTest, ConstStringAssignment) {
     opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
     EXPECT_TRUE(varNode->getIsConstant());
-    EXPECT_EQ(varNode->getValue(), "hello world");
     EXPECT_EQ(varNode->getType(), VariableType::STRING);
+    const opal::StringNode* const& stringNode = varNode->getStringNode();
+    ASSERT_NE(stringNode, nullptr);
+    const std::vector<StringSegment>& segments = stringNode->getSegments();
+    ASSERT_EQ(segments.size(), 1);
+    EXPECT_EQ(segments[0].type, StringSegmentType::TEXT);
+    EXPECT_EQ(segments[0].content, "hello world");
 }
 
 TEST_F(AtomizerTest, EmptyString) {
@@ -348,8 +358,11 @@ TEST_F(AtomizerTest, EmptyString) {
 
     opal::VariableNode* varNode = dynamic_cast<opal::VariableNode*>(node.get());
     ASSERT_NE(varNode, nullptr);
-    EXPECT_EQ(varNode->getValue(), "");
     EXPECT_EQ(varNode->getType(), VariableType::STRING);
+    const opal::StringNode* const& stringNode = varNode->getStringNode();
+    ASSERT_NE(stringNode, nullptr);
+    const std::vector<StringSegment>& segments = stringNode->getSegments();
+    ASSERT_EQ(segments.size(), 0);
 }
 
 TEST_F(AtomizerTest, DivisionOperation) {
@@ -408,9 +421,9 @@ TEST_F(AtomizerTest, ParenthesizedOperation) {
     tokens.emplace_back(TokenType::MULTIPLY, "*", 1, 9);
     tokens.emplace_back(TokenType::NUMBER, "3", 1, 11);
 
-    OperationAtomizer atomizer(current, tokens);
-    std::unique_ptr<NodeBase> node = atomizer.atomize();
-    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
+    OperationAtomizer         atomizer(current, tokens);
+    std::unique_ptr<NodeBase> node   = atomizer.atomize();
+    opal::OperationNode*      opNode = dynamic_cast<opal::OperationNode*>(node.get());
     ASSERT_NE(opNode, nullptr);
 
     const std::vector<Token>& opTokens = opNode->getTokens();
@@ -436,9 +449,9 @@ TEST_F(AtomizerTest, NestedParentheses) {
     tokens.emplace_back(TokenType::NUMBER, "4", 1, 12);
     tokens.emplace_back(TokenType::RIGHT_PAREN, ")", 1, 13);
 
-    OperationAtomizer atomizer(current, tokens);
-    std::unique_ptr<NodeBase> node = atomizer.atomize();
-    opal::OperationNode* opNode = dynamic_cast<opal::OperationNode*>(node.get());
+    OperationAtomizer         atomizer(current, tokens);
+    std::unique_ptr<NodeBase> node   = atomizer.atomize();
+    opal::OperationNode*      opNode = dynamic_cast<opal::OperationNode*>(node.get());
     ASSERT_NE(opNode, nullptr);
 
     const std::vector<Token>& opTokens = opNode->getTokens();

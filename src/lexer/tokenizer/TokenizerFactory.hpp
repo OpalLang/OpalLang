@@ -28,31 +28,31 @@
 
 namespace opal {
 
+/**
+ * @class TokenizerFactory
+ * @brief Factory class for creating tokenizer instances
+ *
+ * Creates and initializes all the different tokenizers needed by the lexer
+ * to recognize various token types in the Opal language.
+ */
+class TokenizerFactory {
+public:
     /**
-     * @class TokenizerFactory
-     * @brief Factory class for creating tokenizer instances
-     * 
-     * Creates and initializes all the different tokenizers needed by the lexer
-     * to recognize various token types in the Opal language.
+     * @brief Creates a collection of tokenizers for lexical analysis
+     * @param source Reference to the source code
+     * @param current Reference to the current position in the source
+     * @param line Reference to the current line number
+     * @param column Reference to the current column number
+     * @param start Reference to the start position of the current token
+     * @param tokens Reference to the token collection
+     * @return std::vector<std::unique_ptr<TokenizerBase>> A collection of initialized tokenizers
      */
-    class TokenizerFactory {
-        public:
-            /**
-             * @brief Creates a collection of tokenizers for lexical analysis
-             * @param source Reference to the source code
-             * @param current Reference to the current position in the source
-             * @param line Reference to the current line number
-             * @param column Reference to the current column number
-             * @param start Reference to the start position of the current token
-             * @param tokens Reference to the token collection
-             * @return std::vector<std::unique_ptr<TokenizerBase>> A collection of initialized tokenizers
-             */
-            static std::vector<std::unique_ptr<TokenizerBase>> createTokenizers(const std::string&  source,
-                                                                                int&                current,
-                                                                                int&                line,
-                                                                                int&                column,
-                                                                                int&                start,
-                                                                                std::vector<Token>& tokens);
-    };
+    static std::vector<std::unique_ptr<TokenizerBase>> createTokenizers(const std::string&  source,
+                                                                        int&                current,
+                                                                        int&                line,
+                                                                        int&                column,
+                                                                        int&                start,
+                                                                        std::vector<Token>& tokens);
+};
 
 }  // namespace opal

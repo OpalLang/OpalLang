@@ -27,45 +27,45 @@
 
 namespace opal {
 
+/**
+ * @class CommandBase
+ * @brief Base class for all REPL commands
+ *
+ * Provides a common interface for all commands that can be executed
+ * in the REPL environment, such as 'exit', 'help', 'clear', etc.
+ */
+class CommandBase {
+protected:
+    std::vector<std::string> _args;
+
+public:
     /**
-     * @class CommandBase
-     * @brief Base class for all REPL commands
-     * 
-     * Provides a common interface for all commands that can be executed
-     * in the REPL environment, such as 'exit', 'help', 'clear', etc.
+     * @brief Default constructor
      */
-    class CommandBase {
-        protected:
-            std::vector<std::string> _args;
+    CommandBase() = default;
 
-        public:
-            /**
-             * @brief Default constructor
-             */
-            CommandBase() = default;
-            
-            /**
-             * @brief Virtual destructor for proper inheritance
-             */
-            virtual ~CommandBase() = default;
+    /**
+     * @brief Virtual destructor for proper inheritance
+     */
+    virtual ~CommandBase() = default;
 
-            /**
-             * @brief Checks if this command can handle the given command name
-             * @param commandName The name of the command to check
-             * @return bool True if this command can handle the given name, false otherwise
-             */
-            virtual bool canHandle(const std::string& commandName) const = 0;
-            
-            /**
-             * @brief Executes the command with the current arguments
-             */
-            virtual void execute() = 0;
+    /**
+     * @brief Checks if this command can handle the given command name
+     * @param commandName The name of the command to check
+     * @return bool True if this command can handle the given name, false otherwise
+     */
+    virtual bool canHandle(const std::string& commandName) const = 0;
 
-            /**
-             * @brief Sets the arguments for this command
-             * @param arguments The arguments to set
-             */
-            void setArguments(const std::vector<std::string>& arguments) { _args = arguments; }
-    };
+    /**
+     * @brief Executes the command with the current arguments
+     */
+    virtual void execute() = 0;
+
+    /**
+     * @brief Sets the arguments for this command
+     * @param arguments The arguments to set
+     */
+    void setArguments(const std::vector<std::string>& arguments) { _args = arguments; }
+};
 
 }  // namespace opal

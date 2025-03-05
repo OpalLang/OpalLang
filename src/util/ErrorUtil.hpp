@@ -25,31 +25,31 @@
 
 namespace opal {
 
-    /**
-     * @class ErrorUtil
-     * @brief Utility class for error handling and formatting
-     * 
-     * Provides static methods for creating formatted error messages.
-     * This class cannot be instantiated.
-     */
-    class ErrorUtil {
-        private:
-            ErrorUtil()                            = delete;
-            ~ErrorUtil()                           = delete;
-            ErrorUtil(const ErrorUtil&)            = delete;
-            ErrorUtil& operator=(const ErrorUtil&) = delete;
+/**
+ * @class ErrorUtil
+ * @brief Utility class for error handling and formatting
+ *
+ * Provides static methods for creating formatted error messages.
+ * This class cannot be instantiated.
+ */
+class ErrorUtil {
+private:
+    ErrorUtil()                            = delete;
+    ~ErrorUtil()                           = delete;
+    ErrorUtil(const ErrorUtil&)            = delete;
+    ErrorUtil& operator=(const ErrorUtil&) = delete;
 
-        public:
-            /**
-             * @brief Creates a formatted error message with location information
-             * @param message The error message
-             * @param line The line number where the error occurred
-             * @param column The column number where the error occurred
-             * @return std::string A formatted error message with location information
-             */
-            static std::string errorMessage(const std::string& message, int line, int column) {
-                return message + " at line " + std::to_string(line) + ", column " + std::to_string(column);
-            }
-    };
+public:
+    /**
+     * @brief Creates a formatted error message with location information
+     * @param message The error message
+     * @param line The line number where the error occurred
+     * @param column The column number where the error occurred
+     * @return std::string A formatted error message with location information
+     */
+    static std::string errorMessage(const std::string& message, int line, int column) {
+        return message + " at line " + std::to_string(line) + ", column " + std::to_string(column);
+    }
+};
 
 }  // namespace opal

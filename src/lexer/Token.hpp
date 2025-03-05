@@ -27,30 +27,30 @@
 
 namespace opal {
 
-    /**
-     * @class Token
-     * @brief Represents a lexical token in the Opal language
-     * 
-     * A token is the smallest unit of meaning in the language, such as keywords,
-     * identifiers, operators, and literals. Each token contains information about
-     * its type, value, and position in the source code.
-     */
-    class Token {
-        public:
-            TokenType        type;
-            std::string_view value;
-            int              line;
-            int              column;
+/**
+ * @class Token
+ * @brief Represents a lexical token in the Opal language
+ *
+ * A token is the smallest unit of meaning in the language, such as keywords,
+ * identifiers, operators, and literals. Each token contains information about
+ * its type, value, and position in the source code.
+ */
+class Token {
+public:
+    TokenType        type;
+    std::string_view value;
+    int              line;
+    int              column;
 
-            /**
-             * @brief Constructs a new Token object
-             * @param type The type of the token
-             * @param value The lexeme (actual text) of the token
-             * @param line The line number where the token appears
-             * @param column The column number where the token starts
-             */
-            Token(TokenType type, std::string_view value, int line, int column)
-                : type(type), value(value), line(line), column(column) {}
-    };
+    /**
+     * @brief Constructs a new Token object
+     * @param type The type of the token
+     * @param value The lexeme (actual text) of the token
+     * @param line The line number where the token appears
+     * @param column The column number where the token starts
+     */
+    Token(TokenType type, std::string_view value, int line, int column)
+        : type(type), value(value), line(line), column(column) {}
+};
 
 }  // namespace opal

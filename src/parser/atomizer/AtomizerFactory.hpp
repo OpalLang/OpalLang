@@ -28,22 +28,22 @@
 
 namespace opal {
 
+/**
+ * @class AtomizerFactory
+ * @brief Factory class for creating atomizer instances
+ *
+ * Creates and initializes all the different atomizers needed by the parser
+ * to convert tokens into AST nodes for various language constructs.
+ */
+class AtomizerFactory {
+public:
     /**
-     * @class AtomizerFactory
-     * @brief Factory class for creating atomizer instances
-     * 
-     * Creates and initializes all the different atomizers needed by the parser
-     * to convert tokens into AST nodes for various language constructs.
+     * @brief Creates a collection of atomizers for parsing
+     * @param current Reference to the current token index
+     * @param tokens Reference to the token collection
+     * @return std::vector<std::unique_ptr<AtomizerBase>> A collection of initialized atomizers
      */
-    class AtomizerFactory {
-        public:
-            /**
-             * @brief Creates a collection of atomizers for parsing
-             * @param current Reference to the current token index
-             * @param tokens Reference to the token collection
-             * @return std::vector<std::unique_ptr<AtomizerBase>> A collection of initialized atomizers
-             */
-            static std::vector<std::unique_ptr<AtomizerBase>> createAtomizers(size_t& current, std::vector<Token>& tokens);
-    };
+    static std::vector<std::unique_ptr<AtomizerBase>> createAtomizers(size_t& current, std::vector<Token>& tokens);
+};
 
 }  // namespace opal

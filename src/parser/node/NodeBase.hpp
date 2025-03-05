@@ -25,66 +25,60 @@
 
 namespace opal {
 
+/**
+ * @enum NodeType
+ * @brief Enumerates the different types of AST nodes
+ */
+enum class NodeType { BASE, VARIABLE, OPERATION, FUNCTION, CLASS, STRING };
+
+/**
+ * @class NodeBase
+ * @brief Base class for all Abstract Syntax Tree nodes
+ *
+ * Provides common functionality and interface for all node types
+ * in the Abstract Syntax Tree.
+ */
+class NodeBase {
+protected:
+    NodeType  _nodeType;
+    TokenType _tokenType;
+
+public:
     /**
-     * @enum NodeType
-     * @brief Enumerates the different types of AST nodes
+     * @brief Constructs a new Node Base object
+     * @param tokenType The token type associated with this node
+     * @param nodeType The type of node (defaults to BASE)
      */
-    enum class NodeType {
-        BASE,
-        VARIABLE,
-        OPERATION,
-        FUNCTION,
-        CLASS
-    };
+    NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
 
     /**
-     * @class NodeBase
-     * @brief Base class for all Abstract Syntax Tree nodes
-     * 
-     * Provides common functionality and interface for all node types
-     * in the Abstract Syntax Tree.
+     * @brief Virtual destructor for proper inheritance
      */
-    class NodeBase {
-       protected:
-            NodeType  _nodeType;
-            TokenType _tokenType;
+    virtual ~NodeBase() = default;
 
-        public:
-            /**
-             * @brief Constructs a new Node Base object
-             * @param tokenType The token type associated with this node
-             * @param nodeType The type of node (defaults to BASE)
-             */
-            NodeBase(TokenType tokenType, NodeType nodeType = NodeType::BASE);
-            
-            /**
-             * @brief Virtual destructor for proper inheritance
-             */
-            virtual ~NodeBase() = default;
+    /**
+     * @brief Gets the node type
+     * @return NodeType The type of this node
+     */
+    NodeType getNodeType() const { return _nodeType; }
 
-            /**
-             * @brief Gets the node type
-             * @return NodeType The type of this node
-             */
-            NodeType getNodeType() const { return _nodeType; }
-            
-            /**
-             * @brief Gets the token type
-             * @return TokenType The token type associated with this node
-             */
-            TokenType getTokenType() const { return _tokenType; }
+    /**
+     * @brief Gets the token type
+     * @return TokenType The token type associated with this node
+     */
+    TokenType getTokenType() const { return _tokenType; }
 
-            /**
-             * @brief Prints the node to standard output
-             * @param indent The indentation level for pretty printing
-             */
-            virtual void print(size_t indent = 0) const;
-            
-            /**
-             * @brief Utility function to print indentation
-             * @param indent The number of spaces to indent
-             */
-            static void printIndent(size_t indent);
-    };
+    /**
+     * @brief Prints the node to standard output
+     * @param indent The indentation level for pretty printing
+     */
+    virtual void print(size_t indent = 0) const;
+
+    /**
+     * @brief Utility function to print indentation
+     * @param indent The number of spaces to indent
+     */
+    static void printIndent(size_t indent);
+};
 
 }  // namespace opal

@@ -22,6 +22,7 @@
 #include "opal/util/FileUtil.hpp"
 
 #include <spdlog/spdlog.h>
+
 #include <filesystem>
 #include <fstream>
 #include <sstream>

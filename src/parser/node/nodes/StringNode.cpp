@@ -19,35 +19,35 @@
  * needed for experienced developers.
  */
 
-#include "opal/lexer/tokenizer/tokenizers/StringTokenizer.hpp"
+#include "opal/parser/node/nodes/StringNode.hpp"
 
-#include "opal/util/ErrorUtil.hpp"
+#include <spdlog/spdlog.h>
 
-#include <stdexcept>
+#include <iostream>
 
 using namespace opal;
 
-bool StringTokenizer::canHandle(char c) const {
-    return c == '"';
+StringNode::StringNode(TokenType tokenType) : NodeBase(tokenType, NodeType::STRING) {}
+
+void StringNode::addTextSegment(const std::string& text) {
+    _segments.push_back({StringSegmentType::TEXT, text});
 }
 
-void StringTokenizer::tokenize() {
-    this->advance();
+void StringNode::addVariableSegment(const std::string& variableName) {
+    _segments.push_back({StringSegmentType::VARIABLE, variableName});
+}
 
-    while (this->peek() != '"' && !this->isAtEnd()) {
-        if (this->peek() == '\n') {
-            this->_line++;
-            this->_column = 1;
+void StringNode::print(size_t indent) const {
+    this->printIndent(indent);
+    std::cout << "String(segments=[" << std::endl;
+    for (const StringSegment& segment : _segments) {
+        this->printIndent(indent + 1);
+        if (segment.type == StringSegmentType::VARIABLE) {
+            std::cout << "Variable(\"" << segment.content << "\")" << std::endl;
+        } else {
+            std::cout << "Text(\"" << segment.content << "\")" << std::endl;
         }
-        this->advance();
     }
-
-    if (this->isAtEnd()) {
-        throw std::runtime_error(ErrorUtil::errorMessage("Unterminated string", this->_line, 1));
-    }
-
-    this->advance();
-    std::string_view text(this->_source.data() + this->_start + 1, this->_current - this->_start - 2);
-
-    this->addToken(TokenType::STRING, text);
+    this->printIndent(indent);
+    std::cout << "])" << std::endl;
 }

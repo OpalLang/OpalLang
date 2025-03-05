@@ -29,45 +29,45 @@
 
 namespace opal {
 
+/**
+ * @class Parser
+ * @brief Parses tokens into an Abstract Syntax Tree (AST)
+ *
+ * The parser takes a sequence of tokens from the lexer and constructs
+ * a hierarchical representation of the program structure (AST).
+ */
+class Parser {
+private:
+    std::vector<Token>                         _tokens;
+    std::vector<std::unique_ptr<AtomizerBase>> _atomizers;
+    std::vector<std::unique_ptr<NodeBase>>     _nodes;
+    size_t                                     _current = 0;
+
     /**
-     * @class Parser
-     * @brief Parses tokens into an Abstract Syntax Tree (AST)
-     * 
-     * The parser takes a sequence of tokens from the lexer and constructs
-     * a hierarchical representation of the program structure (AST).
+     * @brief Checks if the parser has reached the end of the token stream
+     * @return bool True if at the end of tokens, false otherwise
      */
-    class Parser {
-        private:
-            std::vector<Token>                         _tokens;
-            std::vector<std::unique_ptr<AtomizerBase>> _atomizers;
-            std::vector<std::unique_ptr<NodeBase>>     _nodes;
-            size_t                                     _current = 0;
+    bool isAtEnd() const;
 
-            /**
-             * @brief Checks if the parser has reached the end of the token stream
-             * @return bool True if at the end of tokens, false otherwise
-             */
-            bool isAtEnd() const;
-            
-            /**
-             * @brief Returns the current token without consuming it
-             * @return Token The current token
-             */
-            Token peek() const;
+    /**
+     * @brief Returns the current token without consuming it
+     * @return Token The current token
+     */
+    Token peek() const;
 
-        public:
-            /**
-             * @brief Constructs a new Parser object
-             * @param tokens The vector of tokens to parse
-             */
-            explicit Parser(std::vector<Token> tokens);
-            
-            /**
-             * @brief Prints the Abstract Syntax Tree to standard output
-             * 
-             * Useful for debugging and visualizing the parsed structure.
-             */
-            void printAST() const;
-    };
+public:
+    /**
+     * @brief Constructs a new Parser object
+     * @param tokens The vector of tokens to parse
+     */
+    explicit Parser(std::vector<Token> tokens);
+
+    /**
+     * @brief Prints the Abstract Syntax Tree to standard output
+     *
+     * Useful for debugging and visualizing the parsed structure.
+     */
+    void printAST() const;
+};
 
 }  // namespace opal
