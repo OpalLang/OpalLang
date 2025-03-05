@@ -22,7 +22,6 @@
 #include "opal/parser/node/nodes/VariableNode.hpp"
 
 #include <spdlog/spdlog.h>
-
 #include <iostream>
 
 using namespace opal;
@@ -55,17 +54,19 @@ void VariableNode::print(size_t indent) const {
     }
 
     this->printIndent(indent);
-    spdlog::info("Variable(name={})", this->_name);
+    spdlog::info("Variable(name=\"{}\", type={}, const={})", 
+                 this->_name, 
+                 typeStr, 
+                 (this->_isConstant ? "true" : "false"));
 
     if (this->_stringNode) {
-        std::cout << ", string=";
-        this->_stringNode->print(0);
+        spdlog::info("String value:");
+        this->_stringNode->print(indent + 1);
     } else if (this->_operation) {
-        std::cout << ", operation=";
-        this->_operation->print(0);
+        spdlog::info("Operation value:");
+        this->_operation->print(indent + 1);
     } else if (!this->_value.empty()) {
-        std::cout << ", value=" << this->_value;
+        this->printIndent(indent + 1);
+        spdlog::info("Value: \"{}\"", this->_value);
     }
-
-    std::cout << ", type=" << typeStr << ", const=" << (this->_isConstant ? "true" : "false") << ")" << std::endl;
 }
