@@ -22,39 +22,26 @@
 #include "opal/repl/signal/ReplSignalManager.hpp"
 
 #include <iostream>
+#include <memory>
 
 using namespace opal;
 
-static ReplSignalManager* activeManager = nullptr;
-
-static void staticInterruptHandler(int signal) {
-    if (activeManager) {
-        activeManager->handleInterrupt(signal);
-    }
-}
-
-static void staticTerminateHandler(int signal) {
-    if (activeManager) {
-        activeManager->handleTerminate(signal);
-    }
-}
-
 ReplSignalManager::ReplSignalManager() : _interruptRequested(false), _exitRequested(false) {
-    activeManager = this;
     SignalHandler::initialize();
 }
 
 ReplSignalManager::~ReplSignalManager() {
     SignalHandler::restoreAllDefaults();
-
-    if (activeManager == this) {
-        activeManager = nullptr;
-    }
 }
 
 void ReplSignalManager::setupSignalHandlers() {
-    SignalHandler::registerHandler(SIGINT, staticInterruptHandler);
-    SignalHandler::registerHandler(SIGTERM, staticTerminateHandler);
+    SignalHandler::registerHandler(SIGINT, [this](int signal) {
+        this->handleInterrupt(signal);
+    });
+    
+    SignalHandler::registerHandler(SIGTERM, [this](int signal) {
+        this->handleTerminate(signal);
+    });
 }
 
 bool ReplSignalManager::isInterruptRequested() const {
