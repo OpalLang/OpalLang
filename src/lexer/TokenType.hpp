@@ -121,6 +121,7 @@ enum class TokenType {
 
     // Special Tokens
     COMMENT,
+    NESTED_CALL,
     EOF_TOKEN,
     ERROR
 };

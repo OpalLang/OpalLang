@@ -21,6 +21,7 @@
 
 #include "opal/parser/atomizer/AtomizerFactory.hpp"
 
+#include "opal/parser/atomizer/atomizers/CallAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/LoadAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/VariableAtomizer.hpp"
 
@@ -35,5 +36,7 @@ std::vector<std::unique_ptr<AtomizerBase>> AtomizerFactory::createAtomizers(size
 
     atomizers.push_back(std::make_unique<VariableAtomizer>(current, tokens));
     atomizers.push_back(std::make_unique<LoadAtomizer>(current, tokens));
+    atomizers.push_back(std::make_unique<CallAtomizer>(current, tokens));
+
     return atomizers;
 }

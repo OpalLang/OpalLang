@@ -22,6 +22,7 @@
 #pragma once
 
 #include "opal/parser/atomizer/AtomizerBase.hpp"
+#include "opal/parser/atomizer/atomizers/CallAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/StringAtomizer.hpp"
 #include "opal/parser/node/NodeFactory.hpp"
@@ -89,6 +90,18 @@ private:
      * @return bool True if the token should be handled as an operation
      */
     bool shouldHandleAsOperation(TokenType currentType);
+
+    /**
+     * @brief Checks if the current token is followed by a call pattern (identifier + left parenthesis)
+     */
+    bool isCallPattern() const;
+
+    /**
+     * @brief Handles assignment of a call to a variable
+     * @param variableNode Reference to the variable node being processed
+     * @return std::unique_ptr<NodeBase> The processed node with assigned call
+     */
+    std::unique_ptr<NodeBase> handleCall(std::unique_ptr<VariableNode>& variableNode);
 
     /**
      * @brief Check if the current token sequence can be parsed as an operation

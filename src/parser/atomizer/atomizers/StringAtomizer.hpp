@@ -23,8 +23,8 @@
 
 #include "opal/lexer/Token.hpp"
 #include "opal/parser/atomizer/AtomizerBase.hpp"
-#include "opal/parser/node/nodes/StringNode.hpp"
 #include "opal/parser/node/NodeBase.hpp"
+#include "opal/parser/node/nodes/StringNode.hpp"
 
 #include <memory>
 #include <vector>

@@ -30,6 +30,6 @@ namespace opal {
  * Represents the different primitive data types that can be assigned to
  * variables in the Opal language.
  */
-enum class VariableType { UNKNOWN, INT, STRING, BOOL, NIL };
+enum class VariableType { UNKNOWN, INT, STRING, BOOL, NIL, CALL };
 
 }  // namespace opal

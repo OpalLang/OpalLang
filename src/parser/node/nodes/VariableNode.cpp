@@ -48,6 +48,9 @@ void VariableNode::print(size_t indent) const {
         case VariableType::NIL:
             typeStr = "NIL";
             break;
+        case VariableType::CALL:
+            typeStr = "CALL";
+            break;
         default:
             typeStr = "UNKNOWN";
             break;
@@ -59,9 +62,12 @@ void VariableNode::print(size_t indent) const {
                  typeStr, 
                  (this->_isConstant ? "true" : "false"));
 
-    if (this->_stringNode) {
-        spdlog::info("String value:");
-        this->_stringNode->print(indent + 1);
+    if (this->_callNode) {
+        std::cout << ", call=";
+        this->_callNode->print(indent + 1);
+    } else if (this->_stringNode) {
+        std::cout << ", string=";
+        this->_stringNode->print(0);
     } else if (this->_operation) {
         spdlog::info("Operation value:");
         this->_operation->print(indent + 1);
@@ -69,4 +75,5 @@ void VariableNode::print(size_t indent) const {
         this->printIndent(indent + 1);
         spdlog::info("Value: \"{}\"", this->_value);
     }
+    std::cout << ", type=" << typeStr << ", const=" << (this->_isConstant ? "true" : "false") << ")" << std::endl;
 }

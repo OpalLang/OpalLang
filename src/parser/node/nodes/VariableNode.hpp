@@ -24,6 +24,7 @@
 #include "opal/lexer/Token.hpp"
 #include "opal/parser/atomizer/VariableType.hpp"
 #include "opal/parser/node/NodeBase.hpp"
+#include "opal/parser/node/nodes/CallNode.hpp"
 #include "opal/parser/node/nodes/OperationNode.hpp"
 #include "opal/parser/node/nodes/StringNode.hpp"
 
@@ -48,6 +49,7 @@ private:
     VariableType                   _type;        ///< The data type of the variable
     std::unique_ptr<OperationNode> _operation;   ///< Optional operation for variable initialization
     std::unique_ptr<StringNode>    _stringNode;  ///< Added for string interpolation support
+    std::unique_ptr<CallNode>      _callNode;    ///< Added for function/class call support
 
 public:
     /**
@@ -123,6 +125,18 @@ public:
      * @return StringNode* Pointer to the string node, or nullptr if not a string
      */
     StringNode* getStringNode() const { return _stringNode.get(); }
+
+    /**
+     * @brief Sets the call node for function/class calls
+     * @param node The call node containing call information
+     */
+    void setCallNode(std::unique_ptr<CallNode> node) { _callNode = std::move(node); }
+
+    /**
+     * @brief Gets the call node if this variable contains a function/class call
+     * @return CallNode* Pointer to the call node, or nullptr if not a call
+     */
+    CallNode* getCallNode() const { return _callNode.get(); }
 
     /**
      * @brief Prints the node to standard output

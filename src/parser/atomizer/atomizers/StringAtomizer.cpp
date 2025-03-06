@@ -20,6 +20,7 @@
  */
 
 #include "opal/parser/atomizer/atomizers/StringAtomizer.hpp"
+
 #include "opal/parser/node/NodeFactory.hpp"
 #include "opal/parser/node/nodes/StringNode.hpp"
 #include "opal/util/ErrorUtil.hpp"

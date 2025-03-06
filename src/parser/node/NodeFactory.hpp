@@ -24,6 +24,7 @@
 #include "opal/lexer/Token.hpp"
 #include "opal/parser/atomizer/VariableType.hpp"
 #include "opal/parser/node/NodeBase.hpp"
+#include "opal/parser/node/nodes/CallNode.hpp"
 #include "opal/parser/node/nodes/LoadNode.hpp"
 #include "opal/parser/node/nodes/OperationNode.hpp"
 #include "opal/parser/node/nodes/StringNode.hpp"
@@ -86,6 +87,16 @@ public:
      * @return std::unique_ptr<StringNode> A unique pointer to the created string node
      */
     static std::unique_ptr<StringNode> createStringNode() { return std::make_unique<StringNode>(TokenType::STRING); }
+
+    /**
+     * @brief Creates a call node
+     * @param tokenType The token type
+     * @param name The name of the identifier being called
+     * @return std::unique_ptr<CallNode> A unique pointer to the created call node
+     */
+    static std::unique_ptr<CallNode> createCallNode(TokenType tokenType, const std::string& name) {
+        return std::make_unique<CallNode>(tokenType, name);
+    }
 };
 
 }  // namespace opal

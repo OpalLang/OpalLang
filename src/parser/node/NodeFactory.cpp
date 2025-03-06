@@ -23,8 +23,10 @@
 
 #include "opal/parser/atomizer/VariableType.hpp"
 #include "opal/parser/node/NodeBase.hpp"
+#include "opal/parser/node/nodes/CallNode.hpp"
 #include "opal/parser/node/nodes/LoadNode.hpp"
 #include "opal/parser/node/nodes/OperationNode.hpp"
+#include "opal/parser/node/nodes/StringNode.hpp"
 #include "opal/parser/node/nodes/VariableNode.hpp"
 
 namespace opal {

@@ -37,7 +37,8 @@ TEST_F(StringAtomizerTest, SimpleString) {
     tokens = {{TokenType::STRING, "Hello World", 1, 1}};
     StringAtomizer atomizer(current, tokens);
 
-    std::unique_ptr<StringNode> node = std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
+    std::unique_ptr<StringNode> node =
+        std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
 
     ASSERT_NE(node, nullptr);
     const std::vector<StringSegment>& segments = node->getSegments();
@@ -50,7 +51,8 @@ TEST_F(StringAtomizerTest, StringWithInterpolation) {
     tokens = {{TokenType::STRING, "Hello ${name}!", 1, 1}};
     StringAtomizer atomizer(current, tokens);
 
-    std::unique_ptr<StringNode> node = std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
+    std::unique_ptr<StringNode> node =
+        std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
 
     ASSERT_NE(node, nullptr);
     const std::vector<StringSegment>& segments = node->getSegments();
@@ -67,7 +69,8 @@ TEST_F(StringAtomizerTest, MultipleInterpolations) {
     tokens = {{TokenType::STRING, "${greeting} ${name}! How are ${state}?", 1, 1}};
     StringAtomizer atomizer(current, tokens);
 
-    std::unique_ptr<StringNode> node = std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
+    std::unique_ptr<StringNode> node =
+        std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
 
     ASSERT_NE(node, nullptr);
     const std::vector<StringSegment>& segments = node->getSegments();
@@ -97,7 +100,8 @@ TEST_F(StringAtomizerTest, EmptyInterpolation) {
     tokens = {{TokenType::STRING, "Hello ${}", 1, 1}};
     StringAtomizer atomizer(current, tokens);
 
-    std::unique_ptr<StringNode> node = std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
+    std::unique_ptr<StringNode> node =
+        std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(atomizer.atomize().release()));
 
     ASSERT_NE(node, nullptr);
     const std::vector<StringSegment>& segments = node->getSegments();

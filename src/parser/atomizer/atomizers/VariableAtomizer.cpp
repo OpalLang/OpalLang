@@ -22,6 +22,7 @@
 #include "opal/parser/atomizer/atomizers/VariableAtomizer.hpp"
 
 #include "opal/parser/atomizer/VariableType.hpp"
+#include "opal/parser/atomizer/atomizers/CallAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/OperationAtomizer.hpp"
 #include "opal/parser/atomizer/atomizers/StringAtomizer.hpp"
 #include "opal/parser/node/NodeFactory.hpp"
@@ -76,6 +77,11 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
 std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<VariableNode>& variableNode) {
     TokenType currentType = this->_tokens[this->_current].type;
 
+    // Check if we're looking at a call pattern (identifier followed by left parenthesis)
+    if (isCallPattern()) {
+        return handleCall(variableNode);
+    }
+
     if (shouldHandleAsOperation(currentType)) {
         return handleOperation(variableNode);
     }
@@ -118,6 +124,32 @@ void VariableAtomizer::setVariableValueAndType(std::unique_ptr<VariableNode>& va
                                                              this->_tokens[this->_current].line,
                                                              this->_tokens[this->_current].column));
     }
+}
+
+bool VariableAtomizer::isCallPattern() const {
+    if (this->_current >= this->_tokens.size() || this->_tokens[this->_current].type != TokenType::IDENTIFIER)
+        return false;
+
+    size_t nextIndex = this->_current + 1;
+    return nextIndex < this->_tokens.size() && this->_tokens[nextIndex].type == TokenType::LEFT_PAREN;
+}
+
+std::unique_ptr<NodeBase> VariableAtomizer::handleCall(std::unique_ptr<VariableNode>& variableNode) {
+    CallAtomizer callAtomizer(this->_current, this->_tokens);
+    if (callAtomizer.canHandle(this->_tokens[this->_current].type)) {
+        std::unique_ptr<CallNode> callNode =
+            std::unique_ptr<CallNode>(dynamic_cast<CallNode*>(callAtomizer.atomize().release()));
+
+        if (callNode) {
+            variableNode->setValue(callNode->getName());
+            variableNode->setCallNode(std::move(callNode));
+            variableNode->setType(VariableType::CALL);
+            return std::unique_ptr<NodeBase>(variableNode.release());
+        }
+    }
+
+    // If we couldn't process it as a call for some reason, fallback to simple value
+    return handleAsSimpleValue(variableNode);
 }
 
 bool VariableAtomizer::shouldHandleAsOperation(TokenType currentType) {
