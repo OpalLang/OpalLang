@@ -22,6 +22,7 @@
 #include "opal/parser/node/nodes/StringNode.hpp"
 
 #include <spdlog/spdlog.h>
+
 #include <iostream>
 
 using namespace opal;
@@ -39,7 +40,7 @@ void StringNode::addVariableSegment(const std::string& variableName) {
 void StringNode::print(size_t indent) const {
     this->printIndent(indent);
     spdlog::info("String(segments=[");
-    
+
     for (const StringSegment& segment : _segments) {
         this->printIndent(indent + 1);
         if (segment.type == StringSegmentType::VARIABLE) {
@@ -48,7 +49,7 @@ void StringNode::print(size_t indent) const {
             spdlog::info("Text(\"{}\")", segment.content);
         }
     }
-    
+
     this->printIndent(indent);
     spdlog::info("])");
 }

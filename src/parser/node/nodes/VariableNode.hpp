@@ -30,6 +30,7 @@
 
 #include <memory>
 #include <string>
+#include <variant>
 
 namespace opal {
 
@@ -38,110 +39,85 @@ namespace opal {
  * @brief AST node representing a variable declaration or reference
  *
  * Represents a variable in Opal, including its name, value, type,
- * and whether it's a constant. Can also store an associated operation
- * for variable initialization.
+ * and whether it's a constant. Uses a variant to store different value types.
  */
 class VariableNode : public NodeBase {
 private:
-    std::string                    _name;        ///< The name of the variable
-    std::string                    _value;       ///< The value of the variable (as a string)
-    bool                           _isConstant;  ///< Whether the variable is constant (cannot be reassigned)
-    VariableType                   _type;        ///< The data type of the variable
-    std::unique_ptr<OperationNode> _operation;   ///< Optional operation for variable initialization
-    std::unique_ptr<StringNode>    _stringNode;  ///< Added for string interpolation support
-    std::unique_ptr<CallNode>      _callNode;    ///< Added for function/class call support
+    std::string  _name;
+    bool         _isConstant;
+    VariableType _type;
+
+    std::variant<std::string, std::unique_ptr<OperationNode>, std::unique_ptr<StringNode>, std::unique_ptr<CallNode>>
+        _value;
+
+    template <typename T>
+    void setValueAndType(T&& value, VariableType type) {
+        _value = std::forward<T>(value);
+        _type  = type;
+    }
 
 public:
-    /**
-     * @brief Constructs a new Variable Node object
-     * @param tokenType The token type associated with this node
-     * @param name The name of the variable
-     * @param value The initial value of the variable
-     * @param isConstant Whether the variable is constant (cannot be reassigned)
-     * @param type The data type of the variable
-     */
+    VariableNode(TokenType tokenType, const std::string& name, bool isConstant = false)
+        : NodeBase(tokenType), _name(name), _isConstant(isConstant), _type(VariableType::UNKNOWN) {}
+
     VariableNode(TokenType          tokenType,
                  const std::string& name,
                  const std::string& value,
                  bool               isConstant = false,
-                 VariableType       type       = VariableType::UNKNOWN);
+                 VariableType       type       = VariableType::UNKNOWN)
+        : VariableNode(tokenType, name, isConstant) {
+        setValueAndType(value, type);
+    }
 
-    /**
-     * @brief Sets the operation for variable initialization
-     * @param op The operation node
-     */
-    void setOperation(std::unique_ptr<OperationNode> op) { _operation = std::move(op); }
+    VariableNode(TokenType                      tokenType,
+                 const std::string&             name,
+                 std::unique_ptr<OperationNode> operation,
+                 bool                           isConstant = false)
+        : VariableNode(tokenType, name, isConstant) {
+        setValueAndType(std::move(operation), VariableType::INT);
+    }
 
-    /**
-     * @brief Sets the value of the variable
-     * @param newValue The new value
-     */
-    void setValue(const std::string& newValue) { _value = newValue; }
+    VariableNode(TokenType                   tokenType,
+                 const std::string&          name,
+                 std::unique_ptr<StringNode> stringNode,
+                 bool                        isConstant = false)
+        : VariableNode(tokenType, name, isConstant) {
+        setValueAndType(std::move(stringNode), VariableType::STRING);
+    }
 
-    /**
-     * @brief Sets the type of the variable
-     * @param newType The new type
-     */
+    VariableNode(TokenType                 tokenType,
+                 const std::string&        name,
+                 std::unique_ptr<CallNode> callNode,
+                 bool                      isConstant = false)
+        : VariableNode(tokenType, name, isConstant) {
+        setValueAndType(std::move(callNode), VariableType::CALL);
+    }
+
+    bool isSimpleValue() const { return std::holds_alternative<std::string>(_value); }
+    bool isOperation() const { return std::holds_alternative<std::unique_ptr<OperationNode>>(_value); }
+    bool isStringNode() const { return std::holds_alternative<std::unique_ptr<StringNode>>(_value); }
+    bool isCallNode() const { return std::holds_alternative<std::unique_ptr<CallNode>>(_value); }
+
+    void setValue(const std::string& value) { setValueAndType(value, VariableType::UNKNOWN); }
+    void setOperation(std::unique_ptr<OperationNode> op) { setValueAndType(std::move(op), VariableType::INT); }
+    void setStringNode(std::unique_ptr<StringNode> node) { setValueAndType(std::move(node), VariableType::STRING); }
+    void setCallNode(std::unique_ptr<CallNode> node) { setValueAndType(std::move(node), VariableType::CALL); }
+
+    const std::string& getValue() const { return std::get<std::string>(_value); }
+    OperationNode*     getOperation() const {
+            return isOperation() ? std::get<std::unique_ptr<OperationNode>>(_value).get() : nullptr;
+    }
+    StringNode* getStringNode() const {
+        return isStringNode() ? std::get<std::unique_ptr<StringNode>>(_value).get() : nullptr;
+    }
+    CallNode* getCallNode() const { return isCallNode() ? std::get<std::unique_ptr<CallNode>>(_value).get() : nullptr; }
+
+    const std::string& getName() const { return _name; }
+    VariableType       getType() const { return _type; }
+    bool               getIsConstant() const { return _isConstant; }
+
     void setType(VariableType newType) { _type = newType; }
 
-    /**
-     * @brief Gets the operation for variable initialization
-     * @return OperationNode* Pointer to the operation node, or nullptr if none
-     */
-    OperationNode* getOperation() const { return _operation.get(); }
-
-    /**
-     * @brief Gets the name of the variable
-     * @return const std::string& The variable name
-     */
-    const std::string& getName() const { return _name; }
-
-    /**
-     * @brief Gets the value of the variable
-     * @return const std::string& The variable value
-     */
-    const std::string& getValue() const { return _value; }
-
-    /**
-     * @brief Gets the type of the variable
-     * @return VariableType The variable type
-     */
-    VariableType getType() const { return _type; }
-
-    /**
-     * @brief Checks if the variable is constant
-     * @return bool True if the variable is constant, false otherwise
-     */
-    bool getIsConstant() const { return _isConstant; }
-
-    /**
-     * @brief Sets the string node for string interpolation
-     * @param node The string node containing segments
-     */
-    void setStringNode(std::unique_ptr<StringNode> node) { _stringNode = std::move(node); }
-
-    /**
-     * @brief Gets the string node if this variable contains an interpolated string
-     * @return StringNode* Pointer to the string node, or nullptr if not a string
-     */
-    StringNode* getStringNode() const { return _stringNode.get(); }
-
-    /**
-     * @brief Sets the call node for function/class calls
-     * @param node The call node containing call information
-     */
-    void setCallNode(std::unique_ptr<CallNode> node) { _callNode = std::move(node); }
-
-    /**
-     * @brief Gets the call node if this variable contains a function/class call
-     * @return CallNode* Pointer to the call node, or nullptr if not a call
-     */
-    CallNode* getCallNode() const { return _callNode.get(); }
-
-    /**
-     * @brief Prints the node to standard output
-     * @param indent The indentation level for pretty printing
-     */
     void print(size_t indent = 0) const override;
 };
 

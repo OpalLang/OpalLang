@@ -22,6 +22,7 @@
 #include "opal/parser/node/nodes/LoadNode.hpp"
 
 #include <spdlog/spdlog.h>
+
 #include <iostream>
 
 using namespace opal;

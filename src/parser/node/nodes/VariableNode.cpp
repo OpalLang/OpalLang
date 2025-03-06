@@ -22,16 +22,10 @@
 #include "opal/parser/node/nodes/VariableNode.hpp"
 
 #include <spdlog/spdlog.h>
+
 #include <iostream>
 
 using namespace opal;
-
-VariableNode::VariableNode(TokenType          tokenType,
-                           const std::string& name,
-                           const std::string& value,
-                           bool               isConstant,
-                           VariableType       type)
-    : NodeBase(tokenType), _name(name), _value(value), _isConstant(isConstant), _type(type) {}
 
 void VariableNode::print(size_t indent) const {
     std::string typeStr;
@@ -57,23 +51,19 @@ void VariableNode::print(size_t indent) const {
     }
 
     this->printIndent(indent);
-    spdlog::info("Variable(name=\"{}\", type={}, const={})", 
-                 this->_name, 
-                 typeStr, 
-                 (this->_isConstant ? "true" : "false"));
+    spdlog::info("Variable(name=\"{}\", type={}, const={})",
+                 this->_name,
+                 typeStr,
+                 this->_isConstant ? "true" : "false");
 
-    if (this->_callNode) {
-        std::cout << ", call=";
-        this->_callNode->print(indent + 1);
-    } else if (this->_stringNode) {
-        std::cout << ", string=";
-        this->_stringNode->print(0);
-    } else if (this->_operation) {
-        spdlog::info("Operation value:");
-        this->_operation->print(indent + 1);
-    } else if (!this->_value.empty()) {
+    if (isCallNode()) {
+        getCallNode()->print(indent + 1);
+    } else if (isStringNode()) {
+        getStringNode()->print(indent + 1);
+    } else if (isOperation()) {
+        getOperation()->print(indent + 1);
+    } else if (isSimpleValue()) {
         this->printIndent(indent + 1);
-        spdlog::info("Value: \"{}\"", this->_value);
+        spdlog::info("Value: \"{}\"", getValue());
     }
-    std::cout << ", type=" << typeStr << ", const=" << (this->_isConstant ? "true" : "false") << ")" << std::endl;
 }

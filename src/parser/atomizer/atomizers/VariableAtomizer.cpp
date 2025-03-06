@@ -38,8 +38,11 @@ using namespace opal;
 VariableAtomizer::VariableAtomizer(size_t& current, std::vector<Token>& tokens) : AtomizerBase(current, tokens) {}
 
 bool VariableAtomizer::canHandle(TokenType type) const {
-    if (type != TokenType::IDENTIFIER)
+    if (type != TokenType::IDENTIFIER && type != TokenType::CONST)
         return false;
+
+    if (type == TokenType::CONST)
+        return this->_current + 1 < this->_tokens.size();
 
     size_t nextIndex = this->_current + 1;
     if (nextIndex < this->_tokens.size() && this->_tokens[nextIndex].type == TokenType::LEFT_PAREN) {
@@ -49,7 +52,17 @@ bool VariableAtomizer::canHandle(TokenType type) const {
 }
 
 std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
-    std::string variableName = std::string(_tokens[_current].value);
+    if (this->_tokens[this->_current].type == TokenType::CONST) {
+        if (this->_current + 1 >= this->_tokens.size()
+            || this->_tokens[this->_current + 1].type != TokenType::IDENTIFIER) {
+            throw std::runtime_error(ErrorUtil::errorMessage("Expected identifier after 'const' keyword",
+                                                             this->_tokens[this->_current].line,
+                                                             this->_tokens[this->_current].column));
+        }
+        this->advance();
+    }
+
+    std::string variableName = std::string(this->_tokens[this->_current].value);
     this->advance();
 
     if (this->_current < this->_tokens.size() && this->_tokens[this->_current].type == TokenType::EQUAL) {
@@ -68,6 +81,12 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
 
         return std::unique_ptr<NodeBase>(this->handleAssignment(variableNode).release());
     } else {
+        if (this->_current > 0 && this->_tokens[this->_current - 2].type == TokenType::CONST) {
+            throw std::runtime_error(ErrorUtil::errorMessage("const declarations must include an initializer",
+                                                             this->_tokens[this->_current - 2].line,
+                                                             this->_tokens[this->_current - 2].column));
+        }
+
         std::unique_ptr<VariableNode> variableNode =
             NodeFactory::createVariableNode(variableName, "", false, VariableType::UNKNOWN);
         return std::unique_ptr<NodeBase>(variableNode.release());
@@ -77,7 +96,6 @@ std::unique_ptr<NodeBase> VariableAtomizer::atomize() {
 std::unique_ptr<NodeBase> VariableAtomizer::handleAssignment(std::unique_ptr<VariableNode>& variableNode) {
     TokenType currentType = this->_tokens[this->_current].type;
 
-    // Check if we're looking at a call pattern (identifier followed by left parenthesis)
     if (isCallPattern()) {
         return handleCall(variableNode);
     }
@@ -97,28 +115,35 @@ void VariableAtomizer::setVariableValueAndType(std::unique_ptr<VariableNode>& va
             StringAtomizer              stringAtomizer(this->_current, this->_tokens);
             std::unique_ptr<StringNode> stringNode =
                 std::unique_ptr<StringNode>(dynamic_cast<StringNode*>(stringAtomizer.atomize().release()));
-            variableNode->setValue("");
-            variableNode->setStringNode(std::move(stringNode));
-            variableNode->setType(VariableType::STRING);
+            if (stringNode) {
+                variableNode->setStringNode(std::move(stringNode));
+            }
             break;
         }
         case TokenType::TRUE:
-        case TokenType::FALSE:
-            variableNode->setValue(std::string(this->_tokens[this->_current].value));
+        case TokenType::FALSE: {
+            std::string value = std::string(this->_tokens[this->_current].value);
+            variableNode->setValue(value);
             variableNode->setType(VariableType::BOOL);
             break;
-        case TokenType::NIL:
+        }
+        case TokenType::NIL: {
             variableNode->setValue("nil");
             variableNode->setType(VariableType::NIL);
             break;
-        case TokenType::NUMBER:
-            variableNode->setValue(std::string(this->_tokens[this->_current].value));
+        }
+        case TokenType::NUMBER: {
+            std::string value = std::string(this->_tokens[this->_current].value);
+            variableNode->setValue(value);
             variableNode->setType(VariableType::INT);
             break;
-        case TokenType::IDENTIFIER:
-            variableNode->setValue(std::string(this->_tokens[this->_current].value));
+        }
+        case TokenType::IDENTIFIER: {
+            std::string value = std::string(this->_tokens[this->_current].value);
+            variableNode->setValue(value);
             variableNode->setType(VariableType::UNKNOWN);
             break;
+        }
         default:
             throw std::runtime_error(ErrorUtil::errorMessage("Expected a value or identifier after assignment operator",
                                                              this->_tokens[this->_current].line,
@@ -139,16 +164,11 @@ std::unique_ptr<NodeBase> VariableAtomizer::handleCall(std::unique_ptr<VariableN
     if (callAtomizer.canHandle(this->_tokens[this->_current].type)) {
         std::unique_ptr<CallNode> callNode =
             std::unique_ptr<CallNode>(dynamic_cast<CallNode*>(callAtomizer.atomize().release()));
-
         if (callNode) {
-            variableNode->setValue(callNode->getName());
             variableNode->setCallNode(std::move(callNode));
-            variableNode->setType(VariableType::CALL);
             return std::unique_ptr<NodeBase>(variableNode.release());
         }
     }
-
-    // If we couldn't process it as a call for some reason, fallback to simple value
     return handleAsSimpleValue(variableNode);
 }
 
@@ -164,16 +184,13 @@ bool VariableAtomizer::shouldHandleAsOperation(TokenType currentType) {
 
 std::unique_ptr<NodeBase> VariableAtomizer::handleOperation(std::unique_ptr<VariableNode>& variableNode) {
     OperationAtomizer opAtomizer(this->_current, this->_tokens);
-
     if (canParseAsOperation(opAtomizer)) {
         std::unique_ptr<OperationNode> opNode = parseOperation(opAtomizer);
         if (opNode) {
             variableNode->setOperation(std::move(opNode));
-            variableNode->setType(VariableType::INT);
             return std::unique_ptr<NodeBase>(variableNode.release());
         }
     }
-
     return handleAsSimpleValue(variableNode);
 }
 
@@ -191,8 +208,6 @@ std::unique_ptr<OperationNode> VariableAtomizer::parseOperation(OperationAtomize
 std::unique_ptr<NodeBase> VariableAtomizer::handleAsSimpleValue(std::unique_ptr<VariableNode>& variableNode) {
     std::string variableValue = std::string(this->_tokens[this->_current].value);
     variableNode->setValue(variableValue);
-    variableNode->setType(this->_tokens[this->_current].type == TokenType::NUMBER ? VariableType::INT
-                                                                                  : VariableType::UNKNOWN);
     this->advance();
     return std::unique_ptr<NodeBase>(variableNode.release());
 }

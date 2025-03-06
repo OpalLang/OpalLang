@@ -35,13 +35,9 @@ ReplSignalManager::~ReplSignalManager() {
 }
 
 void ReplSignalManager::setupSignalHandlers() {
-    SignalHandler::registerHandler(SIGINT, [this](int signal) {
-        this->handleInterrupt(signal);
-    });
-    
-    SignalHandler::registerHandler(SIGTERM, [this](int signal) {
-        this->handleTerminate(signal);
-    });
+    SignalHandler::registerHandler(SIGINT, [this](int signal) { this->handleInterrupt(signal); });
+
+    SignalHandler::registerHandler(SIGTERM, [this](int signal) { this->handleTerminate(signal); });
 }
 
 bool ReplSignalManager::isInterruptRequested() const {

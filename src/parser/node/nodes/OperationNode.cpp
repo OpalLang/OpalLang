@@ -22,6 +22,7 @@
 #include "opal/parser/node/nodes/OperationNode.hpp"
 
 #include <spdlog/spdlog.h>
+
 #include <iostream>
 
 using namespace opal;
@@ -32,14 +33,12 @@ OperationNode::OperationNode(TokenType tokenType, const std::vector<Token>& toke
 void OperationNode::print(size_t indent) const {
     this->printIndent(indent);
     spdlog::info("Operation(tokens=[");
-    
+
     for (size_t i = 0; i < this->_tokens.size(); ++i) {
         this->printIndent(indent + 1);
-        spdlog::info("Token(type={}, value=\"{}\")", 
-                     static_cast<int>(this->_tokens[i].type), 
-                     this->_tokens[i].value);
+        spdlog::info("Token(type={}, value=\"{}\")", static_cast<int>(this->_tokens[i].type), this->_tokens[i].value);
     }
-    
+
     this->printIndent(indent);
     spdlog::info("])");
 }
